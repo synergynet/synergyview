@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="1.0"
+	xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
+	<persistence-unit name="ProjectDB">
+		<class>synergyviewcore.collections.model.Collection</class>
+		<class>synergyviewcore.collections.model.CollectionMedia</class>
+		<class>synergyviewcore.collections.model.CollectionMediaClip</class>
+		<class>synergyviewcore.attributes.model.Attribute</class>
+		<class>synergyviewcore.annotations.model.AnnotationSet</class>
+		<class>synergyviewcore.annotations.model.Annotation</class>
+		<class>synergyviewcore.annotations.model.IntervalAnnotation</class>
+		<class>synergyviewcore.model.PersistenceModelObject</class>
+		<class>synergyviewcore.subjects.model.Subject</class>
+		<properties>
+			<property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver" />
+			<property name="javax.persistence.jdbc.user" value="" />
+			<property name="javax.persistence.jdbc.password" value="" />
+
+			<!-- EclipseLink should create the database schema automatically -->
+
+			<property name="eclipselink.ddl-generation" value="create-tables" />
+			<property name="eclipselink.ddl-generation.output-mode" value="database" />
+		</properties>
+	</persistence-unit>
+	
+	<persistence-unit name="AttributesDB">
+		<class>synergyviewcore.attributes.model.Attribute</class>
+		<class>synergyviewcore.model.PersistenceModelObject</class>
+		<properties>
+			<property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver" />
+			<property name="javax.persistence.jdbc.user" value="" />
+			<property name="javax.persistence.jdbc.password" value="" />
+
+			<!-- EclipseLink should create the database schema automatically -->
+
+			<property name="eclipselink.ddl-generation" value="create-tables" />
+			<property name="eclipselink.ddl-generation.output-mode" value="database" />
+		</properties>
+	</persistence-unit>
+</persistence>

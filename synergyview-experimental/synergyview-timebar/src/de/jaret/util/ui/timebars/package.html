@@ -1,0 +1,40 @@
+<html><body>
+<p>This package contains a suite of classes and interfaces to define and display
+a model of intervals over a discrete set of rows. There are two concrete implementations of the viewer in
+the appropiate packages for Swing and SWT. They are designed to be as interchangeable as possible and do both
+base on a delegate that encapsulates most of the functionality.
+In cases where GUI specific classes are needed in generalized code (i.e. Rectangle, Color)
+the swing implementations have been preferred since the usage of the swing version should not
+need the swt library jars.
+</p>
+<p>
+The <b>TimeBarViewer</b> is the viewer for a <b>TimeBarModel</b>. It displays rows of intervals over
+a time scale. The displayed rows may be sorted by a <b>TimeBarRowSorter</b> and filtered by a <b>TimeBarRowFilter</b>
+without affecting the model itself. The displayed intervals can be filtered by a <b>TimeBarIntervalFilter</b>.
+</p>
+<p>
+Selections can be done for intervals and/or rows. This is controlled and distributed by a <b>TimeBarSelectionModel</b>.
+</p>
+<p>
+The row header has to be a PropertyObservable. A simple row header implementation is supplied with the <b>DefaultRowHeader</b>.
+</p>
+<p>
+<b>Rendering in the Swing version:</b>
+Rendering of the row headers is done by  a JComponent supplied by a <b>TimeBarRenderer</b>. A default row header
+renderer using a JLabel is supplied (<b>DefaultTimeBarHeaderRenderer</b>). The intervals itself are rendered
+by a TimeBarRenderer. A default renderer using a JButton for rendering is supplied (<b>DefaultTimeBarRenderer</b>).
+The time scale (x axis) is rendered by the JComponent supplied by a <b>TimeScaleRenderer</b>. A simple default
+time scale renderer is supplied with the <b>DefaultTimeScaleRenderer</b>. For some application it is useful to display
+information in between two intervals. For those situations a <b>TimeBarGapRenderer</b> can be used.
+</p>
+<p>
+<b>Rendering in the SWT version:</b> Rendering in the SWT version is done by renderers like in the swing version.
+The basic difference is, that there are no components (in SWT the term "widget" would be appropriate) used. The renderers
+will do their painting job directly. Default renderes are supplied in the package de.jaret.util.ui.timebars.sw.renderer.
+</p>
+<p>
+As a useful utility class the <b>TimeBarViewerSynchronizer</b> synchronizes a set of TableBarViewers on certain aspects.
+</p>
+
+<p><b>(c) 2004 Peter Kliem</b></p>
+</body></html>

@@ -145,6 +145,11 @@ public class JMCMedia extends AbstractMedia {
 		return false;
 	}
 
+	public void prepareMedia() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
 
 @SuppressWarnings("serial")

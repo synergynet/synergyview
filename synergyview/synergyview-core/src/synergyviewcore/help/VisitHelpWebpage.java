@@ -8,7 +8,7 @@ import org.eclipse.core.commands.ExecutionException;
 
 public class VisitHelpWebpage extends AbstractHandler {
 	
-	private final static String helpURL = "http://code.google.com/p/synergyview/wiki/SynergyViewHelp";
+	private final static String helpURL = "https://github.com/synergynet/synergyview/wiki/Using-SynergyView";
 
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		try {

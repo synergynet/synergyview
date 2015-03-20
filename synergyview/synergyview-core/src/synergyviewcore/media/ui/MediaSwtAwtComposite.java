@@ -115,6 +115,8 @@ public class MediaSwtAwtComposite extends Composite {
 		swtAwtGridData.grabExcessVerticalSpace = true;
 		videoPreviewContainer.layout();
 		this.layout();
+		this.media.prepareMedia();
+		updateTimes();
 	}
 
 	private void disposeVideoAwtFrame() {

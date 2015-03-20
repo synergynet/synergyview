@@ -22,8 +22,8 @@ import org.eclipse.ui.internal.ide.IDEInternalWorkbenchImages;
 import org.eclipse.ui.internal.ide.IDEWorkbenchPlugin;
 import org.osgi.framework.Bundle;
 
-import quicktime.QTException;
-import quicktime.QTSession;
+import sun.management.ManagementFactory;
+import uk.co.caprica.vlcj.discovery.NativeDiscovery;
 
 @SuppressWarnings("restriction")
 public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
@@ -52,17 +52,18 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
 		super.initialize(configurer);
 		org.eclipse.ui.ide.IDE.registerAdapters();
 		declareWorkbenchImages();
-		try {
-			QTSession.open();
-		} catch (QTException ex) {
-			IStatus status = new Status(IStatus.ERROR,Activator.PLUGIN_ID,ex.getMessage(), ex);
-			try{
-				logger.log(status);
-			} catch (NullPointerException nullEx){
-				MessageDialog.openError(PlatformUI.getWorkbench().getDisplay().getActiveShell(), "Error", 
-						"Error initialising Quicktime, please ensure you have Quicktime installed.");
-			}
-		}
+		
+    	boolean found = false;    	
+   		String vlcLib = ManagementFactory.getRuntimeMXBean().getSystemProperties().get("vlc");
+    	if (vlcLib != null)found = true;
+        if(!found) found = new NativeDiscovery().discover();
+        if(!found){
+        	MessageDialog.openError(PlatformUI.getWorkbench().getDisplay().getActiveShell(), "Error", 
+					"Cannot play videos.  VLC is either not installed or located in an unexpected directory.  " + 
+        			"If VLC is installed in an unexpected directory you can provide the path to its library " + 
+        			"location with the argument: '-Dvlc=\"...\""); 
+        }
+		
 	}
 	
 	@Override

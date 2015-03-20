@@ -70,4 +70,6 @@ public interface IMedia {
 	PlayRate getRate();
 	
 	boolean isAudioAvailable();
+	
+	public void prepareMedia();
 }

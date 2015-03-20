@@ -36,7 +36,7 @@ public class MediaNode extends AbstractNode<IFile> implements IResourceChangeLis
 	 * @return
 	 */
 	public AbstractMedia createMediaInstance() {
-		return new QuickTimeMedia(mediaFileUrl, this.getLabel());
+		return new VLCMedia(mediaFileUrl, this.getLabel());
 	}
 
 	public static boolean isValidExtension(String extValue) {

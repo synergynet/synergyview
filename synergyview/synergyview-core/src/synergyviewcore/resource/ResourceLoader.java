@@ -13,7 +13,6 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 import synergyviewcore.Activator;
 
-
 /**
  * The Class ResourceLoader.
  */
@@ -26,54 +25,22 @@ public class ResourceLoader {
 	private static ResourceBundle rb = null;
 	
 	/**
-	 * Sets the bundle.
-	 *
-	 * @param locale the new bundle
-	 */
-	public static void setBundle(Locale locale) {
-		final ILog logger = Activator.getDefault().getLog();
-		try {
-			rb = ResourceBundle.getBundle(BUNDLE_NAME, locale);
-		} catch (Exception ex) {
-			IStatus status = new Status(IStatus.WARNING,Activator.PLUGIN_ID,ex.getMessage(), ex);
-			logger.log(status);
-			rb = ResourceBundle.getBundle(BUNDLE_NAME, Locale.ENGLISH);
-		}
-	}
-
-	/**
-	 * Gets the string.
-	 *
-	 * @param key the key
-	 * @return the string
-	 */
-	public static String getString(String key) {
-		final ILog logger = Activator.getDefault().getLog();
-		try {
-			String keyValue = new String(rb.getString(key).getBytes(
-			        "ISO-8859-1"), "UTF-8");
-			return keyValue;
-		} catch (Exception ex) {
-			IStatus status = new Status(IStatus.WARNING,Activator.PLUGIN_ID,ex.getMessage(), ex);
-			logger.log(status);
-			return key;
-		}
-	}
-
-	/**
 	 * Gets the icon descriptor.
-	 *
-	 * @param fileName the file name
+	 * 
+	 * @param fileName
+	 *            the file name
 	 * @return the icon descriptor
 	 */
 	public static ImageDescriptor getIconDescriptor(String fileName) {
-		return AbstractUIPlugin.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/" + fileName);
+		return AbstractUIPlugin.imageDescriptorFromPlugin(Activator.PLUGIN_ID,
+				"icons/" + fileName);
 	}
 	
 	/**
 	 * Gets the icon from program.
-	 *
-	 * @param program the program
+	 * 
+	 * @param program
+	 *            the program
 	 * @return the icon from program
 	 */
 	public static ImageDescriptor getIconFromProgram(Program program) {
@@ -84,6 +51,44 @@ public class ResourceLoader {
 		}
 		return null;
 	}
-
+	
+	/**
+	 * Gets the string.
+	 * 
+	 * @param key
+	 *            the key
+	 * @return the string
+	 */
+	public static String getString(String key) {
+		final ILog logger = Activator.getDefault().getLog();
+		try {
+			String keyValue = new String(rb.getString(key).getBytes(
+					"ISO-8859-1"), "UTF-8");
+			return keyValue;
+		} catch (Exception ex) {
+			IStatus status = new Status(IStatus.WARNING, Activator.PLUGIN_ID,
+					ex.getMessage(), ex);
+			logger.log(status);
+			return key;
+		}
+	}
+	
+	/**
+	 * Sets the bundle.
+	 * 
+	 * @param locale
+	 *            the new bundle
+	 */
+	public static void setBundle(Locale locale) {
+		final ILog logger = Activator.getDefault().getLog();
+		try {
+			rb = ResourceBundle.getBundle(BUNDLE_NAME, locale);
+		} catch (Exception ex) {
+			IStatus status = new Status(IStatus.WARNING, Activator.PLUGIN_ID,
+					ex.getMessage(), ex);
+			logger.log(status);
+			rb = ResourceBundle.getBundle(BUNDLE_NAME, Locale.ENGLISH);
+		}
+	}
+	
 }
-

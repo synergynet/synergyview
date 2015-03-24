@@ -17,14 +17,17 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import synergyviewcore.annotations.model.Annotation;
 import synergyviewcore.annotations.ui.AnnotationIntervalImpl;
 
-
 /**
  * The Class DeleteAnnoationHandler.
  */
 public class DeleteAnnoationHandler extends AbstractHandler implements IHandler {
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands
+	 * .ExecutionEvent)
 	 */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		ISelection selection = HandlerUtil.getCurrentSelection(event);
@@ -32,7 +35,7 @@ public class DeleteAnnoationHandler extends AbstractHandler implements IHandler 
 			return null;
 		}
 		IStructuredSelection structSel = (IStructuredSelection) selection;
-
+		
 		@SuppressWarnings("rawtypes")
 		Iterator iteratorCaptionInterval = structSel.iterator();
 		List<AnnotationIntervalImpl> annotationImplsToBeRemoved = new ArrayList<AnnotationIntervalImpl>();
@@ -42,18 +45,36 @@ public class DeleteAnnoationHandler extends AbstractHandler implements IHandler 
 				AnnotationIntervalImpl annotationInterval = (AnnotationIntervalImpl) element;
 				annotationImplsToBeRemoved.add(annotationInterval);
 			}
-		} 
-		if (annotationImplsToBeRemoved.size()>0) {
-			boolean answer = MessageDialog.openConfirm(PlatformUI.getWorkbench().getDisplay().getActiveShell(), "Delete Annotation confirmation", String.format("Are you sure you want to delete %d Annotation(s)?", annotationImplsToBeRemoved.size()));
+		}
+		if (annotationImplsToBeRemoved.size() > 0) {
+			boolean answer = MessageDialog
+					.openConfirm(
+							PlatformUI.getWorkbench().getDisplay()
+									.getActiveShell(),
+							"Delete Annotation confirmation",
+							String.format(
+									"Are you sure you want to delete %d Annotation(s)?",
+									annotationImplsToBeRemoved.size()));
 			if (answer == true) {
 				
 				for (AnnotationIntervalImpl annotationInterval : annotationImplsToBeRemoved) {
 					List<Annotation> annotationToBeRemoved = new ArrayList<Annotation>();
-					annotationToBeRemoved.add(annotationInterval.getAnnotation());
+					annotationToBeRemoved.add(annotationInterval
+							.getAnnotation());
 					try {
-						annotationInterval.getOwner().getAnnotationSetNode().removeAnnotations(annotationToBeRemoved, annotationInterval.getOwner().getSubject());
+						annotationInterval
+								.getOwner()
+								.getAnnotationSetNode()
+								.removeAnnotations(
+										annotationToBeRemoved,
+										annotationInterval.getOwner()
+												.getSubject());
 					} catch (Exception e) {
-						MessageDialog.openError(PlatformUI.getWorkbench().getDisplay().getActiveShell(), "Error", String.format("Unable to delete %s.", annotationInterval.getAnnotation().getText()));
+						MessageDialog.openError(PlatformUI.getWorkbench()
+								.getDisplay().getActiveShell(), "Error", String
+								.format("Unable to delete %s.",
+										annotationInterval.getAnnotation()
+												.getText()));
 					}
 				}
 			}

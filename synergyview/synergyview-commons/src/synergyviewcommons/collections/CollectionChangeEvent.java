@@ -7,17 +7,19 @@ import java.util.EventObject;
  */
 public class CollectionChangeEvent extends EventObject {
 	
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -5462704454585023407L;
+	
 	/** The diff. */
 	private CollectionDiff<?> diff;
 	
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = -5462704454585023407L;
-
 	/**
 	 * Instantiates a new collection change event.
-	 *
-	 * @param source the source
-	 * @param diff the diff
+	 * 
+	 * @param source
+	 *            the source
+	 * @param diff
+	 *            the diff
 	 */
 	public CollectionChangeEvent(Object source, CollectionDiff<?> diff) {
 		super(source);
@@ -26,11 +28,11 @@ public class CollectionChangeEvent extends EventObject {
 	
 	/**
 	 * Gets the list diff.
-	 *
+	 * 
 	 * @return the list diff
 	 */
 	public CollectionDiff<?> getListDiff() {
 		return this.diff;
 	}
-
+	
 }

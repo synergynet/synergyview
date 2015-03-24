@@ -9,43 +9,47 @@ import synergyviewcore.collections.model.CollectionRootNode;
 import synergyviewcore.resource.ResourceLoader;
 import synergyviewcore.util.FileHelper;
 
-
-
 /**
  * The Class NewCollectionWizard.
  */
 public class NewCollectionWizard extends Wizard {
-
-	/** The collection to add new. */
-	private Collection collectionToAddNew;
 	
 	/** The collection root node. */
 	private CollectionRootNode collectionRootNode;
 	
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.wizard.Wizard#getWindowTitle()
-	 */
-	@Override
-	public String getWindowTitle() {
-		return ResourceLoader.getString("DIALOG_TITLE_NEW_MEDIA_COLLECTION");
-	}
+	/** The collection to add new. */
+	private Collection collectionToAddNew;
 	
 	/**
 	 * Instantiates a new new collection wizard.
-	 *
-	 * @param collectionFolder the collection folder
+	 * 
+	 * @param collectionFolder
+	 *            the collection folder
 	 */
 	public NewCollectionWizard(CollectionRootNode collectionFolder) {
 		collectionRootNode = collectionFolder;
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.jface.wizard.Wizard#addPages()
 	 */
 	@Override
 	public void addPages() {
 		initCollection();
-		this.addPage(new NewCollectionWizardPage(collectionToAddNew, collectionRootNode.getChildrenNames()));
+		this.addPage(new NewCollectionWizardPage(collectionToAddNew,
+				collectionRootNode.getChildrenNames()));
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.wizard.Wizard#getWindowTitle()
+	 */
+	@Override
+	public String getWindowTitle() {
+		return ResourceLoader.getString("DIALOG_TITLE_NEW_MEDIA_COLLECTION");
 	}
 	
 	/**
@@ -57,8 +61,10 @@ public class NewCollectionWizard extends Wizard {
 		collectionToAddNew.setId(UUID.randomUUID().toString());
 		collectionToAddNew.setFileName(FileHelper.getUniqueAFileName("xml"));
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.jface.wizard.Wizard#performFinish()
 	 */
 	@Override

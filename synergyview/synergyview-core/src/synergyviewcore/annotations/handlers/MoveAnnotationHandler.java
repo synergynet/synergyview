@@ -26,20 +26,24 @@ import synergyviewcore.projects.model.ProjectNode;
 import synergyviewcore.subjects.model.Subject;
 import synergyviewcore.subjects.model.SubjectNode;
 
-
 /**
  * The Class MoveAnnotationHandler.
  */
 public class MoveAnnotationHandler extends AbstractHandler implements IHandler {
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands
+	 * .ExecutionEvent)
 	 */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		final ILog logger = Activator.getDefault().getLog();
-
+		
 		ISelection selection = HandlerUtil.getCurrentSelection(event);
-		IWorkbenchPart activePart = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().getActivePart();
+		IWorkbenchPart activePart = HandlerUtil.getActiveWorkbenchWindow(event)
+				.getActivePage().getActivePart();
 		if (!(selection instanceof IStructuredSelection)) {
 			return null;
 		}
@@ -53,27 +57,42 @@ public class MoveAnnotationHandler extends AbstractHandler implements IHandler {
 				AnnotationIntervalImpl annotationInterval = (AnnotationIntervalImpl) element;
 				try {
 					
-					//TODO This can be moved to AnnotationSetNode
-					ElementListSelectionDialog dialog = new  ElementListSelectionDialog(activePart.getSite().getShell(), new NavigatorLabelProvider());
-					AnnotationSetNode annotationSetNode = annotationInterval.getOwner().getAnnotationSetNode();
-					ProjectNode projectNode = (ProjectNode) annotationSetNode.getLastParent();
+					// TODO This can be moved to AnnotationSetNode
+					ElementListSelectionDialog dialog = new ElementListSelectionDialog(
+							activePart.getSite().getShell(),
+							new NavigatorLabelProvider());
+					AnnotationSetNode annotationSetNode = annotationInterval
+							.getOwner().getAnnotationSetNode();
+					ProjectNode projectNode = (ProjectNode) annotationSetNode
+							.getLastParent();
 					
 					List<INode> nodesToShow = new ArrayList<INode>();
-					//Removing existing subjects from the list
-					List<Subject> existingSubjects = annotationSetNode.getSubjectList();
-					for (INode node : projectNode.getSubjectRootNode().getChildren()) {
-						if (existingSubjects.contains(((SubjectNode)node).getResource()) && (node.getResource() != annotationInterval.getOwner().getSubject()))
+					// Removing existing subjects from the list
+					List<Subject> existingSubjects = annotationSetNode
+							.getSubjectList();
+					for (INode node : projectNode.getSubjectRootNode()
+							.getChildren()) {
+						if (existingSubjects.contains(((SubjectNode) node)
+								.getResource())
+								&& (node.getResource() != annotationInterval
+										.getOwner().getSubject())) {
 							nodesToShow.add(node);
+						}
 					}
-					dialog.setElements(nodesToShow.toArray(new INode[]{}));
+					dialog.setElements(nodesToShow.toArray(new INode[] {}));
 					dialog.open();
 					if (dialog.getFirstResult() != null) {
-						SubjectNode result = (SubjectNode) dialog.getFirstResult();
-						annotationSetNode.moveAnnotation(annotationInterval.getAnnotation(), annotationInterval.getOwner().getSubject(), result.getResource());
+						SubjectNode result = (SubjectNode) dialog
+								.getFirstResult();
+						annotationSetNode.moveAnnotation(
+								annotationInterval.getAnnotation(),
+								annotationInterval.getOwner().getSubject(),
+								result.getResource());
 					}
 					
 				} catch (Exception ex) {
-					IStatus status = new Status(IStatus.ERROR,Activator.PLUGIN_ID,ex.getMessage(), ex);
+					IStatus status = new Status(IStatus.ERROR,
+							Activator.PLUGIN_ID, ex.getMessage(), ex);
 					logger.log(status);
 				}
 				return null;
@@ -81,7 +100,7 @@ public class MoveAnnotationHandler extends AbstractHandler implements IHandler {
 		}
 		
 		return null;
-
+		
 	}
-
+	
 }

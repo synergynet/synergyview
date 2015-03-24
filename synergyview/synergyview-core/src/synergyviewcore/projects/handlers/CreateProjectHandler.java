@@ -9,30 +9,39 @@ import org.eclipse.ui.handlers.HandlerUtil;
 
 import synergyviewcore.projects.ui.wizards.NewProjectWizard;
 
-
 /**
  * The Class CreateProjectHandler.
  */
 public class CreateProjectHandler extends AbstractHandler implements IHandler {
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands
+	 * .ExecutionEvent)
 	 */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		WizardDialog dialog = new WizardDialog(HandlerUtil.getActiveWorkbenchWindow(event).getShell(),new NewProjectWizard());
+		WizardDialog dialog = new WizardDialog(HandlerUtil
+				.getActiveWorkbenchWindow(event).getShell(),
+				new NewProjectWizard());
 		dialog.open();
 		return null;
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.core.commands.AbstractHandler#isEnabled()
 	 */
 	@Override
 	public boolean isEnabled() {
 		return true;
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.core.commands.AbstractHandler#isHandled()
 	 */
 	@Override

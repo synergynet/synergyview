@@ -16,70 +16,80 @@ import synergyviewcore.resource.ResourceLoader;
 import synergyviewcore.timebar.action.BaseTimeBarAction;
 import de.jaret.util.ui.timebars.swt.TimeBarViewer;
 
-
 /**
  * The Class AttachMediaAction.
  */
 public class AttachMediaAction extends BaseTimeBarAction {
-
-	/** The media folder. */
-	protected MediaRootNode mediaFolder;
 	
 	/** The collection control. */
 	protected AbstractMediaCollectionControl collectionControl;
-    
-    /**
-     * Instantiates a new attach media action.
-     *
-     * @param tbv the tbv
-     * @param mediaFolder the media folder
-     * @param collectionControl the collection control
-     */
-    public AttachMediaAction(TimeBarViewer tbv, MediaRootNode mediaFolder, AbstractMediaCollectionControl collectionControl) {
-        super(tbv);   
-        this.mediaFolder = mediaFolder;		
-        this.collectionControl = collectionControl;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public void run() {
-         		
-    	String[] arr=new String[0];
-    	MediaNode mediaNode=this.showMediaSelection(arr, this._tbv.getParent());
-    	collectionControl.addMedia(mediaNode);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public String getText() {
-        return ResourceLoader.getString("TIMEBAR_MEDIA_CONTEXTMENU_CREATE");
-    }
-
-	/* (non-Javadoc)
+	
+	/** The media folder. */
+	protected MediaRootNode mediaFolder;
+	
+	/**
+	 * Instantiates a new attach media action.
+	 * 
+	 * @param tbv
+	 *            the tbv
+	 * @param mediaFolder
+	 *            the media folder
+	 * @param collectionControl
+	 *            the collection control
+	 */
+	public AttachMediaAction(TimeBarViewer tbv, MediaRootNode mediaFolder,
+			AbstractMediaCollectionControl collectionControl) {
+		super(tbv);
+		this.mediaFolder = mediaFolder;
+		this.collectionControl = collectionControl;
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	public String getText() {
+		return ResourceLoader.getString("TIMEBAR_MEDIA_CONTEXTMENU_CREATE");
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see synergyviewcore.timebar.action.BaseTimeBarAction#init()
 	 */
 	@Override
 	protected void init() {
 		this.setEnabled(true);
-        this.setAccelerator(SWT.ALT | 'A');
-        this.setToolTipText(ResourceLoader.getString("TIMEBAR_MEDIA_CONTEXTMENU_CREATE"));
-        this.setImageDescriptor(ResourceLoader.getIconDescriptor("folder_add.png"));		
-	}	
-
+		this.setAccelerator(SWT.ALT | 'A');
+		this.setToolTipText(ResourceLoader
+				.getString("TIMEBAR_MEDIA_CONTEXTMENU_CREATE"));
+		this.setImageDescriptor(ResourceLoader
+				.getIconDescriptor("folder_add.png"));
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	public void run() {
+		
+		String[] arr = new String[0];
+		MediaNode mediaNode = this.showMediaSelection(arr,
+				this._tbv.getParent());
+		collectionControl.addMedia(mediaNode);
+	}
+	
 	/**
 	 * Show media selection.
-	 *
-	 * @param excludeItemList the exclude item list
-	 * @param owner the owner
+	 * 
+	 * @param excludeItemList
+	 *            the exclude item list
+	 * @param owner
+	 *            the owner
 	 * @return the media node
 	 */
 	private MediaNode showMediaSelection(String[] excludeItemList,
 			Composite owner) {
-		List<INode> availableMediaList = mediaFolder.getMediaNodes(
-						excludeItemList);
+		List<INode> availableMediaList = mediaFolder
+				.getMediaNodes(excludeItemList);
 		if (availableMediaList.size() >= 0) {
 			ElementListSelectionDialog dialog = new ElementListSelectionDialog(
 					owner.getShell(), new NavigatorLabelProvider());
@@ -97,6 +107,5 @@ public class AttachMediaAction extends BaseTimeBarAction {
 			return null;
 		}
 	}
-	
 	
 }

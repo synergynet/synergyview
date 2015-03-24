@@ -25,56 +25,72 @@ import synergyviewcore.collections.ui.editors.CollectionEditor;
 import synergyviewcore.navigation.model.INode;
 import synergyviewcore.projects.ui.NodeEditorInput;
 
-
 /**
  * The Class OpenClipAnnotationSetHandler.
  */
-public class OpenClipAnnotationSetHandler extends AbstractHandler implements IHandler {
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+public class OpenClipAnnotationSetHandler extends AbstractHandler implements
+		IHandler {
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands
+	 * .ExecutionEvent)
 	 */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		final ILog logger = Activator.getDefault().getLog();
-
+		
 		ISelection selection = HandlerUtil.getCurrentSelection(event);
-		if (!(selection instanceof IStructuredSelection))
+		if (!(selection instanceof IStructuredSelection)) {
 			return null;
+		}
 		IStructuredSelection structSel = (IStructuredSelection) selection;
 		
 		Object element = null;
 		
-		try{
+		try {
 			element = structSel.iterator().next();
-		}catch (NoSuchElementException e){}
-
-		if (element != null){
+		} catch (NoSuchElementException e) {
+		}
+		
+		if (element != null) {
 			if (element instanceof AnnotationSetNode) {
-				IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+				IWorkbenchWindow window = PlatformUI.getWorkbench()
+						.getActiveWorkbenchWindow();
 				IWorkbenchPage page = window.getActivePage();
-	
-				NodeEditorInput editorInput = new NodeEditorInput((INode) element);
 				
-				//TODO Refactor design
+				NodeEditorInput editorInput = new NodeEditorInput(
+						(INode) element);
+				
+				// TODO Refactor design
 				for (IWorkbenchPage ref : window.getPages()) {
 					if (ref.getActiveEditor() instanceof CollectionEditor) {
-						CollectionEditor colEditor = (CollectionEditor) ref.getActiveEditor();
-						NodeEditorInput cNodeEditorInput = (NodeEditorInput) colEditor.getEditorInput();
-						if (editorInput.getNode().getParent() == cNodeEditorInput.getNode()) {
-							MessageDialog.openError(window.getShell(), "Collection Editor Opened", "Please close the collection editor before editing the clips");
+						CollectionEditor colEditor = (CollectionEditor) ref
+								.getActiveEditor();
+						NodeEditorInput cNodeEditorInput = (NodeEditorInput) colEditor
+								.getEditorInput();
+						if (editorInput.getNode().getParent() == cNodeEditorInput
+								.getNode()) {
+							MessageDialog
+									.openError(window.getShell(),
+											"Collection Editor Opened",
+											"Please close the collection editor before editing the clips");
 							return null;
 						}
 					}
 				}
 				try {
-					page.openEditor(editorInput, CollectionMediaClipAnnotationEditor.ID);
+					page.openEditor(editorInput,
+							CollectionMediaClipAnnotationEditor.ID);
 				} catch (PartInitException ex) {
-					IStatus status = new Status(IStatus.ERROR,Activator.PLUGIN_ID,ex.getMessage(), ex);
+					IStatus status = new Status(IStatus.ERROR,
+							Activator.PLUGIN_ID, ex.getMessage(), ex);
 					logger.log(status);
-				}	
-			}		
+				}
+			}
 			return null;
-		}else{
+		} else {
 			return null;
 		}
 	}

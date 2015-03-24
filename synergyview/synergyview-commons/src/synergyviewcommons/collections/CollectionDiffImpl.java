@@ -2,8 +2,9 @@ package synergyviewcommons.collections;
 
 /**
  * The Class CollectionDiffImpl.
- *
- * @param <R> the generic type
+ * 
+ * @param <R>
+ *            the generic type
  */
 public class CollectionDiffImpl<R> extends CollectionDiff<R> {
 	
@@ -12,14 +13,17 @@ public class CollectionDiffImpl<R> extends CollectionDiff<R> {
 	
 	/**
 	 * Instantiates a new collection diff impl.
-	 *
-	 * @param entries the entries
+	 * 
+	 * @param entries
+	 *            the entries
 	 */
 	public CollectionDiffImpl(CollectionDiffEntry<R>[] entries) {
 		this.entries = entries;
 	}
 	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see synergyviewcommons.collections.CollectionDiff#getDifferences()
 	 */
 	@Override

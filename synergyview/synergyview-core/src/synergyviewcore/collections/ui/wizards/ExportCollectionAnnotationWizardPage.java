@@ -1,21 +1,14 @@
 /**
- *  File: ExportCollectionAnnotationWizardPage.java
- *  Copyright (c) 2011
- *  phyo
- *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * File: ExportCollectionAnnotationWizardPage.java Copyright (c) 2011 phyo This
+ * program is free software; you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version. This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
 package synergyviewcore.collections.ui.wizards;
@@ -36,10 +29,9 @@ import org.eclipse.swt.widgets.TableItem;
 import synergyviewcore.collections.model.Collection;
 import synergyviewcore.collections.model.CollectionMediaClip;
 
-
 /**
  * The Class ExportCollectionAnnotationWizardPage.
- *
+ * 
  * @author phyo
  */
 public class ExportCollectionAnnotationWizardPage extends WizardPage {
@@ -52,8 +44,9 @@ public class ExportCollectionAnnotationWizardPage extends WizardPage {
 	
 	/**
 	 * Instantiates a new export collection annotation wizard page.
-	 *
-	 * @param collection the collection
+	 * 
+	 * @param collection
+	 *            the collection
 	 */
 	protected ExportCollectionAnnotationWizardPage(Collection collection) {
 		super("Export Annotations in the Collection");
@@ -61,7 +54,7 @@ public class ExportCollectionAnnotationWizardPage extends WizardPage {
 		setDescription("Select the Collection Media Clips to Export");
 		this.collection = collection;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -89,25 +82,34 @@ public class ExportCollectionAnnotationWizardPage extends WizardPage {
 			public void handleEvent(Event event) {
 				if (event.detail == SWT.CHECK) {
 					TableItem changedItem = (TableItem) event.item;
-					if (changedItem.getChecked())
-						selectedCollcationMediaClips.add((CollectionMediaClip) ((TableItem) event.item).getData());
-					else selectedCollcationMediaClips.remove((CollectionMediaClip) ((TableItem) event.item).getData());
+					if (changedItem.getChecked()) {
+						selectedCollcationMediaClips
+								.add((CollectionMediaClip) ((TableItem) event.item)
+										.getData());
+					} else {
+						selectedCollcationMediaClips
+								.remove((CollectionMediaClip) ((TableItem) event.item)
+										.getData());
+					}
 				}
-				if (selectedCollcationMediaClips.isEmpty())
-					ExportCollectionAnnotationWizardPage.this.setPageComplete(false);
-				else 
-					ExportCollectionAnnotationWizardPage.this.setPageComplete(true);
+				if (selectedCollcationMediaClips.isEmpty()) {
+					ExportCollectionAnnotationWizardPage.this
+							.setPageComplete(false);
+				} else {
+					ExportCollectionAnnotationWizardPage.this
+							.setPageComplete(true);
+				}
 			}
 		});
 	}
 	
 	/**
 	 * Gets the selected collcation media clips.
-	 *
+	 * 
 	 * @return the selected collcation media clips
 	 */
 	public List<CollectionMediaClip> getSelectedCollcationMediaClips() {
 		return selectedCollcationMediaClips;
 	}
-
+	
 }

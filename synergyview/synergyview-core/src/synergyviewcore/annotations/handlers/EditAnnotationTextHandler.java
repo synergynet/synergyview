@@ -22,17 +22,21 @@ import synergyviewcore.Activator;
 import synergyviewcore.annotations.ui.AnnotationIntervalImpl;
 import synergyviewcore.model.ModelPersistenceException;
 
-
 /**
  * The Class EditAnnotationTextHandler.
  */
-public class EditAnnotationTextHandler extends AbstractHandler implements IHandler {
+public class EditAnnotationTextHandler extends AbstractHandler implements
+		IHandler {
 	
 	/** The logger. */
 	private ILog logger;
 	
-	/* (non-Javadoc)
-	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands
+	 * .ExecutionEvent)
 	 */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		logger = Activator.getDefault().getLog();
@@ -50,21 +54,33 @@ public class EditAnnotationTextHandler extends AbstractHandler implements IHandl
 				AnnotationIntervalImpl annotationInterval = (AnnotationIntervalImpl) element;
 				IInputValidator validator = new IInputValidator() {
 					public String isValid(String newText) {
-						if(!newText.equalsIgnoreCase(""))
+						if (!newText.equalsIgnoreCase("")) {
 							return null;
-						else
+						} else {
 							return "Name empty!";
+						}
 					}
 				};
-				InputDialog dialog = new InputDialog(PlatformUI.getWorkbench().getDisplay().getActiveShell(), "Edit", "Enter caption:", annotationInterval.getLabel(), validator);
-				if(dialog.open() == Window.OK) {
-					annotationInterval.getAnnotation().setText(dialog.getValue());
+				InputDialog dialog = new InputDialog(PlatformUI.getWorkbench()
+						.getDisplay().getActiveShell(), "Edit",
+						"Enter caption:", annotationInterval.getLabel(),
+						validator);
+				if (dialog.open() == Window.OK) {
+					annotationInterval.getAnnotation().setText(
+							dialog.getValue());
 					try {
-						annotationInterval.getOwner().getAnnotationSetNode().updateAnnotation(annotationInterval.getAnnotation());
+						annotationInterval
+								.getOwner()
+								.getAnnotationSetNode()
+								.updateAnnotation(
+										annotationInterval.getAnnotation());
 					} catch (ModelPersistenceException e) {
-						IStatus status = new Status(IStatus.WARNING,Activator.PLUGIN_ID,e.getMessage(), e);
+						IStatus status = new Status(IStatus.WARNING,
+								Activator.PLUGIN_ID, e.getMessage(), e);
 						logger.log(status);
-						MessageDialog.openError(PlatformUI.getWorkbench().getDisplay().getActiveShell(), "Error updating Annotation", e.getMessage());
+						MessageDialog.openError(PlatformUI.getWorkbench()
+								.getDisplay().getActiveShell(),
+								"Error updating Annotation", e.getMessage());
 					}
 				}
 				return null;
@@ -72,7 +88,7 @@ public class EditAnnotationTextHandler extends AbstractHandler implements IHandl
 		}
 		
 		return null;
-
+		
 	}
-
+	
 }

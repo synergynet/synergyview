@@ -10,30 +10,35 @@ import org.eclipse.ui.handlers.HandlerUtil;
 
 import synergyviewcore.annotations.ui.MediaClipIntervalImpl;
 
-
 /**
  * The Class MediaMuteHandler.
  */
 public class MediaMuteHandler extends AbstractHandler implements IHandler {
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands
+	 * .ExecutionEvent)
 	 */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		ISelection selection = HandlerUtil.getCurrentSelection(event);
-		if (!(selection instanceof IStructuredSelection))
+		if (!(selection instanceof IStructuredSelection)) {
 			return null;
+		}
 		IStructuredSelection structSel = (IStructuredSelection) selection;
 		Object element = structSel.iterator().next();
 		
-		
 		if (element instanceof MediaClipIntervalImpl) {
 			MediaClipIntervalImpl mediaClipIntervalImpl = (MediaClipIntervalImpl) element;
-			if (mediaClipIntervalImpl.isMute())
+			if (mediaClipIntervalImpl.isMute()) {
 				mediaClipIntervalImpl.setMute(false);
-			else mediaClipIntervalImpl.setMute(true);
+			} else {
+				mediaClipIntervalImpl.setMute(true);
+			}
 		}
 		return null;
 	}
-
+	
 }

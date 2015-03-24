@@ -14,28 +14,33 @@ import synergyviewcore.collections.model.CollectionNode;
 import synergyviewcore.collections.model.CollectionRootNode;
 import synergyviewcore.navigation.model.INode;
 
-
 /**
  * The Class DeleteCollectionHandler.
  */
 public class DeleteCollectionHandler extends AbstractHandler implements
 		IHandler {
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands
+	 * .ExecutionEvent)
 	 */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		ISelection selection = HandlerUtil.getCurrentSelection(event);
-		if (!(selection instanceof IStructuredSelection))
+		if (!(selection instanceof IStructuredSelection)) {
 			return null;
+		}
 		IStructuredSelection structSel = (IStructuredSelection) selection;
-		for(Iterator<?> i = structSel.iterator(); i.hasNext();) {
+		for (Iterator<?> i = structSel.iterator(); i.hasNext();) {
 			Object element = i.next();
 			if (element instanceof CollectionNode) {
-				((CollectionRootNode)((INode) element).getParent()).removeChildCollectionNode((CollectionNode) element);
+				((CollectionRootNode) ((INode) element).getParent())
+						.removeChildCollectionNode((CollectionNode) element);
 			}
 		}
 		return null;
 	}
-
+	
 }

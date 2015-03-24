@@ -16,15 +16,18 @@ import synergyviewcore.annotations.model.AnnotationSetNode;
 import synergyviewcore.collections.model.CollectionMediaClipNode;
 import synergyviewcore.model.ModelPersistenceException;
 
-
 /**
  * The Class DeleteAnnotationSetHandler.
  */
 public class DeleteAnnotationSetHandler extends AbstractHandler implements
 		IHandler {
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands
+	 * .ExecutionEvent)
 	 */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		ISelection selection = HandlerUtil.getCurrentSelection(event);
@@ -35,21 +38,27 @@ public class DeleteAnnotationSetHandler extends AbstractHandler implements
 		IStructuredSelection structSel = (IStructuredSelection) selection;
 		@SuppressWarnings("rawtypes")
 		Iterator iteratorCaptionInterval = structSel.iterator();
-		boolean answer = MessageDialog.openConfirm(PlatformUI.getWorkbench().getDisplay().getActiveShell(), "Delete Annotation Set confirmation", "Are you sure you want to delete Annotation Set?");
+		boolean answer = MessageDialog.openConfirm(PlatformUI.getWorkbench()
+				.getDisplay().getActiveShell(),
+				"Delete Annotation Set confirmation",
+				"Are you sure you want to delete Annotation Set?");
 		if (answer) {
 			while (iteratorCaptionInterval.hasNext()) {
 				Object object = iteratorCaptionInterval.next();
 				if (object instanceof AnnotationSetNode) {
 					AnnotationSetNode node = (AnnotationSetNode) object;
 					try {
-						((CollectionMediaClipNode) node.getParent()).removeAnnotationSetNode(node);
+						((CollectionMediaClipNode) node.getParent())
+								.removeAnnotationSetNode(node);
 					} catch (ModelPersistenceException e) {
-						MessageDialog.openError(PlatformUI.getWorkbench().getDisplay().getActiveShell(), "Delete Error", "Unable to delete " + node.getLabel() + "!");
+						MessageDialog.openError(PlatformUI.getWorkbench()
+								.getDisplay().getActiveShell(), "Delete Error",
+								"Unable to delete " + node.getLabel() + "!");
 					}
 				}
 			}
 		}
 		return null;
 	}
-
+	
 }

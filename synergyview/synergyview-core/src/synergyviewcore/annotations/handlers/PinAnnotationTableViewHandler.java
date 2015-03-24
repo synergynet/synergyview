@@ -11,15 +11,18 @@ import org.eclipse.ui.handlers.HandlerUtil;
 
 import synergyviewcore.annotations.ui.views.AnnotationTableViewPart;
 
-
 /**
  * The Class PinAnnotationTableViewHandler.
  */
 public class PinAnnotationTableViewHandler extends AbstractHandler implements
 		IHandler {
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands
+	 * .ExecutionEvent)
 	 */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindow(event);
@@ -27,7 +30,7 @@ public class PinAnnotationTableViewHandler extends AbstractHandler implements
 		Event eobj = (Event) obj;
 		if (eobj.widget instanceof ToolItem) {
 			ToolItem b = (ToolItem) eobj.widget;
-
+			
 			if (window.getPartService().getActivePart() instanceof AnnotationTableViewPart) {
 				AnnotationTableViewPart cPart = (AnnotationTableViewPart) window
 						.getPartService().getActivePart();
@@ -36,5 +39,5 @@ public class PinAnnotationTableViewHandler extends AbstractHandler implements
 		}
 		return null;
 	}
-
+	
 }

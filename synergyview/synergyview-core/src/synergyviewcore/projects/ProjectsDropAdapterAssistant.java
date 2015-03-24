@@ -20,15 +20,14 @@ import org.eclipse.ui.navigator.CommonDropAdapterAssistant;
 
 import synergyviewcore.media.model.MediaRootNode;
 
-
 /**
  * TODO Fixme see issue 14.
- *
+ * 
  * @author phyo
  */
 @SuppressWarnings("restriction")
 public class ProjectsDropAdapterAssistant extends CommonDropAdapterAssistant {
-
+	
 	/**
 	 * Instantiates a new projects drop adapter assistant.
 	 */
@@ -36,32 +35,49 @@ public class ProjectsDropAdapterAssistant extends CommonDropAdapterAssistant {
 		//
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.navigator.CommonDropAdapterAssistant#isSupportedType(org.eclipse.swt.dnd.TransferData)
+	/**
+	 * Returns the actual target of the drop, given the resource under the
+	 * mouse. If the mouse target is a file, then the drop actually occurs in
+	 * its parent. If the drop location is before or after the mouse target and
+	 * feedback is enabled, the target is also the parent.
+	 * 
+	 * @param mouseTarget
+	 *            the mouse target
+	 * @return the actual target
 	 */
-	@Override
-	public boolean isSupportedType(TransferData aTransferType) {	
-		return super.isSupportedType(aTransferType) || FileTransfer.getInstance().isSupportedType(aTransferType);
-	}	
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.navigator.CommonDropAdapterAssistant#handleDrop(org.eclipse.ui.navigator.CommonDropAdapter, org.eclipse.swt.dnd.DropTargetEvent, java.lang.Object)
+	private IContainer getActualTarget(IResource mouseTarget) {
+		
+		/* if cursor is on a file, return the parent */
+		if (mouseTarget.getType() == IResource.FILE) {
+			return mouseTarget.getParent();
+		}
+		/* otherwise the mouseTarget is the real target */
+		return (IContainer) mouseTarget;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.ui.navigator.CommonDropAdapterAssistant#handleDrop(org.eclipse
+	 * .ui.navigator.CommonDropAdapter, org.eclipse.swt.dnd.DropTargetEvent,
+	 * java.lang.Object)
 	 */
 	@Override
 	public IStatus handleDrop(CommonDropAdapter aDropAdapter,
 			DropTargetEvent aDropTargetEvent, Object aTarget) {
 		IStatus status = null;
-		if (aDropAdapter.getCurrentTarget() == null
-				|| aDropTargetEvent.data == null) {
+		if ((aDropAdapter.getCurrentTarget() == null)
+				|| (aDropTargetEvent.data == null)) {
 			return Status.CANCEL_STATUS;
 		}
-		 //TransferData currentTransfer = aDropAdapter.getCurrentTransfer();
-		//if (FileTransfer.getInstance().isSupportedType(currentTransfer)) 
-		 status = performFileDrop(aDropAdapter, aDropTargetEvent.data);
+		// TransferData currentTransfer = aDropAdapter.getCurrentTransfer();
+		// if (FileTransfer.getInstance().isSupportedType(currentTransfer))
+		status = performFileDrop(aDropAdapter, aDropTargetEvent.data);
 		openError(status);
 		IContainer target = getActualTarget(((MediaRootNode) aDropAdapter
 				.getCurrentTarget()).getResource());
-		if (target != null && target.isAccessible()) {
+		if ((target != null) && target.isAccessible()) {
 			try {
 				target.refreshLocal(IResource.DEPTH_ONE, null);
 			} catch (CoreException e) {
@@ -71,21 +87,86 @@ public class ProjectsDropAdapterAssistant extends CommonDropAdapterAssistant {
 		return status;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.ui.navigator.CommonDropAdapterAssistant#isSupportedType(org
+	 * .eclipse.swt.dnd.TransferData)
+	 */
+	@Override
+	public boolean isSupportedType(TransferData aTransferType) {
+		return super.isSupportedType(aTransferType)
+				|| FileTransfer.getInstance().isSupportedType(aTransferType);
+	}
+	
+	/**
+	 * Adds the given status to the list of problems. Discards OK statuses. If
+	 * the status is a multi-status, only its children are added.
+	 * 
+	 * @param status
+	 *            the status
+	 * @param toMerge
+	 *            the to merge
+	 */
+	private void mergeStatus(MultiStatus status, IStatus toMerge) {
+		if (!toMerge.isOK()) {
+			status.merge(toMerge);
+		}
+	}
+	
+	/**
+	 * Opens an error dialog if necessary. Takes care of complex rules necessary
+	 * for making the error dialog look nice.
+	 * 
+	 * @param status
+	 *            the status
+	 */
+	private void openError(IStatus status) {
+		if (status == null) {
+			return;
+		}
+		
+		String genericTitle = WorkbenchNavigatorMessages.DropAdapter_title;
+		int codes = IStatus.ERROR | IStatus.WARNING;
+		
+		// simple case: one error, not a multistatus
+		if (!status.isMultiStatus()) {
+			ErrorDialog
+					.openError(getShell(), genericTitle, null, status, codes);
+			return;
+		}
+		
+		// one error, single child of multistatus
+		IStatus[] children = status.getChildren();
+		if (children.length == 1) {
+			ErrorDialog.openError(getShell(), status.getMessage(), null,
+					children[0], codes);
+			return;
+		}
+		// several problems
+		ErrorDialog.openError(getShell(), genericTitle, null, status, codes);
+	}
+	
 	/**
 	 * Performs a drop using the FileTransfer transfer type.
-	 *
-	 * @param anAdapter the an adapter
-	 * @param data the data
+	 * 
+	 * @param anAdapter
+	 *            the an adapter
+	 * @param data
+	 *            the data
 	 * @return the i status
 	 */
 	private IStatus performFileDrop(CommonDropAdapter anAdapter, Object data) {
 		
 		MultiStatus problems = new MultiStatus(PlatformUI.PLUGIN_ID, 0,
 				WorkbenchNavigatorMessages.DropAdapter_problemImporting, null);
-		mergeStatus(problems,
-				validateTarget(anAdapter.getCurrentTarget(), anAdapter
-						.getCurrentTransfer(), anAdapter.getCurrentOperation()));
-
+		mergeStatus(
+				problems,
+				validateTarget(anAdapter.getCurrentTarget(),
+						anAdapter.getCurrentTransfer(),
+						anAdapter.getCurrentOperation()));
+		
 		final IContainer target = getActualTarget(((MediaRootNode) anAdapter
 				.getCurrentTarget()).getResource());
 		final String[] names = (String[]) data;
@@ -102,10 +183,13 @@ public class ProjectsDropAdapterAssistant extends CommonDropAdapterAssistant {
 		});
 		return problems;
 	}
-
 	
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.navigator.CommonDropAdapterAssistant#validateDrop(java.lang.Object, int, org.eclipse.swt.dnd.TransferData)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.ui.navigator.CommonDropAdapterAssistant#validateDrop(java
+	 * .lang.Object, int, org.eclipse.swt.dnd.TransferData)
 	 */
 	@Override
 	public IStatus validateDrop(Object target, int operation,
@@ -113,20 +197,20 @@ public class ProjectsDropAdapterAssistant extends CommonDropAdapterAssistant {
 		if (target instanceof MediaRootNode) {
 			
 			return Status.OK_STATUS;
-		}
-		else 
+		} else {
 			return Status.CANCEL_STATUS;
+		}
 	}
-
-	
-	
 	
 	/**
 	 * Ensures that the drop target meets certain criteria.
-	 *
-	 * @param target the target
-	 * @param transferType the transfer type
-	 * @param dropOperation the drop operation
+	 * 
+	 * @param target
+	 *            the target
+	 * @param transferType
+	 *            the transfer type
+	 * @param dropOperation
+	 *            the drop operation
 	 * @return the i status
 	 */
 	
@@ -161,76 +245,11 @@ public class ProjectsDropAdapterAssistant extends CommonDropAdapterAssistant {
 					getShell());
 			message = copyOperation.validateImportDestination(destination,
 					sourceNames);
-		} 
+		}
 		if (message != null) {
 			return WorkbenchNavigatorPlugin.createErrorStatus(message);
 		}
 		return Status.OK_STATUS;
 	}
 	
-	/**
-	 * Returns the actual target of the drop, given the resource under the
-	 * mouse. If the mouse target is a file, then the drop actually occurs in
-	 * its parent. If the drop location is before or after the mouse target and
-	 * feedback is enabled, the target is also the parent.
-	 *
-	 * @param mouseTarget the mouse target
-	 * @return the actual target
-	 */
-	private IContainer getActualTarget(IResource mouseTarget) {
-
-		/* if cursor is on a file, return the parent */
-		if (mouseTarget.getType() == IResource.FILE) {
-			return mouseTarget.getParent();
-		}
-		/* otherwise the mouseTarget is the real target */
-		return (IContainer) mouseTarget;
-	}
-
-	
-	/**
-	 * Adds the given status to the list of problems. Discards OK statuses. If
-	 * the status is a multi-status, only its children are added.
-	 *
-	 * @param status the status
-	 * @param toMerge the to merge
-	 */
-	private void mergeStatus(MultiStatus status, IStatus toMerge) {
-		if (!toMerge.isOK()) {
-			status.merge(toMerge);
-		}
-	}
-
-	/**
-	 * Opens an error dialog if necessary. Takes care of complex rules necessary
-	 * for making the error dialog look nice.
-	 *
-	 * @param status the status
-	 */
-	private void openError(IStatus status) {
-		if (status == null) {
-			return;
-		}
-
-		String genericTitle = WorkbenchNavigatorMessages.DropAdapter_title;
-		int codes = IStatus.ERROR | IStatus.WARNING;
-
-		// simple case: one error, not a multistatus
-		if (!status.isMultiStatus()) {
-			ErrorDialog
-					.openError(getShell(), genericTitle, null, status, codes);
-			return;
-		}
-
-		// one error, single child of multistatus
-		IStatus[] children = status.getChildren();
-		if (children.length == 1) {
-			ErrorDialog.openError(getShell(), status.getMessage(), null,
-					children[0], codes);
-			return;
-		}
-		// several problems
-		ErrorDialog.openError(getShell(), genericTitle, null, status, codes);
-	}
-
 }

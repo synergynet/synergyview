@@ -1,5 +1,6 @@
 package synergyviewcore;
 
+import java.lang.management.ManagementFactory;
 import java.net.URL;
 
 import org.eclipse.core.resources.IWorkspace;
@@ -22,7 +23,6 @@ import org.eclipse.ui.internal.ide.IDEInternalWorkbenchImages;
 import org.eclipse.ui.internal.ide.IDEWorkbenchPlugin;
 import org.osgi.framework.Bundle;
 
-import sun.management.ManagementFactory;
 import uk.co.caprica.vlcj.discovery.NativeDiscovery;
 
 @SuppressWarnings("restriction")

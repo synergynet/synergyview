@@ -22,18 +22,32 @@ package synergyviewcore.collections.model;
 
 import de.jaret.util.ui.timebars.model.DefaultTimeBarRowModel;
 
+
 /**
- * @author phyo
+ * The Class CollectionMediaClipRowModel.
  *
+ * @author phyo
  */
 public class CollectionMediaClipRowModel extends DefaultTimeBarRowModel {
+	
+	/** The collection node. */
 	private CollectionNode collectionNode;
 	
+	/**
+	 * Instantiates a new collection media clip row model.
+	 *
+	 * @param collectionNode the collection node
+	 */
 	public CollectionMediaClipRowModel(CollectionNode collectionNode) {
 		this.collectionNode = collectionNode;
 		
 	}
 	
+	/**
+	 * Gets the collection node.
+	 *
+	 * @return the collection node
+	 */
 	public CollectionNode getCollectionNode() {
 		return collectionNode;
 	}

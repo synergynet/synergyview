@@ -16,10 +16,18 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.IImportWizard;
 import org.eclipse.ui.IWorkbench;
 
+
+/**
+ * The Class MediaImportWizard.
+ */
 public class MediaImportWizard extends Wizard implements IImportWizard {
 	
+	/** The main page. */
 	MediaImportWizardPage mainPage;
 
+	/**
+	 * Instantiates a new media import wizard.
+	 */
 	public MediaImportWizard() {
 		super();
 	}

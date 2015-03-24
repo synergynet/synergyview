@@ -8,9 +8,21 @@ import synergyviewcore.timebar.action.BaseTimeBarAction;
 import de.jaret.util.ui.timebars.model.DefaultTimeBarRowModel;
 import de.jaret.util.ui.timebars.swt.TimeBarViewer;
 
+
+/**
+ * The Class ClearMediaAction.
+ */
 public class ClearMediaAction extends BaseTimeBarAction {
 
+	/** The _media control. */
 	CollectionNode _mediaControl;
+    
+    /**
+     * Instantiates a new clear media action.
+     *
+     * @param tbv the tbv
+     * @param control the control
+     */
     public ClearMediaAction(TimeBarViewer tbv, CollectionNode control) {
         super(tbv);      
         _mediaControl = control;
@@ -34,6 +46,9 @@ public class ClearMediaAction extends BaseTimeBarAction {
     	return ResourceLoader.getString("TIMEBAR_MEDIA_CONTEXTMENU_CLEAR");
     }
 
+	/* (non-Javadoc)
+	 * @see synergyviewcore.timebar.action.BaseTimeBarAction#init()
+	 */
 	@Override
 	protected void init() {
 		this.setEnabled(true);

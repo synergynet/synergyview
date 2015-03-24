@@ -11,17 +11,38 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Scale;
 
+
+/**
+ * The Class TimeScaleBar.
+ */
 public class TimeScaleBar extends Composite {
 
+	/** The listeners. */
 	protected List<TimeScaleListener> listeners = new ArrayList<TimeScaleListener>();
+	
+	/** The pix per seconds scale. */
 	protected Scale pixPerSecondsScale;
+	
+	/** The pixels per second. */
 	protected double pixelsPerSecond;
 		
+	/**
+	 * Instantiates a new time scale bar.
+	 *
+	 * @param parent the parent
+	 * @param style the style
+	 * @param initialPixelsPerSecond the initial pixels per second
+	 */
 	public TimeScaleBar(Composite parent, int style, double initialPixelsPerSecond) {
 		super(parent, style);
 		this.createControls(parent, initialPixelsPerSecond);
 	}
 	
+	/**
+	 * Sets the pixels per second.
+	 *
+	 * @param pixelsPerSecond the new pixels per second
+	 */
 	public void setPixelsPerSecond(double pixelsPerSecond){
 		int maximumScale = (int)(30000*0.25/pixelsPerSecond);
 	     pixPerSecondsScale.setMaximum(maximumScale);
@@ -32,6 +53,12 @@ public class TimeScaleBar extends Composite {
 	    
 	}
 		
+	/**
+	 * Creates the controls.
+	 *
+	 * @param parent the parent
+	 * @param initialPixelsPerSecond the initial pixels per second
+	 */
 	protected void createControls(Composite parent, double initialPixelsPerSecond){
 		this.setLayout(new GridLayout(1,false));
 		GridData gd = new GridData();
@@ -58,11 +85,33 @@ public class TimeScaleBar extends Composite {
 	     });
 	}
 	
+	/**
+	 * Adds the time scale listener.
+	 *
+	 * @param timeScaleListener the time scale listener
+	 */
 	public void addTimeScaleListener(TimeScaleListener timeScaleListener){
 		listeners.add(timeScaleListener);
 	}
 	
+	/**
+	 * The listener interface for receiving timeScale events.
+	 * The class that is interested in processing a timeScale
+	 * event implements this interface, and the object created
+	 * with that class is registered with a component using the
+	 * component's <code>addTimeScaleListener<code> method. When
+	 * the timeScale event occurs, that object's appropriate
+	 * method is invoked.
+	 *
+	 * @see TimeScaleEvent
+	 */
 	public interface TimeScaleListener {
+		
+		/**
+		 * Time scale changed.
+		 *
+		 * @param newPixelsPerSecond the new pixels per second
+		 */
 		public void timeScaleChanged(double newPixelsPerSecond);
 	}
 	

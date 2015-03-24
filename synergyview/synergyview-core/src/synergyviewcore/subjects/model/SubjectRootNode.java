@@ -37,18 +37,27 @@ import synergyviewcore.navigation.model.INode;
 import synergyviewcore.navigation.model.IParentNode;
 import synergyviewcore.resource.ResourceLoader;
 
+
 /**
- * @author phyo
+ * The Class SubjectRootNode.
  *
+ * @author phyo
  */
 public class SubjectRootNode extends AbstractParent<Subject> {
+	
+	/** The _e manager factory. */
 	private EntityManagerFactory _eManagerFactory;
+	
+	/** The Constant SUBJECTSFOLDER_ICON. */
 	public static final String SUBJECTSFOLDER_ICON = "page_gear.png";
+	
+	/** The subject list. */
 	private List<Subject> subjectList = null;
 	
 	/**
-	 * @param resourceValue
-	 * @param parentValue
+	 * Instantiates a new subject root node.
+	 *
+	 * @param parentValue the parent value
 	 */
 	public SubjectRootNode(IParentNode parentValue) {
 		super(null, parentValue);
@@ -57,10 +66,16 @@ public class SubjectRootNode extends AbstractParent<Subject> {
 		loadChildNodes();
 	}
 	
+	/* (non-Javadoc)
+	 * @see synergyviewcore.navigation.model.AbstractNode#getIcon()
+	 */
 	public ImageDescriptor getIcon() {
 		return ResourceLoader.getIconDescriptor(SUBJECTSFOLDER_ICON);
 	}
 	
+	/**
+	 * Load child nodes.
+	 */
 	private void loadChildNodes() {
 		EntityManager entityManager = null;
 		try {
@@ -86,6 +101,11 @@ public class SubjectRootNode extends AbstractParent<Subject> {
 	/* (non-Javadoc)
 	 * @see synergyviewcore.attributes.model.IAttributeNode#addChildAttribute(synergyviewcore.attributes.model.Attribute)
 	 */
+	/**
+	 * Adds the child collection.
+	 *
+	 * @param subjectValue the subject value
+	 */
 	public void addChildCollection(Subject subjectValue) {
 		EntityManager entityManager = null;
 		try {
@@ -105,6 +125,11 @@ public class SubjectRootNode extends AbstractParent<Subject> {
 		}
 	}
 	
+	/**
+	 * Removes the child collection node.
+	 *
+	 * @param subjectNodeValue the subject node value
+	 */
 	public void removeChildCollectionNode(SubjectNode subjectNodeValue) {
 		EntityManager entityManager = null;
 		try {
@@ -144,7 +169,10 @@ public class SubjectRootNode extends AbstractParent<Subject> {
 	}
 
 	/**
-	 * @param id
+	 * Gets the subject.
+	 *
+	 * @param id the id
+	 * @return the subject
 	 */
 	public Subject getSubject(String id) {
 		for (Subject subject : subjectList) {
@@ -155,8 +183,10 @@ public class SubjectRootNode extends AbstractParent<Subject> {
 	}
 
 	/**
-	 * @param name
-	 * @return
+	 * Gets the subject by name.
+	 *
+	 * @param name the name
+	 * @return the subject by name
 	 */
 	public Subject getSubjectByName(String name) {
 		for (Subject subject : subjectList) {

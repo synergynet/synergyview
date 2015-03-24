@@ -13,10 +13,23 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 import synergyviewcore.Activator;
 
+
+/**
+ * The Class ResourceLoader.
+ */
 public class ResourceLoader {
+	
+	/** The Constant BUNDLE_NAME. */
 	private static final String BUNDLE_NAME = "synergyviewcore.resource.custom";
+	
+	/** The rb. */
 	private static ResourceBundle rb = null;
 	
+	/**
+	 * Sets the bundle.
+	 *
+	 * @param locale the new bundle
+	 */
 	public static void setBundle(Locale locale) {
 		final ILog logger = Activator.getDefault().getLog();
 		try {
@@ -28,6 +41,12 @@ public class ResourceLoader {
 		}
 	}
 
+	/**
+	 * Gets the string.
+	 *
+	 * @param key the key
+	 * @return the string
+	 */
 	public static String getString(String key) {
 		final ILog logger = Activator.getDefault().getLog();
 		try {
@@ -41,10 +60,22 @@ public class ResourceLoader {
 		}
 	}
 
+	/**
+	 * Gets the icon descriptor.
+	 *
+	 * @param fileName the file name
+	 * @return the icon descriptor
+	 */
 	public static ImageDescriptor getIconDescriptor(String fileName) {
 		return AbstractUIPlugin.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/" + fileName);
 	}
 	
+	/**
+	 * Gets the icon from program.
+	 *
+	 * @param program the program
+	 * @return the icon from program
+	 */
 	public static ImageDescriptor getIconFromProgram(Program program) {
 		
 		ImageData imageData = program.getImageData();

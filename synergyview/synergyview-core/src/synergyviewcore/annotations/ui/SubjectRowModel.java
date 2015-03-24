@@ -45,21 +45,51 @@ import de.jaret.util.ui.timebars.model.DefaultRowHeader;
 import de.jaret.util.ui.timebars.model.DefaultTimeBarModel;
 import de.jaret.util.ui.timebars.model.DefaultTimeBarRowModel;
 
+
 /**
- * @author phyo
+ * The Class SubjectRowModel.
  *
+ * @author phyo
  */
 public class SubjectRowModel extends DefaultTimeBarRowModel implements CollectionChangeListener {
 
+	/** The subject. */
 	private Subject subject;
+	
+	/** The marker. */
 	private TimeBarMarkerImpl marker;
+	
+	/** The owner. */
 	private DefaultTimeBarModel owner;
+	
+	/** The start clip date. */
 	private JaretDate startClipDate;
+	
+	/** The annotation set node. */
 	private AnnotationSetNode annotationSetNode;
+	
+	/** The header. */
 	private DefaultRowHeader header;
+	
+	/** The label listener. */
 	private PropertyChangeListener labelListener;
+	
+	/** The logger. */
 	private ILog logger;
+	
+	/** The map. */
 	private Map<Annotation, AnnotationIntervalImpl> map = new HashMap<Annotation, AnnotationIntervalImpl>();
+	
+	/**
+	 * Instantiates a new subject row model.
+	 *
+	 * @param startClipDate the start clip date
+	 * @param annotationSetNode the annotation set node
+	 * @param header the header
+	 * @param owner the owner
+	 * @param subject the subject
+	 * @param marker the marker
+	 */
 	public SubjectRowModel(JaretDate startClipDate, AnnotationSetNode annotationSetNode, DefaultRowHeader header, DefaultTimeBarModel owner, Subject subject, TimeBarMarkerImpl marker) {
 		super(header);
 		logger = Activator.getDefault().getLog();
@@ -81,6 +111,9 @@ public class SubjectRowModel extends DefaultTimeBarRowModel implements Collectio
 	}
 	
 
+	/**
+	 * Adds the initial annotation intervals.
+	 */
 	private void addInitialAnnotationIntervals() {
 		for (Annotation annotation : annotationSetNode.getAnnotationList(subject)) {
 			addAnnotationInterval(annotation);
@@ -94,10 +127,20 @@ public class SubjectRowModel extends DefaultTimeBarRowModel implements Collectio
 		}
 	}
 	
+	/**
+	 * Gets the start clip date.
+	 *
+	 * @return the start clip date
+	 */
 	public JaretDate getStartClipDate() {
 		return startClipDate.copy();
 	}
 	
+	/**
+	 * Adds the annotation interval.
+	 *
+	 * @param annotation the annotation
+	 */
 	private void addAnnotationInterval(Annotation annotation) {
 
 		if (annotation instanceof IntervalAnnotation) {
@@ -122,23 +165,47 @@ public class SubjectRowModel extends DefaultTimeBarRowModel implements Collectio
 		}
 	}
 
+	/**
+	 * Gets the subject.
+	 *
+	 * @return the subject
+	 */
 	public Subject getSubject() {
 		return subject;
 	}
 
+	/**
+	 * Gets the owner.
+	 *
+	 * @return the owner
+	 */
 	public DefaultTimeBarModel getOwner() {
 		return owner;
 	}
 
+	/**
+	 * Instantiates a new subject row model.
+	 */
 	protected SubjectRowModel() {
 		super();
 
 	}
 	
+	/**
+	 * Gets the annotation set node.
+	 *
+	 * @return the annotation set node
+	 */
 	public AnnotationSetNode getAnnotationSetNode() {
 		return annotationSetNode;
 	}
 	
+	/**
+	 * Gets the annotation node.
+	 *
+	 * @param annotation the annotation
+	 * @return the annotation node
+	 */
 	public AnnotationIntervalImpl getAnnotationNode(Annotation annotation) {
 		for (Interval interval : this.getIntervals()) {
 			AnnotationIntervalImpl annoInterval = (AnnotationIntervalImpl) interval;
@@ -183,6 +250,9 @@ public class SubjectRowModel extends DefaultTimeBarRowModel implements Collectio
 		}
 	}
 	
+	/**
+	 * Dispose.
+	 */
 	public void dispose() {
 		for (Interval interval : this.getIntervals()) {
 			if (interval instanceof AnnotationIntervalImpl)

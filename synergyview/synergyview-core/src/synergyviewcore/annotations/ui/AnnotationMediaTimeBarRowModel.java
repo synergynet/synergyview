@@ -28,16 +28,31 @@ import synergyviewcore.collections.model.CollectionMedia;
 import de.jaret.util.ui.timebars.model.DefaultRowHeader;
 import de.jaret.util.ui.timebars.model.DefaultTimeBarRowModel;
 
+
 /**
- * @author phyo
+ * The Class AnnotationMediaTimeBarRowModel.
  *
+ * @author phyo
  */
 public class AnnotationMediaTimeBarRowModel extends DefaultTimeBarRowModel {
+	
+	/** The collection media list. */
 	private List<CollectionMedia> collectionMediaList;
+	
+	/** The current time listener. */
 	private MediaClipIntervalImpl currentTimeListener;
+	
+	/** The time available interval list. */
 	private List<MediaClipIntervalImpl> timeAvailableIntervalList = new ArrayList<MediaClipIntervalImpl>();
+	
+	/** The media time change listener. */
 	private MediaTimeChangeListener mediaTimeChangeListener;
 	
+	/**
+	 * Instantiates a new annotation media time bar row model.
+	 *
+	 * @param collectionMediaList the collection media list
+	 */
 	public AnnotationMediaTimeBarRowModel(List<CollectionMedia> collectionMediaList) {
 		super(new DefaultRowHeader("Media Clip"));
 		this.collectionMediaList = collectionMediaList;
@@ -45,6 +60,8 @@ public class AnnotationMediaTimeBarRowModel extends DefaultTimeBarRowModel {
 	}
 
 	/**
+	 * Gets the collection media list.
+	 *
 	 * @return the collectionMediaList
 	 */
 	public List<CollectionMedia> getCollectionMediaList() {
@@ -52,6 +69,8 @@ public class AnnotationMediaTimeBarRowModel extends DefaultTimeBarRowModel {
 	}
 
 	/**
+	 * Sets the collection media list.
+	 *
 	 * @param collectionMediaList the collectionMediaList to set
 	 */
 	public void setCollectionMediaList(List<CollectionMedia> collectionMediaList) {
@@ -59,6 +78,8 @@ public class AnnotationMediaTimeBarRowModel extends DefaultTimeBarRowModel {
 	}
 
 	/**
+	 * Gets the current time listener.
+	 *
 	 * @return the currentTimeListener
 	 */
 	public MediaClipIntervalImpl getCurrentTimeListener() {
@@ -66,6 +87,8 @@ public class AnnotationMediaTimeBarRowModel extends DefaultTimeBarRowModel {
 	}
 
 	/**
+	 * Sets the current time listener.
+	 *
 	 * @param currentTimeListener the currentTimeListener to set
 	 */
 	public void setCurrentTimeListener(MediaClipIntervalImpl currentTimeListener) {
@@ -73,6 +96,8 @@ public class AnnotationMediaTimeBarRowModel extends DefaultTimeBarRowModel {
 	}
 
 	/**
+	 * Gets the time available interval list.
+	 *
 	 * @return the timeAvailableIntervalList
 	 */
 	public List<MediaClipIntervalImpl> getTimeAvailableIntervalList() {
@@ -80,6 +105,8 @@ public class AnnotationMediaTimeBarRowModel extends DefaultTimeBarRowModel {
 	}
 
 	/**
+	 * Sets the time available interval list.
+	 *
 	 * @param timeAvailableIntervalList the timeAvailableIntervalList to set
 	 */
 	public void setTimeAvailableIntervalList(
@@ -88,6 +115,8 @@ public class AnnotationMediaTimeBarRowModel extends DefaultTimeBarRowModel {
 	}
 
 	/**
+	 * Gets the media time change listener.
+	 *
 	 * @return the mediaTimeChangeListener
 	 */
 	public MediaTimeChangeListener getMediaTimeChangeListener() {
@@ -95,6 +124,8 @@ public class AnnotationMediaTimeBarRowModel extends DefaultTimeBarRowModel {
 	}
 
 	/**
+	 * Sets the media time change listener.
+	 *
 	 * @param mediaTimeChangeListener the mediaTimeChangeListener to set
 	 */
 	public void setMediaTimeChangeListener(MediaTimeChangeListener mediaTimeChangeListener) {

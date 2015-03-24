@@ -17,9 +17,16 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import synergyviewcore.annotations.ui.SubjectRowModel;
 import synergyviewcore.subjects.model.Subject;
 
+
+/**
+ * The Class DeleteAnnotationSubjectHandler.
+ */
 public class DeleteAnnotationSubjectHandler extends AbstractHandler implements
 		IHandler {
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	 */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		ISelection selection = HandlerUtil.getCurrentSelection(event);
 		if (!(selection instanceof IStructuredSelection)) {

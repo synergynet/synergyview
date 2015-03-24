@@ -21,23 +21,33 @@
 package synergyviewcommons.jface.node;
 
 /**
- * @author phyo
+ * The Class DisposeException.
  *
+ * @author phyo
  */
 public class DisposeException extends Exception {
 
+	/**
+	 * Instantiates a new dispose exception.
+	 *
+	 * @param message the message
+	 * @param e the e
+	 */
 	public DisposeException(String message, Throwable e) {
 		super(message, e);
 	}
 	
+	/**
+	 * Instantiates a new dispose exception.
+	 *
+	 * @param message the message
+	 */
 	public DisposeException(String message) {
 		super(message);
 	}
 
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
 }

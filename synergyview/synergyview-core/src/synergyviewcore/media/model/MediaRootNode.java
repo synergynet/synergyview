@@ -23,10 +23,21 @@ import synergyviewcore.navigation.model.IParentNode;
 import synergyviewcore.resource.ResourceLoader;
 
 
+
+/**
+ * The Class MediaRootNode.
+ */
 public class MediaRootNode extends AbstractParent<IFolder> implements IResourceChangeListener {
 	
+	/** The Constant MEDIA_ROOT_NODE_ICON. */
 	public static final String MEDIA_ROOT_NODE_ICON = "folder_camera.png";
 
+	/**
+	 * Instantiates a new media root node.
+	 *
+	 * @param folderValue the folder value
+	 * @param parentValue the parent value
+	 */
 	public MediaRootNode(IFolder folderValue, IParentNode parentValue) {
 		super(folderValue, parentValue);
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(this, IResourceChangeEvent.POST_CHANGE);
@@ -45,10 +56,20 @@ public class MediaRootNode extends AbstractParent<IFolder> implements IResourceC
 		}
 	}
 	
+	/**
+	 * Gets the media folder name.
+	 *
+	 * @return the media folder name
+	 */
 	public static String getMediaFolderName() {
 		return ResourceLoader.getString("NAME_MEDIA_FOLDER");
 	}
 	
+	/**
+	 * Adds the new media.
+	 *
+	 * @param file the file
+	 */
 	private void addNewMedia(IFile file) {
 		String ext = file.getFileExtension();
 		INode mediaFile;
@@ -68,15 +89,29 @@ public class MediaRootNode extends AbstractParent<IFolder> implements IResourceC
 		fireChildrenChanged();
 	}
 
+	/**
+	 * Adds the new.
+	 *
+	 * @param mediaValue the media value
+	 */
 	public void addNew(INode mediaValue) {
 		
 	}
 
 
+	/* (non-Javadoc)
+	 * @see synergyviewcore.navigation.model.AbstractNode#getIcon()
+	 */
 	public ImageDescriptor getIcon() {
 		return ResourceLoader.getIconDescriptor(MEDIA_ROOT_NODE_ICON);
 	}
 
+	/**
+	 * Gets the media nodes.
+	 *
+	 * @param excludedItemNames the excluded item names
+	 * @return the media nodes
+	 */
 	public List<INode> getMediaNodes(String[] excludedItemNames) {
 		List<INode> result = new ArrayList<INode>();
 		for(INode node : _children) {
@@ -98,6 +133,12 @@ public class MediaRootNode extends AbstractParent<IFolder> implements IResourceC
 		return result;
 	}
 	
+	/**
+	 * Gets the media node.
+	 *
+	 * @param mediaName the media name
+	 * @return the media node
+	 */
 	public MediaNode getMediaNode(String mediaName) {
 		for(INode node : _children) {
 			if (node instanceof MediaNode && node.getLabel().compareToIgnoreCase(mediaName)==0)
@@ -106,6 +147,9 @@ public class MediaRootNode extends AbstractParent<IFolder> implements IResourceC
 		return null;
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.core.resources.IResourceChangeListener#resourceChanged(org.eclipse.core.resources.IResourceChangeEvent)
+	 */
 	public void resourceChanged(IResourceChangeEvent event) {
 		try {
 			event.getDelta().accept(new IResourceDeltaVisitor() {

@@ -37,9 +37,11 @@ import synergyviewcore.attributes.model.Attribute;
 import synergyviewcore.attributes.model.AttributeNode;
 import synergyviewcore.attributes.model.ProjectAttributeRootNode;
 
+
 /**
- * @author phyokyaw
+ * The Class RemoveAttributeHandler.
  *
+ * @author phyokyaw
  */
 public class RemoveAttributeHandler extends AbstractHandler implements IHandler {
 

@@ -50,34 +50,70 @@ import de.jaret.util.ui.timebars.swt.renderer.RendererBase;
 import de.jaret.util.ui.timebars.swt.renderer.TimeBarRenderer;
 import de.jaret.util.ui.timebars.swt.renderer.TimeBarRenderer2;
 
+
 /**
- * @author phyokyaw
+ * The Class AnnotationIntervalRender.
  *
+ * @author phyokyaw
  */
 public class AnnotationIntervalRender extends RendererBase implements TimeBarRenderer, TimeBarRenderer2, ISelectionListener {
 	
+	/** The Constant PREFWIDTH. */
 	protected static final int PREFWIDTH = 10;	  
+    
+    /** The Constant BORDERFACTOR. */
     protected static final double BORDERFACTOR = 0.2;
+    
+    /** The _rounding. */
     private static int _rounding = 3;
+    
+    /** The _delegate. */
     protected TimeBarViewerDelegate _delegate;
+    
+    /** The _image registry. */
     protected ImageRegistry _imageRegistry;
+    
+    /** The show text. */
     private boolean showText;
+    
+    /** The show border. */
     private boolean showBorder;
+    
+    /** The gradient start color. */
     protected int gradientStartColor = SWT.COLOR_WHITE;
+    
+    /** The gradient end color. */
     protected int gradientEndColor = SWT.COLOR_GREEN;
+    
+    /** The gradient inrange end color. */
     protected int gradientInrangeEndColor = SWT.COLOR_YELLOW;
+    
+    /** The show attribute selection. */
     private boolean showAttributeSelection;
+    
+    /** The selected attributes. */
     private Set<Attribute> selectedAttributes = new HashSet<Attribute>();
 
+    /**
+     * Instantiates a new annotation interval render.
+     *
+     * @param printer the printer
+     */
     public AnnotationIntervalRender(Printer printer) {
         super(printer);
     }
 
+    /**
+     * Instantiates a new annotation interval render.
+     */
     public AnnotationIntervalRender() {
         super(null);
         
     }
     
+	/* (non-Javadoc)
+	 * @see de.jaret.util.ui.timebars.swt.renderer.TimeBarRenderer2#getPreferredDrawingBounds(org.eclipse.swt.graphics.Rectangle, de.jaret.util.ui.timebars.TimeBarViewerDelegate, de.jaret.util.date.Interval, boolean, boolean, boolean)
+	 */
 	public Rectangle getPreferredDrawingBounds(Rectangle intervalDrawingArea,
 			TimeBarViewerDelegate delegate, Interval interval,
 			boolean selected, boolean printing, boolean overlap) {
@@ -93,6 +129,9 @@ public class AnnotationIntervalRender extends RendererBase implements TimeBarRen
 	
 	}
 
+    /* (non-Javadoc)
+     * @see de.jaret.util.ui.timebars.swt.renderer.TimeBarRenderer#draw(org.eclipse.swt.graphics.GC, org.eclipse.swt.graphics.Rectangle, de.jaret.util.ui.timebars.TimeBarViewerDelegate, de.jaret.util.date.Interval, boolean, boolean, boolean)
+     */
     public void draw(GC gc, Rectangle drawingArea, TimeBarViewerDelegate delegate, Interval interval, boolean selected,
             boolean printing, boolean overlap) {
         _delegate = delegate;
@@ -111,6 +150,17 @@ public class AnnotationIntervalRender extends RendererBase implements TimeBarRen
            
     }
 
+	/**
+	 * Draw annotation interval.
+	 *
+	 * @param gc the gc
+	 * @param drawingArea the drawing area
+	 * @param delegate the delegate
+	 * @param interval the interval
+	 * @param selected the selected
+	 * @param printing the printing
+	 * @param overlap the overlap
+	 */
 	private void drawAnnotationInterval(GC gc, Rectangle drawingArea,
 			TimeBarViewerDelegate delegate, Interval interval,
 			boolean selected, boolean printing, boolean overlap) {
@@ -187,32 +237,50 @@ public class AnnotationIntervalRender extends RendererBase implements TimeBarRen
 	}
 
 
+    /* (non-Javadoc)
+     * @see de.jaret.util.ui.timebars.swt.renderer.TimeBarRenderer#getToolTipText(de.jaret.util.date.Interval, org.eclipse.swt.graphics.Rectangle, int, int, boolean)
+     */
     public String getToolTipText(Interval interval, Rectangle drawingArea, int x, int y, boolean overlapping) {
         return getToolTipText(_delegate, interval, drawingArea, x, y, overlapping);
     }
 
  
+    /* (non-Javadoc)
+     * @see de.jaret.util.ui.timebars.swt.renderer.TimeBarRenderer#contains(de.jaret.util.date.Interval, org.eclipse.swt.graphics.Rectangle, int, int, boolean)
+     */
     public boolean contains(Interval interval, Rectangle drawingArea, int x, int y, boolean overlapping) {
         return contains(_delegate, interval, drawingArea, x, y, overlapping);
     }
 
 
+    /* (non-Javadoc)
+     * @see de.jaret.util.ui.timebars.swt.renderer.TimeBarRenderer#getContainingRectangle(de.jaret.util.date.Interval, org.eclipse.swt.graphics.Rectangle, boolean)
+     */
     public Rectangle getContainingRectangle(Interval interval, Rectangle drawingArea, boolean overlapping) {
         return getContainingRectangle(_delegate, interval, drawingArea, overlapping);
     }
 
   
+    /* (non-Javadoc)
+     * @see de.jaret.util.ui.timebars.swt.renderer.TimeBarRenderer#createPrintrenderer(org.eclipse.swt.printing.Printer)
+     */
     public TimeBarRenderer createPrintrenderer(Printer printer) {
     	AnnotationIntervalRender renderer = new AnnotationIntervalRender(printer);
         return renderer;
     }
 
+    /* (non-Javadoc)
+     * @see de.jaret.util.ui.timebars.swt.renderer.TimeBarRenderer#dispose()
+     */
     public void dispose() {
         if (_imageRegistry != null) {
             _imageRegistry.dispose();
         }
     }
 
+    /* (non-Javadoc)
+     * @see de.jaret.util.ui.timebars.swt.renderer.TimeBarRenderer2#getToolTipText(de.jaret.util.ui.timebars.TimeBarViewerDelegate, de.jaret.util.date.Interval, org.eclipse.swt.graphics.Rectangle, int, int, boolean)
+     */
     public String getToolTipText(TimeBarViewerDelegate delegate, Interval interval, Rectangle drawingArea, int x,
             int y, boolean overlapping) {
         if (contains(delegate, interval, drawingArea, x, y, overlapping)) {
@@ -221,6 +289,9 @@ public class AnnotationIntervalRender extends RendererBase implements TimeBarRen
         return null;
     }
 
+    /* (non-Javadoc)
+     * @see de.jaret.util.ui.timebars.swt.renderer.TimeBarRenderer2#contains(de.jaret.util.ui.timebars.TimeBarViewerDelegate, de.jaret.util.date.Interval, org.eclipse.swt.graphics.Rectangle, int, int, boolean)
+     */
     public boolean contains(TimeBarViewerDelegate delegate, Interval interval, Rectangle drawingArea, int x, int y,
             boolean overlapping) {
 
@@ -229,6 +300,9 @@ public class AnnotationIntervalRender extends RendererBase implements TimeBarRen
         return iRect.contains(drawingArea.x + x, drawingArea.y + y);
     }
 
+    /* (non-Javadoc)
+     * @see de.jaret.util.ui.timebars.swt.renderer.TimeBarRenderer2#getContainingRectangle(de.jaret.util.ui.timebars.TimeBarViewerDelegate, de.jaret.util.date.Interval, org.eclipse.swt.graphics.Rectangle, boolean)
+     */
     public Rectangle getContainingRectangle(TimeBarViewerDelegate delegate, Interval interval, Rectangle drawingArea,
             boolean overlapping) {
 
@@ -237,6 +311,14 @@ public class AnnotationIntervalRender extends RendererBase implements TimeBarRen
         return iRect;
     }
 
+    /**
+     * Gets the i rect.
+     *
+     * @param horizontal the horizontal
+     * @param drawingArea the drawing area
+     * @param overlap the overlap
+     * @return the i rect
+     */
     protected Rectangle getIRect(boolean horizontal, Rectangle drawingArea, boolean overlap) {
         if (horizontal) {
             int borderHeight = (int) (drawingArea.height * BORDERFACTOR / 2);
@@ -252,50 +334,105 @@ public class AnnotationIntervalRender extends RendererBase implements TimeBarRen
     }
 
   
+    /**
+     * Gets the image registry.
+     *
+     * @return the image registry
+     */
     protected ImageRegistry getImageRegistry() {    
         return _imageRegistry;
     }
 
+    /**
+     * Gets the rounding.
+     *
+     * @return the rounding
+     */
     public static int getRounding() {
         return _rounding;
     }
 
+    /**
+     * Sets the rounding.
+     *
+     * @param rounding the new rounding
+     */
     public static void setRounding(int rounding) {
         _rounding = rounding;
     }
 
 
+	/**
+	 * Gets the gradient start color.
+	 *
+	 * @return the gradient start color
+	 */
 	public int getGradientStartColor() {
 		return gradientStartColor;
 	}
 
 
+	/**
+	 * Sets the gradient start color.
+	 *
+	 * @param gradientStartColor the new gradient start color
+	 */
 	public void setGradientStartColor(int gradientStartColor) {
 		this.gradientStartColor = gradientStartColor;
 	}
 
 
+	/**
+	 * Gets the gradient end color.
+	 *
+	 * @return the gradient end color
+	 */
 	public int getGradientEndColor() {
 		return gradientEndColor;
 	}
 
 
+	/**
+	 * Sets the gradient end color.
+	 *
+	 * @param gradientEndColor the new gradient end color
+	 */
 	public void setGradientEndColor(int gradientEndColor) {
 		this.gradientEndColor = gradientEndColor;
 	}
 
+	/**
+	 * Sets the show text.
+	 *
+	 * @param showText the new show text
+	 */
 	public void setShowText(boolean showText) {
 		this.showText = showText;
 	}
 
+	/**
+	 * Checks if is show text.
+	 *
+	 * @return true, if is show text
+	 */
 	public boolean isShowText() {
 		return showText;
 	}
 
+	/**
+	 * Sets the show border.
+	 *
+	 * @param showBorder the new show border
+	 */
 	public void setShowBorder(boolean showBorder) {
 		this.showBorder = showBorder;
 	}
 
+	/**
+	 * Checks if is show border.
+	 *
+	 * @return true, if is show border
+	 */
 	public boolean isShowBorder() {
 		return showBorder;
 	}
@@ -321,10 +458,20 @@ public class AnnotationIntervalRender extends RendererBase implements TimeBarRen
 		} 
 	}
 
+	/**
+	 * Sets the show attribute selection.
+	 *
+	 * @param showAttributeSelection the new show attribute selection
+	 */
 	public void setShowAttributeSelection(boolean showAttributeSelection) {
 		this.showAttributeSelection = showAttributeSelection;
 	}
 
+	/**
+	 * Checks if is show attribute selection.
+	 *
+	 * @return true, if is show attribute selection
+	 */
 	public boolean isShowAttributeSelection() {
 		return showAttributeSelection;
 	}

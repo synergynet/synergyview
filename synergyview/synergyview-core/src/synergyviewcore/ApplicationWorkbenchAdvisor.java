@@ -25,28 +25,49 @@ import org.osgi.framework.Bundle;
 
 import uk.co.caprica.vlcj.discovery.NativeDiscovery;
 
+
+/**
+ * The Class ApplicationWorkbenchAdvisor.
+ */
 @SuppressWarnings("restriction")
 public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
 
+	/** The Constant PERSPECTIVE_ID. */
 	private static final String PERSPECTIVE_ID = "synergyviewcore.perspective";
+	
+	/** The logger. */
 	private ILog logger;
+	
+	/** The shut down done. */
 	boolean shutDownDone = false;	
 	
+    /* (non-Javadoc)
+     * @see org.eclipse.ui.application.WorkbenchAdvisor#createWorkbenchWindowAdvisor(org.eclipse.ui.application.IWorkbenchWindowConfigurer)
+     */
     public WorkbenchWindowAdvisor createWorkbenchWindowAdvisor(IWorkbenchWindowConfigurer configurer) {
     	logger = Activator.getDefault().getLog();
         return new ApplicationWorkbenchWindowAdvisor(configurer);
     }
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.application.WorkbenchAdvisor#getInitialWindowPerspectiveId()
+	 */
 	public String getInitialWindowPerspectiveId() {
 		return PERSPECTIVE_ID;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.application.WorkbenchAdvisor#getDefaultPageInput()
+	 */
 	@Override
 	public IAdaptable getDefaultPageInput() {
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		return workspace.getRoot();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.application.WorkbenchAdvisor#initialize(org.eclipse.ui.application.IWorkbenchConfigurer)
+	 */
 	@Override
 	public void initialize(IWorkbenchConfigurer configurer) {
 		super.initialize(configurer);
@@ -66,6 +87,9 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
 		
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.application.WorkbenchAdvisor#preShutdown()
+	 */
 	@Override
 	public boolean preShutdown() {
 		boolean toReturn = super.preShutdown();
@@ -101,6 +125,9 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
 		return toReturn;
 	};
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.application.WorkbenchAdvisor#postShutdown()
+	 */
 	@Override
 	public void postShutdown() {
 		shutDownDone = true;
@@ -108,6 +135,9 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
 	};
 	
 	
+    /**
+     * Declare workbench images.
+     */
     private void declareWorkbenchImages() {
     	final String ICONS_PATH = "icons/full/";//$NON-NLS-1$
     	final String PATH_ELOCALTOOL = ICONS_PATH + "elcl16/"; //Enabled toolbar icons.//$NON-NLS-1$
@@ -225,6 +255,14 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
     	+ "welcome_banner.gif", true); //$NON-NLS-1$
     	}
     
+    /**
+     * Declare workbench image.
+     *
+     * @param ideBundle the ide bundle
+     * @param symbolicName the symbolic name
+     * @param path the path
+     * @param shared the shared
+     */
     private void declareWorkbenchImage(Bundle  ideBundle, String symbolicName,
     		             String path, boolean shared) {
     	URL url = ideBundle.getEntry(path);

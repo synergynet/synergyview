@@ -37,9 +37,11 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import synergyviewcore.subjects.model.Subject;
 import synergyviewcore.subjects.model.SubjectRootNode;
 
+
 /**
- * @author phyo
+ * The Class CreateSubjectHandler.
  *
+ * @author phyo
  */
 public class CreateSubjectHandler extends AbstractHandler implements IHandler {
 

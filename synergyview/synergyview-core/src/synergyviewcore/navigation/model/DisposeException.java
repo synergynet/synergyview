@@ -20,15 +20,15 @@
 
 package synergyviewcore.navigation.model;
 
+
 /**
- * @author phyo
+ * The Class DisposeException.
  *
+ * @author phyo
  */
 public class DisposeException extends Exception {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
 }

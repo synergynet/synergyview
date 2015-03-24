@@ -36,12 +36,20 @@ import synergyviewcore.annotations.model.Annotation;
 import synergyviewcore.annotations.model.AnnotationSetNode;
 import synergyviewcore.subjects.model.Subject;
 
+
 /**
- * @author phyo
+ * The Class XmlAnnotationFormatter.
  *
+ * @author phyo
  */
 public class XmlAnnotationFormatter implements IAnnotationFormatter {
+	
+	/** The logger. */
 	private final ILog logger;
+	
+	/**
+	 * Instantiates a new xml annotation formatter.
+	 */
 	public XmlAnnotationFormatter() {
 		logger = Activator.getDefault().getLog();
 	}

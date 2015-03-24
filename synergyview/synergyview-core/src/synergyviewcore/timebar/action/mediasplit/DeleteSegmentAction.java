@@ -11,9 +11,21 @@ import de.jaret.util.date.Interval;
 import de.jaret.util.ui.timebars.model.DefaultTimeBarRowModel;
 import de.jaret.util.ui.timebars.swt.TimeBarViewer;
 
+
+/**
+ * The Class DeleteSegmentAction.
+ */
 public class DeleteSegmentAction extends BaseTimeBarAction {
 
+	/** The collection control. */
 	protected AbstractMediaCollectionControl collectionControl;
+    
+    /**
+     * Instantiates a new delete segment action.
+     *
+     * @param tbv the tbv
+     * @param collectionControl the collection control
+     */
     public DeleteSegmentAction(TimeBarViewer tbv, AbstractMediaCollectionControl collectionControl) {
         super(tbv);
         this.collectionControl = collectionControl;
@@ -44,6 +56,9 @@ public class DeleteSegmentAction extends BaseTimeBarAction {
         return ResourceLoader.getString("TIMEBAR_MEDIA_CLIP_CONTEXTMENU_DELETE");
     }
 	
+	/* (non-Javadoc)
+	 * @see synergyviewcore.timebar.action.BaseTimeBarAction#init()
+	 */
 	@Override
 	protected void init() {
 		this.setEnabled(true);

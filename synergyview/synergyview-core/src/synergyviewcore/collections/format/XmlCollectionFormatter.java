@@ -37,9 +37,11 @@ import synergyviewcore.collections.model.CollectionNode;
 import synergyviewcore.projects.model.ProjectNode;
 import synergyviewcore.subjects.model.Subject;
 
+
 /**
+ * The Class XmlCollectionFormatter.
+ *
  * @author phyo
- * 
  */
 public class XmlCollectionFormatter implements
 		ICollectionFormatter {
@@ -165,6 +167,13 @@ public class XmlCollectionFormatter implements
 
 	/* (non-Javadoc)
 	 * @see synergyviewcore.collections.format.ICollectionMediaClipFormatter#export(java.util.List, java.io.OutputStream)
+	 */
+	/**
+	 * Export.
+	 *
+	 * @param clipsToExport the clips to export
+	 * @param outStream the out stream
+	 * @throws Exception the exception
 	 */
 	public void export(List<CollectionMediaClip> clipsToExport,
 			OutputStream outStream) throws Exception {

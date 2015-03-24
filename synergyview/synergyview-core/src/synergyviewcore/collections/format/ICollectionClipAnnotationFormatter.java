@@ -22,10 +22,20 @@ package synergyviewcore.collections.format;
 
 import synergyviewcore.collections.model.CollectionMediaClip;
 
+
 /**
- * @author phyo
+ * The Interface ICollectionClipAnnotationFormatter.
  *
+ * @author phyo
  */
 public interface ICollectionClipAnnotationFormatter {
+	
+	/**
+	 * Export.
+	 *
+	 * @param clipToExport the clip to export
+	 * @return the string
+	 * @throws Exception the exception
+	 */
 	String export(CollectionMediaClip clipToExport) throws Exception;
 }

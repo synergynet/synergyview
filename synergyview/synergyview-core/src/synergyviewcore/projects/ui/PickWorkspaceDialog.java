@@ -46,6 +46,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 
+
 /**
  * Dialog that lets/forces a user to enter/select a workspace that will be used when saving all configuration files and
  * settings. This dialog is shown at startup of the GUI just after the splash screen has shown.
@@ -55,34 +56,53 @@ import org.eclipse.swt.widgets.Shell;
 public class PickWorkspaceDialog extends TitleAreaDialog {
 
     // the name of the file that tells us that the workspace directory belongs to our application
+    /** The Constant WS_IDENTIFIER. */
     public static final String  WS_IDENTIFIER          = ".synergynet-ats_workspace";
 
     // you would probably normally define these somewhere in your Preference Constants
+    /** The Constant _KeyWorkspaceRootDir. */
     private static final String _KeyWorkspaceRootDir   = "wsRootDir";
+    
+    /** The Constant _KeyRememberWorkspace. */
     private static final String _KeyRememberWorkspace  = "wsRemember";
+    
+    /** The Constant _KeyLastUsedWorkspaces. */
     private static final String _KeyLastUsedWorkspaces = "wsLastUsedWorkspaces";
 
     // this are our preferences we will be using as the IPreferenceStore is not available yet
+    /** The _preferences. */
     private static Preferences  _preferences           = Preferences.userNodeForPackage(PickWorkspaceDialog.class);
 
     // various dialog messages
+    /** The Constant _StrMsg. */
     private static final String _StrMsg                = "Your study workspace directory is where settings and various data files will be stored.";
+    
+    /** The Constant _StrInfo. */
     private static final String _StrInfo               = "Please select a directory that will be the study workspace directory";
+    
+    /** The Constant _StrError. */
     private static final String _StrError              = "You must set a directory";
 
     // our controls
+    /** The _workspace path combo. */
     private Combo               _workspacePathCombo;
+    
+    /** The _last used workspaces. */
     private List<String>        _lastUsedWorkspaces;
 //    private Button              _RememberWorkspaceButton;
 
     // used as separator when we save the last used workspace locations
-    private static final String _SplitChar             = "#";
+    /** The Constant _SplitChar. */
+private static final String _SplitChar             = "#";
     // max number of entries in the history box
+    /** The Constant _MaxHistory. */
     private static final int    _MaxHistory            = 20;
 
+    /** The _switch workspace. */
     private boolean             _switchWorkspace;
 
     // whatever the user picks ends up on this variable
+    /** The _selected workspace root location. */
     private String              _selectedWorkspaceRootLocation;
 
     /**
@@ -100,6 +120,9 @@ public class PickWorkspaceDialog extends TitleAreaDialog {
         
     }
 
+    /* (non-Javadoc)
+     * @see org.eclipse.jface.window.Window#configureShell(org.eclipse.swt.widgets.Shell)
+     */
     @Override
     protected void configureShell(Shell newShell) {
         super.configureShell(newShell);
@@ -111,23 +134,26 @@ public class PickWorkspaceDialog extends TitleAreaDialog {
     }
     
     /**
-     * Returns whether the user selected "remember workspace" in the preferences
-     * 
-     * @return
+     * Returns whether the user selected "remember workspace" in the preferences.
+     *
+     * @return true, if is remember workspace
      */
     public static boolean isRememberWorkspace() {
         return _preferences.getBoolean(_KeyRememberWorkspace, false);
     }
     
     /**
-     * Returns the last set workspace directory from the preferences
-     * 
+     * Returns the last set workspace directory from the preferences.
+     *
      * @return null if none
      */
     public static String getLastSetWorkspaceDirectory() {
         return _preferences.get(_KeyWorkspaceRootDir, null);
     }
 
+    /* (non-Javadoc)
+     * @see org.eclipse.jface.dialogs.TitleAreaDialog#createDialogArea(org.eclipse.swt.widgets.Composite)
+     */
     @Override
     protected Control createDialogArea(Composite parent) {
         setTitle("Choose Study Workspace Directory");
@@ -220,6 +246,11 @@ public class PickWorkspaceDialog extends TitleAreaDialog {
     }
 
     // suggests a path based on the user.home/temp directory location
+    /**
+     * Gets the workspace path suggestion.
+     *
+     * @return the workspace path suggestion
+     */
     private String getWorkspacePathSuggestion() {
         StringBuffer buf = new StringBuffer();
 
@@ -236,6 +267,9 @@ public class PickWorkspaceDialog extends TitleAreaDialog {
         return buf.toString();
     }
 
+    /* (non-Javadoc)
+     * @see org.eclipse.jface.dialogs.Dialog#createButtonsForButtonBar(org.eclipse.swt.widgets.Composite)
+     */
     @Override
     protected void createButtonsForButtonBar(Composite parent) {
 
@@ -388,6 +422,9 @@ public class PickWorkspaceDialog extends TitleAreaDialog {
         }
     }
 
+    /* (non-Javadoc)
+     * @see org.eclipse.jface.dialogs.Dialog#okPressed()
+     */
     @Override
     protected void okPressed() {
         String str = _workspacePathCombo.getText();

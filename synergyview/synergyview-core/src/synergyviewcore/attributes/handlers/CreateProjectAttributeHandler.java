@@ -18,11 +18,18 @@ import synergyviewcore.attributes.ui.views.CodingExplorerViewPart;
 import synergyviewcore.attributes.ui.wizards.NewAttributeWizard;
 import synergyviewcore.navigation.model.INode;
 
+
+/**
+ * The Class CreateProjectAttributeHandler.
+ */
 public class CreateProjectAttributeHandler extends AbstractHandler
 implements IHandler {
 
 
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	 */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		ISelection selection = HandlerUtil.getCurrentSelection(event);
 		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindow(event);

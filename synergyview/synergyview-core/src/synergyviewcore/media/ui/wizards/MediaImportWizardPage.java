@@ -34,10 +34,24 @@ import synergyviewcore.Activator;
 import synergyviewcore.media.model.MediaRootNode;
 
 
+
+/**
+ * The Class MediaImportWizardPage.
+ */
 public class MediaImportWizardPage extends WizardNewFileCreationPage {
+	
+	/** The logger. */
 	private final ILog logger;
+	
+	/** The editor. */
 	protected FileFieldEditor editor;
 
+	/**
+	 * Instantiates a new media import wizard page.
+	 *
+	 * @param pageName the page name
+	 * @param selection the selection
+	 */
 	public MediaImportWizardPage(String pageName, IStructuredSelection selection) {
 		super(pageName, selection);
 		logger = Activator.getDefault().getLog();

@@ -20,25 +20,33 @@ import org.eclipse.ui.navigator.CommonDropAdapterAssistant;
 
 import synergyviewcore.media.model.MediaRootNode;
 
+
 /**
- * 
- * TODO Fixme see issue 14
- * 
- * @author phyo
+ * TODO Fixme see issue 14.
  *
+ * @author phyo
  */
 @SuppressWarnings("restriction")
 public class ProjectsDropAdapterAssistant extends CommonDropAdapterAssistant {
 
+	/**
+	 * Instantiates a new projects drop adapter assistant.
+	 */
 	public ProjectsDropAdapterAssistant() {
 		//
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.navigator.CommonDropAdapterAssistant#isSupportedType(org.eclipse.swt.dnd.TransferData)
+	 */
 	@Override
 	public boolean isSupportedType(TransferData aTransferType) {	
 		return super.isSupportedType(aTransferType) || FileTransfer.getInstance().isSupportedType(aTransferType);
 	}	
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.navigator.CommonDropAdapterAssistant#handleDrop(org.eclipse.ui.navigator.CommonDropAdapter, org.eclipse.swt.dnd.DropTargetEvent, java.lang.Object)
+	 */
 	@Override
 	public IStatus handleDrop(CommonDropAdapter aDropAdapter,
 			DropTargetEvent aDropTargetEvent, Object aTarget) {
@@ -65,6 +73,10 @@ public class ProjectsDropAdapterAssistant extends CommonDropAdapterAssistant {
 	
 	/**
 	 * Performs a drop using the FileTransfer transfer type.
+	 *
+	 * @param anAdapter the an adapter
+	 * @param data the data
+	 * @return the i status
 	 */
 	private IStatus performFileDrop(CommonDropAdapter anAdapter, Object data) {
 		
@@ -92,6 +104,9 @@ public class ProjectsDropAdapterAssistant extends CommonDropAdapterAssistant {
 	}
 
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.navigator.CommonDropAdapterAssistant#validateDrop(java.lang.Object, int, org.eclipse.swt.dnd.TransferData)
+	 */
 	@Override
 	public IStatus validateDrop(Object target, int operation,
 			TransferData transferType) {
@@ -107,7 +122,12 @@ public class ProjectsDropAdapterAssistant extends CommonDropAdapterAssistant {
 	
 	
 	/**
-	 * Ensures that the drop target meets certain criteria
+	 * Ensures that the drop target meets certain criteria.
+	 *
+	 * @param target the target
+	 * @param transferType the transfer type
+	 * @param dropOperation the drop operation
+	 * @return the i status
 	 */
 	
 	private IStatus validateTarget(Object target, TransferData transferType,
@@ -153,6 +173,9 @@ public class ProjectsDropAdapterAssistant extends CommonDropAdapterAssistant {
 	 * mouse. If the mouse target is a file, then the drop actually occurs in
 	 * its parent. If the drop location is before or after the mouse target and
 	 * feedback is enabled, the target is also the parent.
+	 *
+	 * @param mouseTarget the mouse target
+	 * @return the actual target
 	 */
 	private IContainer getActualTarget(IResource mouseTarget) {
 
@@ -168,6 +191,9 @@ public class ProjectsDropAdapterAssistant extends CommonDropAdapterAssistant {
 	/**
 	 * Adds the given status to the list of problems. Discards OK statuses. If
 	 * the status is a multi-status, only its children are added.
+	 *
+	 * @param status the status
+	 * @param toMerge the to merge
 	 */
 	private void mergeStatus(MultiStatus status, IStatus toMerge) {
 		if (!toMerge.isOK()) {
@@ -178,6 +204,8 @@ public class ProjectsDropAdapterAssistant extends CommonDropAdapterAssistant {
 	/**
 	 * Opens an error dialog if necessary. Takes care of complex rules necessary
 	 * for making the error dialog look nice.
+	 *
+	 * @param status the status
 	 */
 	private void openError(IStatus status) {
 		if (status == null) {

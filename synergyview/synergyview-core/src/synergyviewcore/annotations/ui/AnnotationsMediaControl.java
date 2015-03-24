@@ -115,63 +115,148 @@ import de.jaret.util.ui.timebars.model.TimeBarModelListener;
 import de.jaret.util.ui.timebars.model.TimeBarRow;
 import de.jaret.util.ui.timebars.swt.TimeBarViewer;
 
+
 /**
- * @author phyot
+ * The Class AnnotationsMediaControl.
  *
+ * @author phyot
  */
 public class AnnotationsMediaControl extends Composite implements IAnnotationMediaControl, ISelectionListener {
+	
+	/** The time bar viewer. */
 	private TimeBarViewer timeBarViewer;
+	
+	/** The marker. */
 	private TimeBarMarkerImpl marker;
+	
+	/** The time scale slider. */
 	private Scale timeScaleSlider;
+	
+	/** The resource manager. */
 	private LocalResourceManager resourceManager = new LocalResourceManager(JFaceResources.getResources());
 	
+	/** The zoom_times. */
 	private int zoom_times;
+	
+	/** The Constant STEP_MILLI. */
 	private static final int STEP_MILLI = 500;
+	
+	/** The Constant MARKER_VISIABLE_PIXEL. */
 	private static final int MARKER_VISIABLE_PIXEL = 10;
+	
+	/** The Constant MIN_ANNOTATION_INTERVAL_MILLISEC. */
 	private static final int MIN_ANNOTATION_INTERVAL_MILLISEC = 500;
+	
+	/** The media clip start date. */
 	private JaretDate mediaClipStartDate;
+	
+	/** The collection media clip. */
 	private CollectionMediaClip collectionMediaClip;
+	
+	/** The collection media list. */
 	private List<CollectionMedia> collectionMediaList;
+	
+	/** The is marker dragging. */
 	private boolean isMarkerDragging = false;
 	
+	/** The annotation text widget. */
 	private Text annotationTextWidget;
+	
+	/** The annotation set node. */
 	private AnnotationSetNode annotationSetNode;
+	
+	/** The media row model. */
 	private AnnotationMediaTimeBarRowModel mediaRowModel;
+	
+	/** The _is playing. */
 	private boolean _isPlaying;
+	
+	/** The current time listener. */
 	private MediaClipIntervalImpl currentTimeListener;
+	
+	/** The time available interval list. */
 	private List<MediaClipIntervalImpl> timeAvailableIntervalList = new ArrayList<MediaClipIntervalImpl>();
+	
+	/** The media time change listener. */
 	private MediaTimeChangeListener mediaTimeChangeListener;
+	
+	/** The added annotation interval. */
 	private IntervalImpl addedAnnotationInterval = null;
+	
+	/** The added subject row. */
 	private SubjectRowModel addedSubjectRow;
 
+	/** The caption change providers. */
 	private Map<Object, String> captionChangeProviders = new HashMap<Object, String>();
+	
+	/** The caption change listener. */
 	private ICaptionChangeListener captionChangeListener;
 	
+	/** The annotation time bar model. */
 	private AnnotationTimeBarModel annotationTimeBarModel;
+	
+	/** The caption text view. */
 	private Text captionTextView;
+	
+	/** The _media map. */
 	private IObservableMap _mediaMap;
+	
+	/** The project attribute root node. */
 	private ProjectAttributeRootNode projectAttributeRootNode;
+	
+	/** The _target. */
 	private DropTarget _target;
+	
+	/** The time bar interval renderer. */
 	private TimeBarIntervalRenderer timeBarIntervalRenderer;
+	
+	/** The logger. */
 	private ILog logger;
+	
+	/** The initialised. */
 	private boolean initialised = false;
 
+	/** The caption button. */
 	private Button captionButton;
+	
+	/** The lock button. */
 	private Button lockButton;
+	
+	/** The caption text composite gd. */
 	private GridData captionTextCompositeGd;
+	
+	/** The annotation text composite gd. */
 	private GridData annotationTextCompositeGd;
+	
+	/** The caption hide listener. */
 	private PropertyChangeListener captionHideListener;
+	
+	/** The lock annotations listener. */
 	private PropertyChangeListener lockAnnotationsListener;
 
+	/** The annotation interval render. */
 	private AnnotationIntervalRender annotationIntervalRender;
+	
+	/** The text label button. */
 	private Button textLabelButton;
+	
+	/** The bar label button. */
 	private Button barLabelButton;
+	
+	/** The selection service. */
 	private ISelectionService selectionService;
+	
+	/** The attributes selection link button. */
 	private Button attributesSelectionLinkButton;
 	
 	/**
-	 * @param parent
-	 * @param style
+	 * Instantiates a new annotations media control.
+	 *
+	 * @param parent the parent
+	 * @param style the style
+	 * @param annotationSetNodeValue the annotation set node value
+	 * @param mediaMap the media map
+	 * @param mediaFolder the media folder
 	 */
 	public AnnotationsMediaControl(Composite parent, int style, AnnotationSetNode annotationSetNodeValue, IObservableMap mediaMap, MediaRootNode mediaFolder) {
 		super(parent, style);
@@ -194,6 +279,9 @@ public class AnnotationsMediaControl extends Composite implements IAnnotationMed
 		setupDND();
 	}
 
+	/**
+	 * Inits the ui.
+	 */
 	private void initUI() {
 
 		Composite captionTextComposite = new Composite(this, SWT.NONE);
@@ -315,6 +403,11 @@ public class AnnotationsMediaControl extends Composite implements IAnnotationMed
 		updateAnnotationTextComposite(annotationSetNode.getResource().isLock());
 	}
 
+	/**
+	 * Update annotation text composite.
+	 *
+	 * @param isLock the is lock
+	 */
 	private void updateAnnotationTextComposite(boolean isLock) {
 		annotationTextCompositeGd.heightHint = isLock ? 0 : 50;
 		String iconName = isLock ? "lock.png" : "lock_open.png";
@@ -323,6 +416,11 @@ public class AnnotationsMediaControl extends Composite implements IAnnotationMed
 		layout();	
 	}
 
+	/**
+	 * Update caption composite.
+	 *
+	 * @param hideCaption the hide caption
+	 */
 	private void updateCaptionComposite(boolean hideCaption) {
 		captionTextCompositeGd.heightHint = hideCaption ? 0 : 40;
 		String iconName = hideCaption ? "comments_delete.png" : "comments.png";
@@ -331,6 +429,9 @@ public class AnnotationsMediaControl extends Composite implements IAnnotationMed
 		layout();	
 	}
 
+	/**
+	 * Show subjects dialog to add.
+	 */
 	public void showSubjectsDialogToAdd() {
 		List<Subject> subjectsToAdd = new ArrayList<Subject>();
 		try {
@@ -367,8 +468,7 @@ public class AnnotationsMediaControl extends Composite implements IAnnotationMed
 	}
 
 	/**
-	 * This is called when the object is about to dispose
-	 * 
+	 * This is called when the object is about to dispose.
 	 */
 	public void dispose() {
 		resourceManager.dispose();
@@ -389,10 +489,18 @@ public class AnnotationsMediaControl extends Composite implements IAnnotationMed
 
 
 
+	/**
+	 * Gets the time bar viewer.
+	 *
+	 * @return the time bar viewer
+	 */
 	public TimeBarViewer getTimeBarViewer() {
 		return timeBarViewer;
 	}
 
+	/**
+	 * Update scale.
+	 */
 	private void updateScale() {
 		timeBarViewer.setPixelPerSecond((double)((((Composite) timeBarViewer).getClientArea().width - timeBarViewer.getYAxisWidth() - 3) * 1000)/(double)(collectionMediaClip.getDuration()));
 		timeScaleSlider.setMaximum((int) (timeBarViewer.getPixelPerSecond() * 1000 * zoom_times));
@@ -400,6 +508,9 @@ public class AnnotationsMediaControl extends Composite implements IAnnotationMed
 		timeScaleSlider.setSelection((int) (timeBarViewer.getPixelPerSecond() * 1000));
 	}
 
+	/**
+	 * Inits the data.
+	 */
 	private void initData() {
 		mediaClipStartDate = new JaretDate().setTime(0, 0, 0, collectionMediaClip.getStartOffset());
 		marker = new TimeBarMarkerImpl(true, mediaClipStartDate.copy());
@@ -539,7 +650,7 @@ public class AnnotationsMediaControl extends Composite implements IAnnotationMed
 	}
 
 	/**
-	 * 
+	 * Register caption listeners.
 	 */
 	private void registerCaptionListeners() {
 		for(int i=0;i<annotationTimeBarModel.getRowCount();i++) {
@@ -579,6 +690,9 @@ public class AnnotationsMediaControl extends Composite implements IAnnotationMed
 		});
 	}
 
+	/**
+	 * Adds the annotation.
+	 */
 	private void addAnnotation() {
 		IntervalAnnotation annotationItem = new IntervalAnnotation();
 		if (addedAnnotationInterval.getEnd().diffMilliSeconds(addedAnnotationInterval.getBegin())<MIN_ANNOTATION_INTERVAL_MILLISEC)
@@ -604,10 +718,16 @@ public class AnnotationsMediaControl extends Composite implements IAnnotationMed
 		}
 	}
 
+	/**
+	 * Register media property change listener.
+	 */
 	private void registerMediaPropertyChangeListener() {
 		//
 	}
 
+	/**
+	 * Register dragging listener.
+	 */
 	private void registerDraggingListener() {
 		marker.addTimeBarMarkerListener(new TimeBarMarkerListener() {
 			public void markerDescriptionChanged(TimeBarMarker arg0,
@@ -685,6 +805,9 @@ public class AnnotationsMediaControl extends Composite implements IAnnotationMed
 		});
 	}
 
+	/**
+	 * Register interval modifier.
+	 */
 	private void registerIntervalModifier(){
 		timeBarViewer.addIntervalModificator(new DefaultIntervalModificator(){
 
@@ -726,6 +849,9 @@ public class AnnotationsMediaControl extends Composite implements IAnnotationMed
 		});
 	}
 
+	/**
+	 * Inits the media row.
+	 */
 	private void initMediaRow() {
 		for (CollectionMedia collectionMedia : collectionMediaList) {
 			MediaClipIntervalImpl interval = new MediaClipIntervalImpl(collectionMedia, ((AbstractMedia)_mediaMap.get(collectionMedia)), mediaClipStartDate, collectionMediaClip.getDuration(), marker, this);
@@ -754,6 +880,9 @@ public class AnnotationsMediaControl extends Composite implements IAnnotationMed
 		}
 	}
 
+	/**
+	 * Update time listener.
+	 */
 	private void updateTimeListener() {
 		if (currentTimeListener==null) {
 			if (timeAvailableIntervalList.size()>0) {
@@ -895,6 +1024,9 @@ public class AnnotationsMediaControl extends Composite implements IAnnotationMed
 	}
 
 
+	/**
+	 * Setup dnd.
+	 */
 	private void setupDND() {
 
 		// ////////////////////
@@ -1015,7 +1147,9 @@ public class AnnotationsMediaControl extends Composite implements IAnnotationMed
 	}	
 
 	/**
-	 * @param selectionService
+	 * Sets the selection service.
+	 *
+	 * @param selectionService the new selection service
 	 */
 	public void setSelectionService(ISelectionService selectionService) {
 		this.selectionService = selectionService;

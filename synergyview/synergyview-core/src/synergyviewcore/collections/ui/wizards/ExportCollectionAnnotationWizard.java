@@ -38,24 +38,43 @@ import synergyviewcore.collections.format.TsvCollectionClipAnnotationFormatter;
 import synergyviewcore.collections.model.CollectionMediaClip;
 import synergyviewcore.collections.model.CollectionNode;
 
+
 /**
+ * The Class ExportCollectionAnnotationWizard.
+ *
  * @author phyo
- * 
  */
 public class ExportCollectionAnnotationWizard extends Wizard {
+	
+	/** The collection node. */
 	private CollectionNode collectionNode;
+	
+	/** The export collection annotation wizard page. */
 	private ExportCollectionAnnotationWizardPage exportCollectionAnnotationWizardPage;
+	
+	/** The export collection annotation file selector wizard page. */
 	private ExportCollectionAnnotationFileSelectorWizardPage exportCollectionAnnotationFileSelectorWizardPage;
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.wizard.Wizard#getWindowTitle()
+	 */
 	@Override
 	public String getWindowTitle() {
 		return "Export Annotations in the Collection";
 	}
 
+	/**
+	 * Instantiates a new export collection annotation wizard.
+	 *
+	 * @param collectionNode the collection node
+	 */
 	public ExportCollectionAnnotationWizard(CollectionNode collectionNode) {
 		this.collectionNode = collectionNode;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.wizard.Wizard#addPages()
+	 */
 	@Override
 	public void addPages() {
 		exportCollectionAnnotationWizardPage = new ExportCollectionAnnotationWizardPage(

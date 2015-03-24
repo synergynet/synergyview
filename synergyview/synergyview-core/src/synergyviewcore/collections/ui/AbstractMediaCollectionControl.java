@@ -54,21 +54,49 @@ import synergyviewcore.timebar.model.MediaSegmentIntervalImpl;
 import de.jaret.util.date.JaretDate;
 import de.jaret.util.ui.timebars.swt.TimeBarViewer;
 
+
 /**
+ * The Class AbstractMediaCollectionControl.
+ *
  * @author phyo
  */
 public abstract class AbstractMediaCollectionControl extends Composite {
+	
+	/** The time bar viewer. */
 	protected TimeBarViewer timeBarViewer;	
+	
+	/** The listeners. */
 	protected List<CollectionMediaListener> listeners = new ArrayList<CollectionMediaListener>();
+	
+	/** The collection node. */
 	protected CollectionNode collectionNode;
+	
+	/** The media root node. */
 	protected MediaRootNode mediaRootNode;
+	
+	/** The current listened media. */
 	protected CollectionMedia currentListenedMedia;
+	
+	/** The _media map. */
 	protected IObservableMap _mediaMap;
+	
+	/** The logger. */
 	private final ILog logger;
+	
+	/** The duration. */
 	protected long duration;
 
 
 	//TODO May be this class should implement IMedia interface
+	/**
+	 * Instantiates a new abstract media collection control.
+	 *
+	 * @param parent the parent
+	 * @param style the style
+	 * @param mediaMap the media map
+	 * @param collectionNode the collection node
+	 * @param mediaFolderValue the media folder value
+	 */
 	public AbstractMediaCollectionControl(Composite parent, int style, IObservableMap mediaMap, CollectionNode collectionNode, MediaRootNode mediaFolderValue) {
 		super(parent, style);
 		logger = Activator.getDefault().getLog();
@@ -79,6 +107,9 @@ public abstract class AbstractMediaCollectionControl extends Composite {
 	}
 
 
+	/**
+	 * Attach abstract media.
+	 */
 	protected void attachAbstractMedia(){
 
 		for (CollectionMedia media:collectionNode.getResource().getCollectionMediaList()){
@@ -91,6 +122,11 @@ public abstract class AbstractMediaCollectionControl extends Composite {
 	}
 
 
+	/**
+	 * Adds the media.
+	 *
+	 * @param mediaNode the media node
+	 */
 	public void addMedia(MediaNode mediaNode){
 		try{
 			this.stopMedia();
@@ -121,6 +157,9 @@ public abstract class AbstractMediaCollectionControl extends Composite {
 
 	}
 
+	/**
+	 * Adds the media clip.
+	 */
 	public void addMediaClip(){
 		CollectionMediaClipRowModel row = (CollectionMediaClipRowModel) this.getTimeBarViewer().getModel().getRow(1);
 		IInputValidator validator = new IInputValidator() {
@@ -162,6 +201,11 @@ public abstract class AbstractMediaCollectionControl extends Composite {
 		}
 	}
 
+	/**
+	 * Removes the media.
+	 *
+	 * @param media the media
+	 */
 	public void removeMedia(CollectionMedia media){
 		try {
 			//		if (!_collection.getCollectionMediaList().contains(media)) return;
@@ -198,6 +242,11 @@ public abstract class AbstractMediaCollectionControl extends Composite {
 	}
 
 	//TODO This is not called from any where 
+	/**
+	 * Removes the media clip.
+	 *
+	 * @param mediaClip the media clip
+	 */
 	public void removeMediaClip(CollectionMediaClip mediaClip){
 		List<CollectionMediaClip> collectionMediaClips = new ArrayList<CollectionMediaClip>();
 		collectionMediaClips.add(mediaClip);
@@ -213,18 +262,36 @@ public abstract class AbstractMediaCollectionControl extends Composite {
 			
 	}
 
+	/**
+	 * Gets the media count.
+	 *
+	 * @return the media count
+	 */
 	protected int getMediaCount(){
 		return this.collectionNode.getResource().getCollectionMediaList().size();
 	}
 
+	/**
+	 * Gets the collection media list.
+	 *
+	 * @return the collection media list
+	 */
 	public List<CollectionMedia> getCollectionMediaList(){
 		return this.collectionNode.getResource().getCollectionMediaList();
 	}
 
+	/**
+	 * Gets the collection media clip.
+	 *
+	 * @return the collection media clip
+	 */
 	public List<CollectionMediaClip> getCollectionMediaClip(){
 		return this.collectionNode.getResource().getCollectionMediaClipList();
 	}
 
+	/**
+	 * Clear medias.
+	 */
 	public void clearMedias(){	
 		this.stopMedia();
 
@@ -241,6 +308,9 @@ public abstract class AbstractMediaCollectionControl extends Composite {
 		this.currentListenedMedia = null;
 	}
 
+	/**
+	 * Clear media clips.
+	 */
 	public void clearMediaClips(){
 		this.collectionNode.clearClipCollection();
 
@@ -249,6 +319,11 @@ public abstract class AbstractMediaCollectionControl extends Composite {
 		}		
 	}
 
+	/**
+	 * Sets the time.
+	 *
+	 * @param time the new time
+	 */
 	protected void setTime(long time){
 
 		for (CollectionMedia media:this.collectionNode.getResource().getCollectionMediaList()){
@@ -264,12 +339,22 @@ public abstract class AbstractMediaCollectionControl extends Composite {
 		}
 	}
 
+	/**
+	 * Sets the mute.
+	 *
+	 * @param mute the new mute
+	 */
 	protected void setMute(boolean mute){
 		for (CollectionMedia media:this.collectionNode.getResource().getCollectionMediaList()){
 			((AbstractMedia)_mediaMap.get(media.getId())).setMute(mute);
 		}
 	}
 
+	/**
+	 * Gets the time.
+	 *
+	 * @return the time
+	 */
 	protected long getTime() {			
 		for (CollectionMedia media:this.collectionNode.getResource().getCollectionMediaList()){
 			int mediaTime = ((AbstractMedia)_mediaMap.get(media.getId())).getTime();
@@ -280,6 +365,9 @@ public abstract class AbstractMediaCollectionControl extends Composite {
 		return 0;
 	}
 
+	/**
+	 * Update duration.
+	 */
 	protected void updateDuration(){
 		long duration=0;
 		for (CollectionMedia media: this.collectionNode.getResource().getCollectionMediaList()) {
@@ -292,19 +380,40 @@ public abstract class AbstractMediaCollectionControl extends Composite {
 		this.duration = duration;
 	}
 
+	/**
+	 * Gets the duration.
+	 *
+	 * @return the duration
+	 */
 	protected long getDuration(){
 		return this.duration;
 	}
 
+	/**
+	 * Gets the formatted duration.
+	 *
+	 * @return the formatted duration
+	 */
 	protected String getFormattedDuration(){		
 		return this.getFormattedTime((int) this.getDuration());
 	}
 
+	/**
+	 * Gets the formatted time.
+	 *
+	 * @return the formatted time
+	 */
 	protected String getFormattedTime(){
 		return this.getFormattedTime((int) this.getTime());
 	}
 
 	//TODO This is used in many places, may be this can be moved as a static method under media.Util class
+	/**
+	 * Gets the formatted time.
+	 *
+	 * @param time the time
+	 * @return the formatted time
+	 */
 	protected String getFormattedTime(int time){
 		try {
 			if (time == 0)
@@ -325,6 +434,9 @@ public abstract class AbstractMediaCollectionControl extends Composite {
 		}
 	}
 
+	/**
+	 * Play media.
+	 */
 	protected void playMedia(){
 		long currentTime = getTime();
 
@@ -332,6 +444,11 @@ public abstract class AbstractMediaCollectionControl extends Composite {
 
 	}
 
+	/**
+	 * Play media.
+	 *
+	 * @param currentTime the current time
+	 */
 	protected void playMedia(long currentTime){
 		for (CollectionMedia media:this.collectionNode.getResource().getCollectionMediaList()){
 			if (currentTime>=media.getOffSet() && currentTime<=media.getOffSet()+((AbstractMedia)_mediaMap.get(media.getId())).getDuration()){
@@ -344,24 +461,43 @@ public abstract class AbstractMediaCollectionControl extends Composite {
 		}
 	}
 
+	/**
+	 * Stop media.
+	 */
 	protected void stopMedia(){
 		for (CollectionMedia media:this.collectionNode.getResource().getCollectionMediaList()){
 			((AbstractMedia)_mediaMap.get(media.getId())).setPlaying(false);
 		}
 	}
 	
+	/**
+	 * Mute media.
+	 *
+	 * @param mute the mute
+	 */
 	protected void muteMedia(boolean mute){
 		for (CollectionMedia media:this.collectionNode.getResource().getCollectionMediaList()){
 			((AbstractMedia)_mediaMap.get(media.getId())).setMute(mute);
 		}
 	}
 
+	/**
+	 * Sets the rate.
+	 *
+	 * @param rate the new rate
+	 */
 	protected void setRate(PlayRate rate){
 		for (CollectionMedia media:this.collectionNode.getResource().getCollectionMediaList()){
 			((AbstractMedia)_mediaMap.get(media.getId())).setRate(rate);
 		}
 	}
 
+	/**
+	 * Gets the rate.
+	 *
+	 * @param rate the rate
+	 * @return the rate
+	 */
 	protected PlayRate getRate(PlayRate rate){
 		for (CollectionMedia media:this.collectionNode.getResource().getCollectionMediaList()){
 			return ((AbstractMedia)_mediaMap.get(media.getId())).getRate();
@@ -369,6 +505,11 @@ public abstract class AbstractMediaCollectionControl extends Composite {
 		return null;
 	}
 
+	/**
+	 * Checks if is empty.
+	 *
+	 * @return true, if is empty
+	 */
 	protected boolean isEmpty(){
 		if (this.collectionNode.getResource().getCollectionMediaList().size()<=0) 
 			return true;
@@ -376,6 +517,11 @@ public abstract class AbstractMediaCollectionControl extends Composite {
 			return false;
 	}
 
+	/**
+	 * Gets the earlist media.
+	 *
+	 * @return the earlist media
+	 */
 	protected CollectionMedia getEarlistMedia(){
 		CollectionMedia earlistMedia=null;
 		if (this.collectionNode.getResource().getCollectionMediaList().size()>0)
@@ -389,6 +535,11 @@ public abstract class AbstractMediaCollectionControl extends Composite {
 	}
 
 
+	/**
+	 * Update media listener.
+	 *
+	 * @param time the time
+	 */
 	protected void updateMediaListener(long time){
 
 		if (this.collectionNode.getResource().getCollectionMediaList().size()<=0) return;
@@ -410,22 +561,58 @@ public abstract class AbstractMediaCollectionControl extends Composite {
 		this.currentListenedMedia = mediaListenTo;
 	}
 
+	/**
+	 * Clear media listener.
+	 */
 	protected void clearMediaListener(){
 		for (CollectionMedia media:this.collectionNode.getResource().getCollectionMediaList()){
 			((AbstractMedia) _mediaMap.get(media.getId())).removePropertyChangeListener(AbstractMedia.PROP_TIME, mediaChangeListener);
 		}
 	}
 
+	/**
+	 * Adds the collection media listener.
+	 *
+	 * @param mediaListener the media listener
+	 */
 	public void addCollectionMediaListener(CollectionMediaListener mediaListener){
 		listeners.add(mediaListener);
 	}
 
+	/**
+	 * The listener interface for receiving collectionMedia events.
+	 * The class that is interested in processing a collectionMedia
+	 * event implements this interface, and the object created
+	 * with that class is registered with a component using the
+	 * component's <code>addCollectionMediaListener<code> method. When
+	 * the collectionMedia event occurs, that object's appropriate
+	 * method is invoked.
+	 *
+	 * @see CollectionMediaEvent
+	 */
 	public interface CollectionMediaListener {
+		
+		/**
+		 * Media playing.
+		 *
+		 * @param currentTime the current time
+		 */
 		public void mediaPlaying(long currentTime);
+		
+		/**
+		 * Media collection changed.
+		 *
+		 * @param arg the arg
+		 */
 		public void mediaCollectionChanged(MediaListEvent arg);
+		
+		/**
+		 * Media clip changed.
+		 */
 		public void MediaClipChanged();
 	}
 
+	/** The media change listener. */
 	private PropertyChangeListener mediaChangeListener = new PropertyChangeListener(){
 		public void propertyChange(final PropertyChangeEvent arg0) {
 			AbstractMediaCollectionControl.this.getDisplay().asyncExec(new Runnable() {
@@ -442,6 +629,7 @@ public abstract class AbstractMediaCollectionControl extends Composite {
 		}
 	};
 
+	/** The media playing status change listener. */
 	private PropertyChangeListener mediaPlayingStatusChangeListener = new PropertyChangeListener(){
 
 		public void propertyChange(final PropertyChangeEvent arg0) {
@@ -464,7 +652,9 @@ public abstract class AbstractMediaCollectionControl extends Composite {
 
 
 	/**
-	 * @return
+	 * Gets the time bar viewer.
+	 *
+	 * @return the time bar viewer
 	 */
 	public TimeBarViewer getTimeBarViewer() {
 		return timeBarViewer;

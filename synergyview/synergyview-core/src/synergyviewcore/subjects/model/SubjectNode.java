@@ -35,19 +35,35 @@ import synergyviewcore.navigation.model.DisposeException;
 import synergyviewcore.navigation.model.IParentNode;
 import synergyviewcore.resource.ResourceLoader;
 
+
 /**
- * @author phyo
+ * The Class SubjectNode.
  *
+ * @author phyo
  */
 public class SubjectNode extends AbstractParent<Subject> {
+	
+	/** The Constant SUBJECT_ICON. */
 	public static final String SUBJECT_ICON = "page_key.png";
+	
+	/** The e manager factory. */
 	private EntityManagerFactory eManagerFactory;
+	
+	/**
+	 * Instantiates a new subject node.
+	 *
+	 * @param subject the subject
+	 * @param parent the parent
+	 */
 	public SubjectNode(Subject subject, IParentNode parent) {
 		super(subject, parent);
 		this.setLabel(subject.getName());
 		this.eManagerFactory = parent.getEMFactoryProvider().getEntityManagerFactory();
 	}
 	
+	/* (non-Javadoc)
+	 * @see synergyviewcore.navigation.model.AbstractNode#getIcon()
+	 */
 	public ImageDescriptor getIcon() {
 		return ResourceLoader.getIconDescriptor(SUBJECT_ICON);
 	}
@@ -61,7 +77,7 @@ public class SubjectNode extends AbstractParent<Subject> {
 	}
 
 	/**
-	 * 
+	 * Update resource.
 	 */
 	public void updateResource() {
 		EntityManager entityManager = null;

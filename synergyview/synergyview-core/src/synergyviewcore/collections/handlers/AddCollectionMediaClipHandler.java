@@ -10,9 +10,16 @@ import org.eclipse.ui.handlers.HandlerUtil;
 
 import synergyviewcore.collections.ui.editors.CollectionEditor;
 
+
+/**
+ * The Class AddCollectionMediaClipHandler.
+ */
 public class AddCollectionMediaClipHandler extends AbstractHandler implements
 		IHandler {
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	 */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		IEditorPart window = HandlerUtil.getActiveEditor(event);
 		if (window instanceof CollectionEditor) {

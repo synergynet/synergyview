@@ -18,9 +18,16 @@ import synergyviewcore.collections.model.CollectionMediaClip;
 import synergyviewcore.collections.model.CollectionMediaClipNode;
 import synergyviewcore.collections.model.CollectionNode;
 
+
+/**
+ * The Class RemoveCollectionClipHandler.
+ */
 public class RemoveCollectionClipHandler extends AbstractHandler implements
 		IHandler {
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	 */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		ISelection selection = HandlerUtil.getCurrentSelection(event);
 		if (!(selection instanceof IStructuredSelection))

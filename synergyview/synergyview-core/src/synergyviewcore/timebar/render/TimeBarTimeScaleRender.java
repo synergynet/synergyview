@@ -13,11 +13,19 @@ import de.jaret.util.date.iterator.WeekIterator;
 import de.jaret.util.date.iterator.YearIterator;
 import de.jaret.util.ui.timebars.swt.renderer.DefaultTimeScaleRenderer;
 
+
+/**
+ * The Class TimeBarTimeScaleRender.
+ */
 public class TimeBarTimeScaleRender extends DefaultTimeScaleRenderer {
 
-	 protected static final int PREFERREDHEIGHT = 30;
+	 /** The Constant PREFERREDHEIGHT. */
+ 	protected static final int PREFERREDHEIGHT = 30;
 	    
-	    @Override
+	    /* (non-Javadoc)
+    	 * @see de.jaret.util.ui.timebars.swt.renderer.DefaultTimeScaleRenderer#getHeight()
+    	 */
+    	@Override
 	    public int getHeight() {
 	        if (_printer == null) {
 	            return PREFERREDHEIGHT;
@@ -26,6 +34,9 @@ public class TimeBarTimeScaleRender extends DefaultTimeScaleRenderer {
 	        }
 	    }
 	
+	/* (non-Javadoc)
+	 * @see de.jaret.util.ui.timebars.swt.renderer.DefaultTimeScaleRenderer#initIterators()
+	 */
 	protected void initIterators() {
         _iterators = new ArrayList<DateIterator>();
         _formats = new ArrayList<DateIterator.Format>();

@@ -35,16 +35,32 @@ import synergyviewcommons.collections.ObservableList;
 import synergyviewcore.Activator;
 import synergyviewcore.attributes.model.Attribute;
 
+
 /**
- * @author phyo
+ * The Class AnnotationAttributeController.
  *
+ * @author phyo
  */
 public class AnnotationAttributeController {
+	
+	/** The annotation. */
 	private Annotation annotation;
+	
+	/** The e manager factory. */
 	private EntityManagerFactory eManagerFactory;
+	
+	/** The attribute list. */
 	private IObservableList<List<Attribute>,Attribute> attributeList;
+	
+	/** The logger. */
 	private final ILog logger;
 	
+	/**
+	 * Instantiates a new annotation attribute controller.
+	 *
+	 * @param annotation the annotation
+	 * @param eManagerFactory the e manager factory
+	 */
 	public AnnotationAttributeController(Annotation annotation, EntityManagerFactory eManagerFactory) {
 		logger = Activator.getDefault().getLog();
 		attributeList = new ObservableList<List<Attribute>,Attribute>(annotation.getAttributes());
@@ -52,6 +68,11 @@ public class AnnotationAttributeController {
 		this.annotation = annotation;
 	}
 	
+	/**
+	 * Adds the attribute list.
+	 *
+	 * @param attributeListToAdd the attribute list to add
+	 */
 	public void addAttributeList(List<Attribute> attributeListToAdd) {
 		EntityManager entityManager = null;
 		try {
@@ -72,10 +93,20 @@ public class AnnotationAttributeController {
 		}
 	}
 	
+	/**
+	 * Gets the attribute list.
+	 *
+	 * @return the attribute list
+	 */
 	public List<Attribute> getAttributeList() {
 		return attributeList.getReadOnlyList();
 	}
 	
+	/**
+	 * Removes the attribute list.
+	 *
+	 * @param attributeListToRemove the attribute list to remove
+	 */
 	public void removeAttributeList(List<Attribute> attributeListToRemove) {
 		EntityManager entityManager = null;
 		try {
@@ -96,10 +127,20 @@ public class AnnotationAttributeController {
 		}
 	}
 	
+	/**
+	 * Adds the attribute list change listener.
+	 *
+	 * @param listener the listener
+	 */
 	public void addAttributeListChangeListener(CollectionChangeListener listener) {
 		attributeList.addChangeListener(listener);
 	}
 	
+	/**
+	 * Removes the attribute list change listener.
+	 *
+	 * @param listener the listener
+	 */
 	public void removeAttributeListChangeListener(CollectionChangeListener listener) {
 		attributeList.removeChangeListener(listener);
 	}

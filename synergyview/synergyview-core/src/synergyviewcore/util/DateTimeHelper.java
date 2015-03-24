@@ -22,19 +22,40 @@ package synergyviewcore.util;
 
 import de.jaret.util.date.JaretDate;
 
+
 /**
- * @author phyo
+ * The Class DateTimeHelper.
  *
+ * @author phyo
  */
 public class DateTimeHelper {
+	
+	/**
+	 * Gets the milli from jaret date.
+	 *
+	 * @param date the date
+	 * @return the milli from jaret date
+	 */
 	public static long getMilliFromJaretDate(JaretDate date) {
 		return date.getMillis() + (date.getSeconds()*1000) + (date.getMinutes() * 60 * 1000) + (date.getHours() * 60 * 60 * 1000);
 	}
 	
+	/**
+	 * Gets the HMS from milli.
+	 *
+	 * @param milli the milli
+	 * @return the HMS from milli
+	 */
 	public static String getHMSFromMilli(long milli) {
 		return String.format("%02dh:%02dm:%02ds:%03d",(milli/(1000*60*60))%24, (milli/(1000*60))%60, (milli/1000)%60, milli%1000);
 	}
 	
+	/**
+	 * Gets the HMS from milli formatted.
+	 *
+	 * @param milli the milli
+	 * @return the HMS from milli formatted
+	 */
 	public static String getHMSFromMilliFormatted(long milli) {
 		return String.format("%02dh %02dm %02ds %03dms",(milli/(1000*60*60))%24, (milli/(1000*60))%60, (milli/1000)%60, milli%1000);
 	}

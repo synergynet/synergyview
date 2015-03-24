@@ -37,17 +37,24 @@ import synergyviewcore.navigation.model.INode;
 import synergyviewcore.navigation.model.IParentNode;
 import synergyviewcore.resource.ResourceLoader;
 
+
 /**
- * @author phyo
+ * The Class CollectionRootNode.
  *
+ * @author phyo
  */
 public class CollectionRootNode extends AbstractParent<Collection> {
+	
+	/** The _e manager factory. */
 	private EntityManagerFactory _eManagerFactory;
+	
+	/** The Constant COLLECTIONFOLDER_ICON. */
 	public static final String COLLECTIONFOLDER_ICON = "folder_star.png";
 	
 	/**
-	 * @param resourceValue
-	 * @param parentValue
+	 * Instantiates a new collection root node.
+	 *
+	 * @param parentValue the parent value
 	 */
 	public CollectionRootNode(IParentNode parentValue) {
 		super(null, parentValue);
@@ -56,10 +63,16 @@ public class CollectionRootNode extends AbstractParent<Collection> {
 		loadChildNodes();
 	}
 	
+	/* (non-Javadoc)
+	 * @see synergyviewcore.navigation.model.AbstractNode#getIcon()
+	 */
 	public ImageDescriptor getIcon() {
 		return ResourceLoader.getIconDescriptor(COLLECTIONFOLDER_ICON);
 	}
 	
+	/**
+	 * Load child nodes.
+	 */
 	private void loadChildNodes() {
 		EntityManager entityManager = null;
 		try {
@@ -85,6 +98,11 @@ public class CollectionRootNode extends AbstractParent<Collection> {
 	/* (non-Javadoc)
 	 * @see synergyviewcore.attributes.model.IAttributeNode#addChildAttribute(synergyviewcore.attributes.model.Attribute)
 	 */
+	/**
+	 * Adds the child collection.
+	 *
+	 * @param collectionValue the collection value
+	 */
 	public void addChildCollection(Collection collectionValue) {
 		EntityManager entityManager = null;
 		try {
@@ -104,6 +122,11 @@ public class CollectionRootNode extends AbstractParent<Collection> {
 		}
 	}
 	
+	/**
+	 * Removes the child collection node.
+	 *
+	 * @param collectionFolderValue the collection folder value
+	 */
 	public void removeChildCollectionNode(CollectionNode collectionFolderValue) {
 		EntityManager entityManager = null;
 		try {

@@ -17,13 +17,27 @@ import synergyviewcore.navigation.model.IParentNode;
 import synergyviewcore.projects.model.ProjectNode;
 import synergyviewcore.resource.ResourceLoader;
 
+
+/**
+ * The Class AttributeNode.
+ */
 public class AttributeNode extends AbstractParent<Attribute> implements CollectionChangeListener {
 
+	/** The Constant ATTRIBUTE_PARENT_ICON. */
 	public static final String ATTRIBUTE_PARENT_ICON = "folder_table.png";
+	
+	/** The Constant ATTRIBUTE_ICON. */
 	public static final String ATTRIBUTE_ICON = "table.png";
+	
+	/** The root node. */
 	private ProjectAttributeRootNode rootNode;
+	
+	/** The map. */
 	private Map<Attribute, AttributeNode> map = new HashMap<Attribute, AttributeNode>();
 	
+	/* (non-Javadoc)
+	 * @see synergyviewcore.navigation.model.AbstractNode#getIcon()
+	 */
 	@Override
 	public ImageDescriptor getIcon() {
 		if (_children.size()>0)
@@ -31,6 +45,12 @@ public class AttributeNode extends AbstractParent<Attribute> implements Collecti
 		else return ResourceLoader.getIconDescriptor(ATTRIBUTE_ICON);
 	}
 
+	/**
+	 * Instantiates a new attribute node.
+	 *
+	 * @param attributeValue the attribute value
+	 * @param parentValue the parent value
+	 */
 	public AttributeNode(Attribute attributeValue, IParentNode parentValue) {
 		super(attributeValue, parentValue);
 		if (attributeValue!=null)
@@ -38,10 +58,18 @@ public class AttributeNode extends AbstractParent<Attribute> implements Collecti
 		loadChildAttributeNodes();
 	}
 	
+	/**
+	 * Gets the project attribute root node.
+	 *
+	 * @return the project attribute root node
+	 */
 	public ProjectAttributeRootNode getProjectAttributeRootNode() {
 		return rootNode;
 	}
 
+	/**
+	 * Load child attribute nodes.
+	 */
 	private void loadChildAttributeNodes() {
 		rootNode = ((ProjectNode) this.getLastParent()).getProjectAttributeRootNode();
 		rootNode.addAttributeListChangeListener(this, this.resource);

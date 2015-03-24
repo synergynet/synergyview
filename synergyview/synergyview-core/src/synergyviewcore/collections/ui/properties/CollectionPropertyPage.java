@@ -17,12 +17,25 @@ import org.eclipse.ui.dialogs.PropertyPage;
 import synergyviewcore.collections.model.Collection;
 import synergyviewcore.collections.model.CollectionNode;
 
+
+/**
+ * The Class CollectionPropertyPage.
+ */
 public class CollectionPropertyPage extends PropertyPage {
 
+	/** The _collection name text. */
 	private Text _collectionNameText;
+	
+	/** The _collection details text. */
 	private Text _collectionDetailsText;
+	
+	/** The _collection. */
 	private Collection _collection;
+	
+	/** The collection node. */
 	private CollectionNode collectionNode;
+	
+	/** The collection model binding ctx. */
 	private DataBindingContext collectionModelBindingCtx = new DataBindingContext();
 
 	/**
@@ -32,6 +45,9 @@ public class CollectionPropertyPage extends PropertyPage {
 		super();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.dialogs.DialogPage#dispose()
+	 */
 	@Override
 	public void dispose() {
 		if (collectionModelBindingCtx!=null)
@@ -40,6 +56,10 @@ public class CollectionPropertyPage extends PropertyPage {
 	}
 
 	/**
+	 * Creates the contents.
+	 *
+	 * @param parent the parent
+	 * @return the control
 	 * @see PreferencePage#createContents(Composite)
 	 */
 	protected Control createContents(Composite parent) {
@@ -51,6 +71,11 @@ public class CollectionPropertyPage extends PropertyPage {
 		return composite;
 	}
 
+	/**
+	 * Adds the section details.
+	 *
+	 * @param composite the composite
+	 */
 	private void addSectionDetails(Composite composite) {
 
 		// Creates a new tab item for session details
@@ -102,23 +127,35 @@ public class CollectionPropertyPage extends PropertyPage {
 		
 	}
 
+	/**
+	 * Save collection data.
+	 */
 	private void saveCollectionData() {
 		collectionModelBindingCtx.updateModels();
 		collectionNode.updateResource();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.preference.PreferencePage#performDefaults()
+	 */
 	@Override
 	protected void performDefaults() {
 		collectionModelBindingCtx.updateTargets();
 		super.performDefaults();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.preference.PreferencePage#performApply()
+	 */
 	@Override
 	protected void performApply() {
 		saveCollectionData();
 		super.performApply();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.preference.PreferencePage#performOk()
+	 */
 	public boolean performOk() {
 		saveCollectionData();
 		return true;

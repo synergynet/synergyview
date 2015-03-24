@@ -18,31 +18,59 @@ import com.sun.media.jmc.control.VideoRenderControl;
 import com.sun.media.jmc.event.VideoRendererEvent;
 import com.sun.media.jmc.event.VideoRendererListener;
 
+
+/**
+ * The Class JMCMedia.
+ */
 public class JMCMedia extends AbstractMedia {
 
+	/** The mp. */
 	private MediaProvider mp;
+	
+	/** The vrc. */
 	private VideoRenderControl vrc;
 	
+	/**
+	 * Instantiates a new JMC media.
+	 *
+	 * @param mediaUrl the media url
+	 * @param name the name
+	 */
 	public JMCMedia(URI mediaUrl, String name) {
 		super(mediaUrl, name);
 		mp = new MediaProvider(mediaUrl);
 		vrc = mp.getControl(VideoRenderControl.class);
 	}
 
+	/* (non-Javadoc)
+	 * @see synergyviewcore.media.model.IMedia#dispose()
+	 */
 	public void dispose() {
 		// TODO Auto-generated method stub
 
 	}
 
+	/* (non-Javadoc)
+	 * @see synergyviewcore.media.model.IMedia#getDuration()
+	 */
 	public int getDuration() {
 		return  (int) (mp.getDuration() * 1000d);
 	}
 
+	/* (non-Javadoc)
+	 * @see synergyviewcore.media.model.IMedia#getFormattedDuration()
+	 */
 	public String getFormattedDuration() {
 		return getStringTimeFormat(mp.getDuration());
 	}
 	
 
+	/**
+	 * Gets the string time format.
+	 *
+	 * @param time the time
+	 * @return the string time format
+	 */
 	private String getStringTimeFormat(double time) {
 		try {
 			if (time == 0)
@@ -58,6 +86,9 @@ public class JMCMedia extends AbstractMedia {
 	    }
 	}
 
+	/* (non-Javadoc)
+	 * @see synergyviewcore.media.model.IMedia#getFormattedTime()
+	 */
 	public String getFormattedTime() {
 		return getStringTimeFormat(mp.getMediaTime());
 	}
@@ -67,28 +98,46 @@ public class JMCMedia extends AbstractMedia {
 		//return null;
 	//}
 
+	/* (non-Javadoc)
+	 * @see synergyviewcore.media.model.IMedia#getSize()
+	 */
 	public Dimension getSize() {
 		return new Dimension((int) vrc.getFrameSize().getWidth(),(int)vrc.getFrameSize().getHeight());
 	}
 
+	/* (non-Javadoc)
+	 * @see synergyviewcore.media.model.IMedia#getTime()
+	 */
 	public int getTime() {
 		return (int) (mp.getMediaTime() * 1000d);
 	}
 
+	/* (non-Javadoc)
+	 * @see synergyviewcore.media.model.IMedia#getUIComponent()
+	 */
 	public Component getUIComponent() {
 		return new MediaPanel(vrc);
 	}
 
+	/* (non-Javadoc)
+	 * @see synergyviewcore.media.model.IMedia#isAudioAvailable()
+	 */
 	public boolean isAudioAvailable() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see synergyviewcore.media.model.IMedia#isMute()
+	 */
 	public boolean isMute() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see synergyviewcore.media.model.IMedia#setPlaying(boolean)
+	 */
 	public void setPlaying(boolean playValue) {
 		if (playValue)
 			mp.play();
@@ -99,6 +148,9 @@ public class JMCMedia extends AbstractMedia {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see synergyviewcore.media.model.IMedia#setMute(boolean)
+	 */
 	public void setMute(boolean muteValue) {
 		//
 
@@ -109,29 +161,47 @@ public class JMCMedia extends AbstractMedia {
 
 	//}
 
+	/* (non-Javadoc)
+	 * @see synergyviewcore.media.model.IMedia#setTime(int)
+	 */
 	public void setTime(int time) {
 		mp.setMediaTime(time / 1000d);
 	}
 
+	/* (non-Javadoc)
+	 * @see synergyviewcore.media.model.IMedia#stepFF()
+	 */
 	public void stepFF() {
 		// TODO Auto-generated method stub
 
 	}
 
+	/* (non-Javadoc)
+	 * @see synergyviewcore.media.model.IMedia#stepRE()
+	 */
 	public void stepRE() {
 		// TODO Auto-generated method stub
 	}
 
+	/* (non-Javadoc)
+	 * @see synergyviewcore.media.model.IMedia#getRate()
+	 */
 	public PlayRate getRate() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see synergyviewcore.media.model.IMedia#setRate(synergyviewcore.media.model.IMedia.PlayRate)
+	 */
 	public void setRate(PlayRate rate) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see synergyviewcore.media.model.IMedia#isPlaying()
+	 */
 	public boolean isPlaying() {
 		// TODO Auto-generated method stub
 		return false;
@@ -140,11 +210,19 @@ public class JMCMedia extends AbstractMedia {
 	/* (non-Javadoc)
 	 * @see synergyviewcore.media.model.IMedia#isDone()
 	 */
+	/**
+	 * Checks if is done.
+	 *
+	 * @return true, if is done
+	 */
 	public boolean isDone() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see synergyviewcore.media.model.IMedia#prepareMedia()
+	 */
 	public void prepareMedia() {
 		// TODO Auto-generated method stub
 		

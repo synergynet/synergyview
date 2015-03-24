@@ -23,9 +23,16 @@ package synergyviewcommons.jface.node;
 import org.eclipse.jface.viewers.TreeViewer;
 
 /**
- * @author phyokyaw
+ * The Interface IViewerProvider.
  *
+ * @author phyokyaw
  */
 public interface IViewerProvider {
+	
+	/**
+	 * Gets the tree viewer.
+	 *
+	 * @return the tree viewer
+	 */
 	TreeViewer getTreeViewer();
 }

@@ -20,11 +20,34 @@
 
 package synergyviewcore.annotations.ui.events;
 
+
 /**
- * @author phyo
+ * The listener interface for receiving ICaptionChange events.
+ * The class that is interested in processing a ICaptionChange
+ * event implements this interface, and the object created
+ * with that class is registered with a component using the
+ * component's <code>addICaptionChangeListener<code> method. When
+ * the ICaptionChange event occurs, that object's appropriate
+ * method is invoked.
  *
+ * @author phyo
  */
 public interface ICaptionChangeListener {
-	public enum CaptionPublishState {SET, UNSET};
+	
+	/**
+	 * The Enum CaptionPublishState.
+	 */
+	public enum CaptionPublishState {
+/** The set. */
+SET, 
+ /** The unset. */
+ UNSET};
+	
+	/**
+	 * Caption change.
+	 *
+	 * @param source the source
+	 * @param eventArg the event arg
+	 */
 	public void captionChange(Object source, CaptionChangeEvent eventArg);
 }

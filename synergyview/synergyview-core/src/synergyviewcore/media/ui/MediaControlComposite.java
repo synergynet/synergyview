@@ -72,27 +72,62 @@ import de.jaret.util.ui.timebars.swt.renderer.RendererBase;
 import de.jaret.util.ui.timebars.swt.renderer.TimeBarRenderer;
 import de.jaret.util.ui.timebars.swt.renderer.TimeBarRenderer2;
 
+
 /**
- * @author phyo
+ * The Class MediaControlComposite.
  *
+ * @author phyo
  */
 public class MediaControlComposite extends Composite {
+	
+	/** The Constant SCALE_ZOOM_TIMES. */
 	private static final int SCALE_ZOOM_TIMES = 4;
+	
+	/** The _resource manager. */
 	private LocalResourceManager _resourceManager = new LocalResourceManager(JFaceResources.getResources());
+	
+	/** The _ctx. */
 	private DataBindingContext _ctx = new DataBindingContext();
+	
+	/** The _play pulse. */
 	private Button _playPulse;
+	
+	/** The _time bar viewer. */
 	private TimeBarViewer _timeBarViewer;
+	
+	/** The _time scale. */
 	private Scale _timeScale;
+	
+	/** The _marker. */
 	private TimeBarMarkerImpl _marker;
+	
+	/** The _start date. */
 	private JaretDate _startDate = new JaretDate().setTime(0, 0, 0, 0);
+	
+	/** The _movie time listener. */
 	private PropertyChangeListener _movieTimeListener;
+	
+	/** The _is marker dragging. */
 	private boolean _isMarkerDragging = false;
+	
+	/** The _model. */
 	private DefaultTimeBarModel _model = new DefaultTimeBarModel();
+	
+	/** The _tbr. */
 	private DefaultTimeBarRowModel _tbr = new DefaultTimeBarRowModel();
+	
+	/** The _interval. */
 	private IntervalImpl _interval;
+	
+	/** The _marker inerval. */
 	private MarkerInterval _markerInerval;
+	
+	/** The _media binding. */
 	private Binding _mediaBinding;
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.swt.widgets.Widget#dispose()
+	 */
 	@Override
 	public void dispose() {
 		if (_ctx!=null)
@@ -102,11 +137,14 @@ public class MediaControlComposite extends Composite {
 		
 	}
 
+	/** The _media. */
 	private AbstractMedia _media;
 	
 	/**
-	 * @param parent
-	 * @param style
+	 * Instantiates a new media control composite.
+	 *
+	 * @param parent the parent
+	 * @param style the style
 	 */
 	public MediaControlComposite(Composite parent, int style) {
 		super(parent, style);
@@ -119,6 +157,11 @@ public class MediaControlComposite extends Composite {
 		_ctx.bindValue(SWTObservables.observeEnabled(_playPulse),SWTObservables.observeVisible(_timeScale));
 	}
 	
+	/**
+	 * Register media.
+	 *
+	 * @param media the media
+	 */
 	public void registerMedia(AbstractMedia media) {
 		_media = media;
 		_playPulse.setEnabled(true);
@@ -151,6 +194,9 @@ public class MediaControlComposite extends Composite {
 		_mediaBinding = _ctx.bindValue(SWTObservables.observeSelection(_playPulse), BeansObservables.observeValue(_media, "playing"));
 	}
 	
+	/**
+	 * Unregister media.
+	 */
 	public void unregisterMedia() {
 		_media.removePropertyChangeListener("time", _movieTimeListener);
 		_movieTimeListener = null;
@@ -166,6 +212,9 @@ public class MediaControlComposite extends Composite {
 	}
 	
 	
+	/**
+	 * Creates the media constrols.
+	 */
 	private void createMediaConstrols() {
 		Composite control = new Composite(this, SWT.NONE);
 		GridData gridData = new GridData();
@@ -188,6 +237,9 @@ public class MediaControlComposite extends Composite {
 		
 	}
 	
+	/**
+	 * Creates the media time slider.
+	 */
 	private void createMediaTimeSlider() {
 		Group control = new Group(this, SWT.SHADOW_ETCHED_IN);
 		GridData gridData = new GridData();
@@ -285,6 +337,9 @@ public class MediaControlComposite extends Composite {
 		});
 	}
 	
+	/**
+	 * Update scale.
+	 */
 	private void updateScale() {
 		_timeBarViewer.setPixelPerSecond((double)(((Composite) _timeBarViewer).getClientArea().width * 1000)/(double)(_media.getDuration()));
 		_timeScale.setMaximum((int) (_timeBarViewer.getPixelPerSecond() * 1000 * SCALE_ZOOM_TIMES));
@@ -292,6 +347,9 @@ public class MediaControlComposite extends Composite {
 		_timeScale.setSelection((int) (_timeBarViewer.getPixelPerSecond() * 1000));
 	}
 	
+	/**
+	 * Creates the media time scaler.
+	 */
 	private void createMediaTimeScaler() {
 		Composite control = new Composite(this, SWT.NONE);
 		GridData gridData = new GridData();
@@ -316,6 +374,11 @@ public class MediaControlComposite extends Composite {
 		});
 	}
 	
+	/**
+	 * Sets the marker enable.
+	 *
+	 * @param markerEnableValue the new marker enable
+	 */
 	public void setMarkerEnable(boolean markerEnableValue) {
 		if (markerEnableValue) {
 			

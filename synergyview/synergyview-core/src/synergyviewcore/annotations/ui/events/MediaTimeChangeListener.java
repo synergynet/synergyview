@@ -21,10 +21,24 @@
 package synergyviewcore.annotations.ui.events;
 
 
+
 /**
- * @author phyo
+ * The listener interface for receiving mediaTimeChange events.
+ * The class that is interested in processing a mediaTimeChange
+ * event implements this interface, and the object created
+ * with that class is registered with a component using the
+ * component's <code>addMediaTimeChangeListener<code> method. When
+ * the mediaTimeChange event occurs, that object's appropriate
+ * method is invoked.
  *
+ * @author phyo
  */
 public interface MediaTimeChangeListener {
+	
+	/**
+	 * Play back changed.
+	 *
+	 * @param eventArg the event arg
+	 */
 	public void playBackChanged(TimeChangeEvent eventArg);
 }

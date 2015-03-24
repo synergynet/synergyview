@@ -39,20 +39,36 @@ import synergyviewcore.navigation.model.IParentNode;
 import synergyviewcore.navigation.model.IViewerProvider;
 import synergyviewcore.navigation.projects.model.IEMFactoryProvider;
 
+
 /**
- * @author phyo
+ * The Class CodingRoot.
  *
+ * @author phyo
  */
 public class CodingRoot extends ProjectAttributeRootNode implements IViewerProvider, IEMFactoryProvider {
+	
+	/** The Constant ATTRIBUTES_DB. */
 	public static final String ATTRIBUTES_DB = "AttributesDB";
+	
+	/** The instance. */
 	private static CodingRoot instance; 
+	
+	/** The _tree viewer. */
 	private TreeViewer _treeViewer;
 
+	/**
+	 * Instantiates a new coding root.
+	 */
 	private CodingRoot() {
 		super(null);
 	}
 
 
+	/**
+	 * Gets the single instance of CodingRoot.
+	 *
+	 * @return single instance of CodingRoot
+	 */
 	public static CodingRoot getInstance() {
 		if (instance == null) {
 			instance = new CodingRoot();
@@ -60,21 +76,34 @@ public class CodingRoot extends ProjectAttributeRootNode implements IViewerProvi
 		return instance;
 	}
 
+	/* (non-Javadoc)
+	 * @see synergyviewcore.attributes.model.ProjectAttributeRootNode#getIcon()
+	 */
 	@Override
 	public ImageDescriptor getIcon() {
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see synergyviewcore.navigation.model.AbstractNode#getParent()
+	 */
 	@Override
 	public IParentNode getParent() {
 		return null;
 	}
+	
+	/* (non-Javadoc)
+	 * @see synergyviewcore.attributes.model.ProjectAttributeRootNode#loadChildAttributeNodes()
+	 */
 	@Override
 	public void loadChildAttributeNodes() {
 		createAttributesDB();
 		super.loadChildAttributeNodes();
 	}
 
+	/**
+	 * Creates the attributes db.
+	 */
 	private void createAttributesDB() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		String dbUri = String.format(
@@ -104,6 +133,8 @@ public class CodingRoot extends ProjectAttributeRootNode implements IViewerProvi
 	}
 
 	/**
+	 * Sets the tree viewer.
+	 *
 	 * @param _treeViewer the _treeViewer to set
 	 */
 	public void setTreeViewer(TreeViewer _treeViewer) {

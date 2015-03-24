@@ -53,17 +53,38 @@ import synergyviewcore.projects.ui.NodeEditorInput;
 import synergyviewcore.resource.ResourceLoader;
 import synergyviewcore.subjects.model.Subject;
 
+
 /**
- * @author phyo
+ * The Class AnnotationSetNode.
  *
+ * @author phyo
  */
 public class AnnotationSetNode extends AbstractParent<AnnotationSet> {
+	
+	/** The e manager factory. */
 	private EntityManagerFactory eManagerFactory;
+	
+	/** The subject list. */
 	private IObservableList<List<Subject>, Subject> subjectList;
+	
+	/** The annotation list. */
 	private IObservableList<List<Annotation>, Annotation> annotationList;
+	
+	/** The subject annotation map. */
 	private Map<Subject, IObservableList<List<Annotation>, Annotation>> subjectAnnotationMap = new HashMap<Subject, IObservableList<List<Annotation>, Annotation>>();
+	
+	/** The Constant ANNOTATION_ICON. */
 	public static final String ANNOTATION_ICON = "note.png";
+	
+	/** The annotation attribute map. */
 	private Map<Annotation, AnnotationAttributeController> annotationAttributeMap = new HashMap<Annotation, AnnotationAttributeController>();
+	
+	/**
+	 * Instantiates a new annotation set node.
+	 *
+	 * @param annotationSet the annotation set
+	 * @param parentValue the parent value
+	 */
 	public AnnotationSetNode(AnnotationSet annotationSet, IParentNode parentValue) {
 		super(annotationSet, parentValue);
 		this.setLabel(annotationSet.getName());
@@ -72,7 +93,7 @@ public class AnnotationSetNode extends AbstractParent<AnnotationSet> {
 	}
 
 	/**
-	 * 
+	 * Initialise.
 	 */
 	private void initialise() {
 		EntityManager entityManager = null;
@@ -105,10 +126,23 @@ public class AnnotationSetNode extends AbstractParent<AnnotationSet> {
 		}
 	}
 	
+	/**
+	 * Gets the annotation attribute controller.
+	 *
+	 * @param annotation the annotation
+	 * @return the annotation attribute controller
+	 */
 	public AnnotationAttributeController getAnnotationAttributeController(Annotation annotation) {
 		return annotationAttributeMap.get(annotation);
 	}
 
+	/**
+	 * Adds the annotations.
+	 *
+	 * @param annotations the annotations
+	 * @param subject the subject
+	 * @throws ModelPersistenceException the model persistence exception
+	 */
 	public void addAnnotations(List<Annotation> annotations, Subject subject) throws ModelPersistenceException  {
 		EntityManager entityManager = null;
 		IObservableList<List<Annotation>, Annotation> tempList = subjectAnnotationMap.get(subject);
@@ -142,6 +176,12 @@ public class AnnotationSetNode extends AbstractParent<AnnotationSet> {
 		}
 	}
 	
+	/**
+	 * Checks if is anntation within clip.
+	 *
+	 * @param annotation the annotation
+	 * @return true, if is anntation within clip
+	 */
 	private boolean isAnntationWithinClip(Annotation annotation) {
 		long clipStartMilli = this.getResource().getCollectionMediaClip().getStartOffset();
 		long clipEndMilli = clipStartMilli +  this.getResource().getCollectionMediaClip().getDuration();
@@ -157,6 +197,13 @@ public class AnnotationSetNode extends AbstractParent<AnnotationSet> {
 		}
 	}
 	
+	/**
+	 * Adds the annotation list change listener.
+	 *
+	 * @param listener the listener
+	 * @param subject the subject
+	 * @throws Exception the exception
+	 */
 	public void addAnnotationListChangeListener(CollectionChangeListener listener, Subject subject) throws Exception {
 		// Check the parameter
 		if (subject == null) 
@@ -168,6 +215,13 @@ public class AnnotationSetNode extends AbstractParent<AnnotationSet> {
 		tempList.addChangeListener(listener);
 	}
 	
+	/**
+	 * Removes the annotation list change listener.
+	 *
+	 * @param listener the listener
+	 * @param subject the subject
+	 * @throws Exception the exception
+	 */
 	public void removeAnnotationListChangeListener(CollectionChangeListener listener, Subject subject) throws Exception {
 		// Check the parameter
 		if (subject == null) 
@@ -178,22 +232,48 @@ public class AnnotationSetNode extends AbstractParent<AnnotationSet> {
 		
 	}
 	
+	/**
+	 * Adds the annotation list change listener.
+	 *
+	 * @param listener the listener
+	 */
 	public void addAnnotationListChangeListener(CollectionChangeListener listener) {
 		annotationList.addChangeListener(listener);
 	}
 	
+	/**
+	 * Removes the annotation list change listener.
+	 *
+	 * @param listener the listener
+	 */
 	public void removeAnnotationListChangeListener(CollectionChangeListener listener) {
 		annotationList.removeChangeListener(listener);
 	}
 	
+	/**
+	 * Adds the subject list change listener.
+	 *
+	 * @param listener the listener
+	 */
 	public void addSubjectListChangeListener(CollectionChangeListener listener) {
 		subjectList.addChangeListener(listener);
 	}
 	
+	/**
+	 * Removes the subject list change listener.
+	 *
+	 * @param listener the listener
+	 */
 	public void removeSubjectListChangeListener(CollectionChangeListener listener) {
 		subjectList.removeChangeListener(listener);
 	}
 	
+	/**
+	 * Gets the annotation list.
+	 *
+	 * @param subject the subject
+	 * @return the annotation list
+	 */
 	public List<Annotation> getAnnotationList(Subject subject) {
 		//TODO throws exception
 		if (subjectList.contains(subject) && subjectAnnotationMap.containsKey(subject)) 
@@ -201,18 +281,38 @@ public class AnnotationSetNode extends AbstractParent<AnnotationSet> {
 		else return null;
 	}
 	
+	/**
+	 * Gets the annotation list.
+	 *
+	 * @return the annotation list
+	 */
 	public List<Annotation> getAnnotationList() {
 		return annotationList.getReadOnlyList();
 	}
 	
+	/**
+	 * Gets the subject list.
+	 *
+	 * @return the subject list
+	 */
 	public List<Subject> getSubjectList() {
 		return subjectList.getReadOnlyList();
 	}
 
+	/* (non-Javadoc)
+	 * @see synergyviewcore.navigation.model.AbstractNode#getIcon()
+	 */
 	public ImageDescriptor getIcon() {
 		return ResourceLoader.getIconDescriptor(ANNOTATION_ICON);
 	}
 
+	/**
+	 * Removes the annotations.
+	 *
+	 * @param annotations the annotations
+	 * @param subject the subject
+	 * @throws ModelPersistenceException the model persistence exception
+	 */
 	public void removeAnnotations(List<Annotation> annotations, Subject subject) throws ModelPersistenceException{
 		EntityManager entityManager = null;
 		IObservableList<List<Annotation>, Annotation> tempList = subjectAnnotationMap.get(subject);
@@ -241,6 +341,12 @@ public class AnnotationSetNode extends AbstractParent<AnnotationSet> {
 		}
 	}
 
+	/**
+	 * Adds the subjects.
+	 *
+	 * @param subjects the subjects
+	 * @throws ModelPersistenceException the model persistence exception
+	 */
 	public void addSubjects(List<Subject> subjects) throws ModelPersistenceException {
 		EntityManager entityManager = null;
 		if (!subjectList.containsAll(subjects)) {
@@ -265,6 +371,12 @@ public class AnnotationSetNode extends AbstractParent<AnnotationSet> {
 		}
 	}
 	
+	/**
+	 * Removes the subjects.
+	 *
+	 * @param subjects the subjects
+	 * @throws ModelPersistenceException the model persistence exception
+	 */
 	public void removeSubjects(List<Subject> subjects) throws ModelPersistenceException {
 		//TODO this needs to be in one transaction
 		EntityManager entityManager = null;
@@ -295,6 +407,14 @@ public class AnnotationSetNode extends AbstractParent<AnnotationSet> {
 		}
 	}
 
+	/**
+	 * Move annotation.
+	 *
+	 * @param annotation the annotation
+	 * @param fromSubject the from subject
+	 * @param toSubject the to subject
+	 * @throws ModelPersistenceException the model persistence exception
+	 */
 	public void moveAnnotation(Annotation annotation, Subject fromSubject, Subject toSubject) throws ModelPersistenceException {
 		EntityManager entityManager = null;
 		try {
@@ -317,8 +437,10 @@ public class AnnotationSetNode extends AbstractParent<AnnotationSet> {
 
 
 	/**
-	 * @param annotation
-	 * @param resource
+	 * Update annotation.
+	 *
+	 * @param annotation the annotation
+	 * @throws ModelPersistenceException the model persistence exception
 	 */
 //	public void addAttributeToAnnotation(Annotation annotation,
 //			List<Attribute> attributesToAdd) {
@@ -360,6 +482,12 @@ public class AnnotationSetNode extends AbstractParent<AnnotationSet> {
 		}
 	}
 	
+	/**
+	 * Rename annotation set.
+	 *
+	 * @param newName the new name
+	 * @throws ModelPersistenceException the model persistence exception
+	 */
 	public void renameAnnotationSet(String newName) throws ModelPersistenceException {
 		EntityManager entityManager = null;
 		try {
@@ -420,6 +548,11 @@ public class AnnotationSetNode extends AbstractParent<AnnotationSet> {
 		});
 	}
 	
+	/**
+	 * Hide caption.
+	 *
+	 * @param value the value
+	 */
 	public void hideCaption(boolean value) {
 		EntityManager entityManager = null;
 		this.resource.setHideCaption(value);
@@ -440,7 +573,9 @@ public class AnnotationSetNode extends AbstractParent<AnnotationSet> {
 	}
 
 	/**
-	 * @param selection
+	 * Sets the lock.
+	 *
+	 * @param isLock the new lock
 	 */
 	public void setLock(boolean isLock) {
 		this.resource.setLock(isLock);

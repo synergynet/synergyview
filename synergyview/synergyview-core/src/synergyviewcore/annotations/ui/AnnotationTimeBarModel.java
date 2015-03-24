@@ -34,15 +34,32 @@ import de.jaret.util.ui.timebars.model.DefaultRowHeader;
 import de.jaret.util.ui.timebars.model.DefaultTimeBarModel;
 import de.jaret.util.ui.timebars.model.TimeBarRow;
 
+
 /**
- * @author phyo
+ * The Class AnnotationTimeBarModel.
  *
+ * @author phyo
  */
 public class AnnotationTimeBarModel extends DefaultTimeBarModel {
+	
+	/** The marker. */
 	private TimeBarMarkerImpl marker;
+	
+	/** The annotation set node. */
 	private AnnotationSetNode annotationSetNode;
+	
+	/** The subject list change listener. */
 	private CollectionChangeListener subjectListChangeListener;
+	
+	/** The subject map. */
 	private Map<Subject, SubjectRowModel> subjectMap = new HashMap<Subject, SubjectRowModel>();
+	
+	/**
+	 * Instantiates a new annotation time bar model.
+	 *
+	 * @param annotationSetNode the annotation set node
+	 * @param marker the marker
+	 */
 	public AnnotationTimeBarModel(AnnotationSetNode annotationSetNode, TimeBarMarkerImpl marker) {
 		this.annotationSetNode = annotationSetNode;
 		this.marker = marker;
@@ -53,7 +70,7 @@ public class AnnotationTimeBarModel extends DefaultTimeBarModel {
 	
 	
 	/**
-	 * Initialise the timebar model
+	 * Initialise the timebar model.
 	 */
 	private void init() {
 		
@@ -89,9 +106,8 @@ public class AnnotationTimeBarModel extends DefaultTimeBarModel {
 	}
 	
 	/**
-	 * 
-	 * Disposes and removes subject row 
-	 * 
+	 * Disposes and removes subject row .
+	 *
 	 * @param subjectRowModel Subject row to be removed
 	 */
 	private void removeSubjectRow(SubjectRowModel subjectRowModel) {
@@ -101,8 +117,8 @@ public class AnnotationTimeBarModel extends DefaultTimeBarModel {
 
 
 	/**
-	 * Adding a new subject row
-	 * 
+	 * Adding a new subject row.
+	 *
 	 * @param subject Subject row to be added
 	 */
 	private void addSubjectRow(Subject subject) {

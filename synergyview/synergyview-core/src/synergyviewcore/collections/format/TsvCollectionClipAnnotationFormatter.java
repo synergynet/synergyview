@@ -39,14 +39,21 @@ import synergyviewcore.collections.model.CollectionMediaClip;
 import synergyviewcore.subjects.model.Subject;
 import synergyviewcore.util.DateTimeHelper;
 
+
 /**
- * @author phyo
+ * The Class TsvCollectionClipAnnotationFormatter.
  *
+ * @author phyo
  */
 public class TsvCollectionClipAnnotationFormatter implements
 		ICollectionClipAnnotationFormatter {
+	
+	/** The logger. */
 	private final ILog logger;
 	
+	/**
+	 * Instantiates a new tsv collection clip annotation formatter.
+	 */
 	public TsvCollectionClipAnnotationFormatter() {
 		logger = Activator.getDefault().getLog();
 	}
@@ -142,6 +149,12 @@ public class TsvCollectionClipAnnotationFormatter implements
 	}
 	
 	
+	/**
+	 * Sort annoatation list.
+	 *
+	 * @param annotationList the annotation list
+	 * @return the list
+	 */
 	public List<Annotation> sortAnnoatationList(List<Annotation> annotationList) {
 		Collections.sort(annotationList, new Comparator<Annotation>() {
 
@@ -160,6 +173,12 @@ public class TsvCollectionClipAnnotationFormatter implements
 		return annotationList;
 	}
 	
+	/**
+	 * Sort attribute list.
+	 *
+	 * @param attributesToSort the attributes to sort
+	 * @return the list
+	 */
 	public List<Attribute> sortAttributeList(List<Attribute> attributesToSort) {
 		Collections.sort(attributesToSort, new Comparator<Attribute>() {
 			public int compare(Attribute arg0, Attribute arg1) {				
@@ -171,41 +190,105 @@ public class TsvCollectionClipAnnotationFormatter implements
 	}
 	
 
+	/**
+	 * The Class SubjectAnnotationCount.
+	 */
 	private static class SubjectAnnotationCount {
+		
+		/** The count. */
 		private int count;
+		
+		/** The total milli sec. */
 		private long totalMilliSec;
+		
+		/** The attribute duration. */
 		private Map<Attribute, AttributeInfo> attributeDuration = new HashMap<Attribute, AttributeInfo>();
+		
+		/**
+		 * Increment count.
+		 */
 		public void incrementCount() {
 			count++;
 		}
+		
+		/**
+		 * Gets the count.
+		 *
+		 * @return the count
+		 */
 		public int getCount() {
 			return count;
 		}
+		
+		/**
+		 * Adds the total milli sec.
+		 *
+		 * @param totalMilliSec the total milli sec
+		 */
 		public void addTotalMilliSec(long totalMilliSec) {
 			this.totalMilliSec = this.totalMilliSec + totalMilliSec;
 		}
+		
+		/**
+		 * Gets the total milli sec.
+		 *
+		 * @return the total milli sec
+		 */
 		public long getTotalMilliSec() {
 			return totalMilliSec;
 		}
 
+		/**
+		 * Gets the attribute duration.
+		 *
+		 * @return the attribute duration
+		 */
 		public Map<Attribute, AttributeInfo> getAttributeDuration() {
 			return attributeDuration;
 		}
 	}
 	
+	/**
+	 * The Class AttributeInfo.
+	 */
 	private static class AttributeInfo {
+		
+		/** The count. */
 		private int count = 0;
+		
+		/** The total milli sec. */
 		private long totalMilliSec;
 
+		/**
+		 * Gets the count.
+		 *
+		 * @return the count
+		 */
 		public int getCount() {
 			return count;
 		}
+		
+		/**
+		 * Sets the total milli sec.
+		 *
+		 * @param totalMilliSec the new total milli sec
+		 */
 		public void setTotalMilliSec(long totalMilliSec) {
 			this.totalMilliSec = totalMilliSec;
 		}
+		
+		/**
+		 * Gets the total milli sec.
+		 *
+		 * @return the total milli sec
+		 */
 		public long getTotalMilliSec() {
 			return totalMilliSec;
 		}
+		
+		/**
+		 * Increment count.
+		 */
 		public void incrementCount() {
 			count++;
 		}

@@ -18,9 +18,21 @@ import synergyviewcore.annotations.model.AnnotationSetNode;
 import synergyviewcore.collections.model.CollectionNode;
 import synergyviewcore.projects.model.WorkspaceRoot;
 
+
+/**
+ * The Class ProjectExplorerViewPart.
+ */
 public class ProjectExplorerViewPart extends CommonNavigator {
+	
+	/** The Constant ID. */
 	public static final String ID = "synergyviewcore.projects.projectexplorerview";
+	
+	/** The logger. */
 	private  ILog logger;
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.navigator.CommonNavigator#createPartControl(org.eclipse.swt.widgets.Composite)
+	 */
 	@Override
 	public void createPartControl(Composite aParent) {
 		super.createPartControl(aParent);
@@ -28,6 +40,9 @@ public class ProjectExplorerViewPart extends CommonNavigator {
 		hookDoubleClickCommand();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.navigator.CommonNavigator#getInitialInput()
+	 */
 	@Override
 	protected Object getInitialInput() {
 		try {
@@ -40,6 +55,9 @@ public class ProjectExplorerViewPart extends CommonNavigator {
 		return null;
 	}
 	
+	/**
+	 * Hook double click command.
+	 */
 	private void hookDoubleClickCommand() {
 		
 		this.getCommonViewer().addDoubleClickListener(new IDoubleClickListener() {

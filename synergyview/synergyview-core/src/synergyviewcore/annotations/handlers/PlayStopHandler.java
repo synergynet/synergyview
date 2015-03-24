@@ -30,9 +30,11 @@ import org.eclipse.ui.PlatformUI;
 
 import synergyviewcore.annotations.ui.editors.CollectionMediaClipAnnotationEditor;
 
+
 /**
- * @author phyokyaw
+ * The Class PlayStopHandler.
  *
+ * @author phyokyaw
  */
 public class PlayStopHandler extends AbstractHandler implements IHandler {
 

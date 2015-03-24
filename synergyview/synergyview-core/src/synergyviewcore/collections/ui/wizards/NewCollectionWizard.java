@@ -10,26 +10,47 @@ import synergyviewcore.resource.ResourceLoader;
 import synergyviewcore.util.FileHelper;
 
 
+
+/**
+ * The Class NewCollectionWizard.
+ */
 public class NewCollectionWizard extends Wizard {
 
+	/** The collection to add new. */
 	private Collection collectionToAddNew;
+	
+	/** The collection root node. */
 	private CollectionRootNode collectionRootNode;
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.wizard.Wizard#getWindowTitle()
+	 */
 	@Override
 	public String getWindowTitle() {
 		return ResourceLoader.getString("DIALOG_TITLE_NEW_MEDIA_COLLECTION");
 	}
 	
+	/**
+	 * Instantiates a new new collection wizard.
+	 *
+	 * @param collectionFolder the collection folder
+	 */
 	public NewCollectionWizard(CollectionRootNode collectionFolder) {
 		collectionRootNode = collectionFolder;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.wizard.Wizard#addPages()
+	 */
 	@Override
 	public void addPages() {
 		initCollection();
 		this.addPage(new NewCollectionWizardPage(collectionToAddNew, collectionRootNode.getChildrenNames()));
 	}
 	
+	/**
+	 * Inits the collection.
+	 */
 	private void initCollection() {
 		// Creating a new empty collection
 		collectionToAddNew = new Collection();
@@ -37,6 +58,9 @@ public class NewCollectionWizard extends Wizard {
 		collectionToAddNew.setFileName(FileHelper.getUniqueAFileName("xml"));
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.wizard.Wizard#performFinish()
+	 */
 	@Override
 	public boolean performFinish() {
 		collectionRootNode.addChildCollection(collectionToAddNew);

@@ -9,8 +9,15 @@ import synergyviewcore.annotations.ui.views.AnnotationTableViewPart;
 import synergyviewcore.attributes.ui.views.CodingExplorerViewPart;
 import synergyviewcore.projects.ui.ProjectExplorerViewPart;
 
+
+/**
+ * The Class Perspective.
+ */
 public class Perspective implements IPerspectiveFactory {
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.IPerspectiveFactory#createInitialLayout(org.eclipse.ui.IPageLayout)
+	 */
 	public void createInitialLayout(IPageLayout layout) {
 		String editorArea = layout.getEditorArea();
 		layout.getViewLayout(ProjectExplorerViewPart.ID).setCloseable(false);

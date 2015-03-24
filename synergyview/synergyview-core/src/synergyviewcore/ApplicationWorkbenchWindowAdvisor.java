@@ -11,8 +11,18 @@ import org.eclipse.ui.application.IActionBarConfigurer;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 
+
+/**
+ * The Class ApplicationWorkbenchWindowAdvisor.
+ */
 public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
+	
+	/** The logger. */
 	private final ILog logger;
+    
+    /* (non-Javadoc)
+     * @see org.eclipse.ui.application.WorkbenchWindowAdvisor#postWindowClose()
+     */
     @Override
 	public void postWindowClose() {
 		super.postWindowClose();
@@ -24,6 +34,11 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 		}
 	}
 
+	/**
+	 * Instantiates a new application workbench window advisor.
+	 *
+	 * @param configurer the configurer
+	 */
 	public ApplicationWorkbenchWindowAdvisor(IWorkbenchWindowConfigurer configurer) {
         super(configurer);
         logger = Activator.getDefault().getLog();
@@ -31,10 +46,16 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
         
     }
 
+    /* (non-Javadoc)
+     * @see org.eclipse.ui.application.WorkbenchWindowAdvisor#createActionBarAdvisor(org.eclipse.ui.application.IActionBarConfigurer)
+     */
     public ActionBarAdvisor createActionBarAdvisor(IActionBarConfigurer configurer) {
         return new ApplicationActionBarAdvisor(configurer);
     }
     
+    /* (non-Javadoc)
+     * @see org.eclipse.ui.application.WorkbenchWindowAdvisor#preWindowOpen()
+     */
     @Override
     public void preWindowOpen() {
         IWorkbenchWindowConfigurer configurer = getWindowConfigurer();

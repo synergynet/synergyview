@@ -26,8 +26,15 @@ import synergyviewcore.projects.model.ProjectNode;
 import synergyviewcore.subjects.model.Subject;
 import synergyviewcore.subjects.model.SubjectNode;
 
+
+/**
+ * The Class MoveAnnotationHandler.
+ */
 public class MoveAnnotationHandler extends AbstractHandler implements IHandler {
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	 */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		final ILog logger = Activator.getDefault().getLog();
 

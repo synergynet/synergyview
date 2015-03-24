@@ -33,17 +33,28 @@ import synergyviewcore.attributes.model.AttributeNode;
 import synergyviewcore.navigation.model.INode;
 import synergyviewcore.projects.model.ProjectNode;
 
+
 /**
- * @author phyo
+ * The Class NewAttributeWizard.
  *
+ * @author phyo
  */
 public class NewAttributeWizard extends Wizard implements IWorkbenchWizard {
+	
+	/** The new attribute. */
 	private Attribute newAttribute;
+	
+	/** The parent node. */
 	private INode parentNode = null;
+	
+	/**
+	 * Instantiates a new new attribute wizard.
+	 */
 	public NewAttributeWizard() {
 		super();
 	}
 	
+	/** The main page. */
 	private NewAttributeWizardPage mainPage;
 	/* (non-Javadoc)
 	 * @see org.eclipse.jface.wizard.Wizard#performFinish()

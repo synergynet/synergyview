@@ -36,16 +36,24 @@ import org.eclipse.swt.widgets.TableItem;
 import synergyviewcore.collections.model.Collection;
 import synergyviewcore.collections.model.CollectionMediaClip;
 
+
 /**
+ * The Class ExportCollectionAnnotationWizardPage.
+ *
  * @author phyo
- * 
  */
 public class ExportCollectionAnnotationWizardPage extends WizardPage {
+	
+	/** The collection. */
 	private Collection collection;
+	
+	/** The selected collcation media clips. */
 	private List<CollectionMediaClip> selectedCollcationMediaClips = new ArrayList<CollectionMediaClip>();
 	
 	/**
-	 * @param pageName
+	 * Instantiates a new export collection annotation wizard page.
+	 *
+	 * @param collection the collection
 	 */
 	protected ExportCollectionAnnotationWizardPage(Collection collection) {
 		super("Export Annotations in the Collection");
@@ -93,6 +101,11 @@ public class ExportCollectionAnnotationWizardPage extends WizardPage {
 		});
 	}
 	
+	/**
+	 * Gets the selected collcation media clips.
+	 *
+	 * @return the selected collcation media clips
+	 */
 	public List<CollectionMediaClip> getSelectedCollcationMediaClips() {
 		return selectedCollcationMediaClips;
 	}

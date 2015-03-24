@@ -13,8 +13,15 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import synergyviewcore.subjects.model.SubjectNode;
 import synergyviewcore.subjects.model.SubjectRootNode;
 
+
+/**
+ * The Class DeleteSubjectHandler.
+ */
 public class DeleteSubjectHandler extends AbstractHandler implements IHandler {
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	 */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		ISelection selection = HandlerUtil.getCurrentSelection(event);
 		if (!(selection instanceof IStructuredSelection))

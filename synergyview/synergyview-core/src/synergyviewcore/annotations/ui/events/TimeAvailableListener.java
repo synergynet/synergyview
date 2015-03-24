@@ -20,10 +20,24 @@
 
 package synergyviewcore.annotations.ui.events;
 
+
 /**
- * @author phyo
+ * The listener interface for receiving timeAvailable events.
+ * The class that is interested in processing a timeAvailable
+ * event implements this interface, and the object created
+ * with that class is registered with a component using the
+ * component's <code>addTimeAvailableListener<code> method. When
+ * the timeAvailable event occurs, that object's appropriate
+ * method is invoked.
  *
+ * @author phyo
  */
 public interface TimeAvailableListener {
+	
+	/**
+	 * Time available changed.
+	 *
+	 * @param eventArg the event arg
+	 */
 	public void timeAvailableChanged(TimeAvailableEvent eventArg);
 }

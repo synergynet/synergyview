@@ -20,19 +20,69 @@
 
 package synergyviewcore.annotations.ui;
 
+
 /**
- * @author phyokyaw
+ * The Interface IAnnotationMediaControl.
  *
+ * @author phyokyaw
  */
 public interface IAnnotationMediaControl {
+	
+	/**
+	 * Sets the playing.
+	 *
+	 * @param playValue the new playing
+	 */
 	void setPlaying(boolean playValue);
+	
+	/**
+	 * Checks if is playing.
+	 *
+	 * @return true, if is playing
+	 */
 	boolean isPlaying();
+	
+	/**
+	 * Step forward.
+	 */
 	void stepForward();
+	
+	/**
+	 * Step rewind.
+	 */
 	void stepRewind();
+	
+	/**
+	 * Start caption mark.
+	 */
 	void startCaptionMark();
+	
+	/**
+	 * Stop caption mark.
+	 */
 	void stopCaptionMark();
+	
+	/**
+	 * Sets the row selection.
+	 *
+	 * @param number the new row selection
+	 */
 	void setRowSelection(int number);
+	
+	/**
+	 * Sets the mute.
+	 *
+	 * @param mediaClipIntervalImpl the media clip interval impl
+	 * @param muteValue the mute value
+	 */
 	void setMute(MediaClipIntervalImpl mediaClipIntervalImpl, boolean muteValue);
+    
+    /**
+     * Checks if is mute.
+     *
+     * @param mediaClipIntervalImpl the media clip interval impl
+     * @return true, if is mute
+     */
     boolean isMute(MediaClipIntervalImpl mediaClipIntervalImpl);
 	
 }

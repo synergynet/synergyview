@@ -16,15 +16,30 @@ import synergyviewcore.attributes.model.Attribute;
 import synergyviewcore.model.PersistenceModelObject;
 import synergyviewcore.subjects.model.Subject;
 
+
+/**
+ * The Class Annotation.
+ */
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
 public class Annotation extends PersistenceModelObject {
 	
+	/** The Constant PROP_STARTTIME. */
 	public static final String PROP_STARTTIME = "startTime"; 
+	
+	/** The start time. */
 	private long startTime;
+	
+	/** The hr. */
 	private int hr;
+	
+	/** The mi. */
 	private int mi;
+	
+	/** The sec. */
 	private int sec;
+	
+	/** The milli sec. */
 	private int milliSec;
 //	
 //	@Lob
@@ -32,21 +47,31 @@ public class Annotation extends PersistenceModelObject {
 //	private byte[] imageData;
 
 	
-	@OneToMany(fetch=FetchType.EAGER)
+	/** The attributes. */
+@OneToMany(fetch=FetchType.EAGER)
 	private List<Attribute> attributes = new ArrayList<Attribute>();
 	
+	/** The subject. */
 	@OneToOne
 	private Subject subject;
+	
+	/** The Constant PROP_SUBJECT. */
 	public static final String PROP_SUBJECT = "subject";
 	
+	/** The annotation set. */
 	@ManyToOne
 	private AnnotationSet annotationSet;
 	
+	/** The Constant PROP_TEXT. */
 	public static final String PROP_TEXT = "text";
+	
+	/** The text. */
 	@Lob
 	private String text;
 	
 	/**
+	 * Sets the start time.
+	 *
 	 * @param startTime the startTime to set
 	 */
 	public void setStartTime(long startTime) {
@@ -54,6 +79,8 @@ public class Annotation extends PersistenceModelObject {
 	}
 	
 	/**
+	 * Gets the start time.
+	 *
 	 * @return the startTime
 	 */
 	public long getStartTime() {
@@ -61,74 +88,155 @@ public class Annotation extends PersistenceModelObject {
 	}
 
 	/**
+	 * Sets the text.
+	 *
 	 * @param text the text to set
 	 */
 	public void setText(String text) {
 		this.firePropertyChange(PROP_TEXT, this.text, this.text = text);
 	}
+	
 	/**
+	 * Gets the text.
+	 *
 	 * @return the text
 	 */
 	public String getText() {
 		return text;
 	}
 
+	/**
+	 * Sets the attributes.
+	 *
+	 * @param attributes the new attributes
+	 */
 	public void setAttributes(List<Attribute> attributes) {
 		this.attributes = attributes;
 	}
+	
+	/**
+	 * Gets the attributes.
+	 *
+	 * @return the attributes
+	 */
 	public List<Attribute> getAttributes() {
 		return attributes;
 	}
 	
+	/**
+	 * Sets the annotation set.
+	 *
+	 * @param annotationSet the new annotation set
+	 */
 	public void setAnnotationSet(AnnotationSet annotationSet) {
 		this.annotationSet = annotationSet;
 	}
 	
+	/**
+	 * Gets the annotation set.
+	 *
+	 * @return the annotation set
+	 */
 	public AnnotationSet getAnnotationSet() {
 		return annotationSet;
 	}
 	
+	/**
+	 * Sets the subject.
+	 *
+	 * @param subject the new subject
+	 */
 	public void setSubject(Subject subject) {
 		this.firePropertyChange(PROP_SUBJECT, this.subject, this.subject = subject);
 	}
 	
+	/**
+	 * Gets the subject.
+	 *
+	 * @return the subject
+	 */
 	public Subject getSubject() {
 		return subject;
 	}
 
 
+	/**
+	 * Sets the sec.
+	 *
+	 * @param sec the new sec
+	 */
 	public void setSec(int sec) {
 		this.sec = sec;
 	}
 
+	/**
+	 * Gets the sec.
+	 *
+	 * @return the sec
+	 */
 	public int getSec() {
 		return sec;
 	}
 
+	/**
+	 * Sets the milli sec.
+	 *
+	 * @param milliSec the new milli sec
+	 */
 	public void setMilliSec(int milliSec) {
 		this.milliSec = milliSec;
 	}
 
+	/**
+	 * Gets the milli sec.
+	 *
+	 * @return the milli sec
+	 */
 	public int getMilliSec() {
 		return milliSec;
 	}
 
+	/**
+	 * Sets the mi.
+	 *
+	 * @param mi the new mi
+	 */
 	public void setMi(int mi) {
 		this.mi = mi;
 	}
 
+	/**
+	 * Gets the mi.
+	 *
+	 * @return the mi
+	 */
 	public int getMi() {
 		return mi;
 	}
 
+	/**
+	 * Sets the hr.
+	 *
+	 * @param hr the new hr
+	 */
 	public void setHr(int hr) {
 		this.hr = hr;
 	}
 
+	/**
+	 * Gets the hr.
+	 *
+	 * @return the hr
+	 */
 	public int getHr() {
 		return hr;
 	}
 
+	/**
+	 * Gets the formatted start time.
+	 *
+	 * @return the formatted start time
+	 */
 	public String getFormattedStartTime() {
 		return  String.format("%02d:%02d:%02d", hr, mi, sec);
 	}

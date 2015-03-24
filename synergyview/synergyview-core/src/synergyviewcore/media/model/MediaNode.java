@@ -19,9 +19,21 @@ import synergyviewcore.navigation.model.AbstractNode;
 import synergyviewcore.navigation.model.IParentNode;
 import synergyviewcore.projects.ResourceHelper;
 
+
+/**
+ * The Class MediaNode.
+ */
 public class MediaNode extends AbstractNode<IFile> implements IResourceChangeListener  {
+	
+	/** The media file url. */
 	private URI mediaFileUrl;
 
+	/**
+	 * Instantiates a new media node.
+	 *
+	 * @param fileValue the file value
+	 * @param parentValue the parent value
+	 */
 	public MediaNode(IFile fileValue, IParentNode parentValue) {
 		super(fileValue, parentValue);
 //		ResourcesPlugin.getWorkspace().addResourceChangeListener(this, IResourceChangeEvent.POST_CHANGE);
@@ -31,14 +43,20 @@ public class MediaNode extends AbstractNode<IFile> implements IResourceChangeLis
 	}
 
 	/**
-	 * TODO Make sure the instances for controllers are matched with the previews
-	 * 
-	 * @return
+	 * TODO Make sure the instances for controllers are matched with the previews.
+	 *
+	 * @return the abstract media
 	 */
 	public AbstractMedia createMediaInstance() {
 		return new VLCMedia(mediaFileUrl, this.getLabel());
 	}
 
+	/**
+	 * Checks if is valid extension.
+	 *
+	 * @param extValue the ext value
+	 * @return true, if is valid extension
+	 */
 	public static boolean isValidExtension(String extValue) {
 		return extValue.equalsIgnoreCase("mpg") || extValue.equalsIgnoreCase("mov") ||  extValue.equalsIgnoreCase("m4v") || extValue.equalsIgnoreCase("mp4") || extValue.equalsIgnoreCase("avi") || extValue.equalsIgnoreCase("mp3") || extValue.equalsIgnoreCase("wav") || extValue.equalsIgnoreCase("au");
 	}

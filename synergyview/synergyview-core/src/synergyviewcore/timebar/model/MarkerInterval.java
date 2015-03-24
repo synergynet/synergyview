@@ -22,19 +22,40 @@ package synergyviewcore.timebar.model;
 
 import de.jaret.util.date.JaretDate;
 
+
+/**
+ * The Class MarkerInterval.
+ */
 public class MarkerInterval extends de.jaret.util.date.Event {
+    
+    /** The _label. */
     String _label;
 
     
+    /**
+     * Instantiates a new marker interval.
+     *
+     * @param date the date
+     */
     public MarkerInterval(JaretDate date) {
         super(date);
     }
 
     
+    /**
+     * Gets the label.
+     *
+     * @return the label
+     */
     public String getLabel() {
         return _label;
     }
 
+    /**
+     * Sets the label.
+     *
+     * @param label the new label
+     */
     public void setLabel(String label) {
         String oldVal = _label;
         _label = label;

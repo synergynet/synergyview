@@ -36,23 +36,38 @@ import org.eclipse.swt.widgets.Composite;
 
 import synergyviewcore.media.model.AbstractMedia;
 
+
 /**
- * @author phyo
+ * The Class MediaPreviewControl.
  *
+ * @author phyo
  */
 public class MediaPreviewControl extends Composite {
 
 
+	/** The media swt awt composite list. */
 	private Map<AbstractMedia, MediaSwtAwtComposite> mediaSwtAwtCompositeList = new HashMap<AbstractMedia, MediaSwtAwtComposite>();
+	
+	/** The _observable media preview list. */
 	private IObservableMap _observableMediaPreviewList;
+	
+	/** The _map changed listener. */
 	private IMapChangeListener _mapChangedListener;
 	
+	/**
+	 * Gets the observable media preview list.
+	 *
+	 * @return the observable media preview list
+	 */
 	public IObservableMap getObservableMediaPreviewList() {
 		return _observableMediaPreviewList;
 	}
+	
 	/**
-	 * @param parent
-	 * @param style
+	 * Instantiates a new media preview control.
+	 *
+	 * @param parent the parent
+	 * @param style the style
 	 */
 	public MediaPreviewControl(Composite parent, int style) {
 		super(parent, style);
@@ -89,6 +104,9 @@ public class MediaPreviewControl extends Composite {
 		_observableMediaPreviewList.addMapChangeListener(_mapChangedListener);
     }
 	
+	/**
+	 * Dispose resourse.
+	 */
 	private void disposeResourse() {
 		_observableMediaPreviewList.clear();
 		_observableMediaPreviewList.removeMapChangeListener(_mapChangedListener);

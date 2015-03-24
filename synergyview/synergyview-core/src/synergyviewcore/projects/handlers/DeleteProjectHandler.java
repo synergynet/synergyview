@@ -13,8 +13,15 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import synergyviewcore.navigation.model.INode;
 import synergyviewcore.projects.model.ProjectNode;
 
+
+/**
+ * The Class DeleteProjectHandler.
+ */
 public class DeleteProjectHandler extends AbstractHandler implements IHandler {
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	 */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		ISelection selection = HandlerUtil.getCurrentSelection(event);
 		if (!(selection instanceof IStructuredSelection))

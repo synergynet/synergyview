@@ -15,21 +15,45 @@ import org.eclipse.core.runtime.Status;
 import synergyviewcore.Activator;
 import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
 
+
+/**
+ * The Class VLCMedia.
+ */
 public class VLCMedia extends AbstractMedia {
 	
+	/** The Constant OFFSET. */
 	private static final int OFFSET = 16;	
 	
+	/** The movie dimension. */
 	private Dimension movieDimension;
+	
+	/** The saved volume. */
 	private int savedVolume = 0;
+	
+	/** The _current play rate. */
 	private PlayRate _currentPlayRate = PlayRate.X1;
+	
+	/** The logger. */
 	private final ILog logger;
 	
+	/** The media player component. */
 	private EmbeddedMediaPlayerComponent mediaPlayerComponent;
+	
+	/** The update thread. */
 	private UpdateStatusThread updateThread;
 	
+	/** The width. */
 	private int width = 400;
+	
+	/** The height. */
 	private int height = 320;
 	
+	/**
+	 * Instantiates a new VLC media.
+	 *
+	 * @param mediaUrl the media url
+	 * @param name the name
+	 */
 	public VLCMedia(URI mediaUrl, String name) {
 		super(mediaUrl, name);
 		logger = Activator.getDefault().getLog();
@@ -48,6 +72,9 @@ public class VLCMedia extends AbstractMedia {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see synergyviewcore.media.model.IMedia#prepareMedia()
+	 */
 	public void prepareMedia(){
 		int initialVolume = mediaPlayerComponent.getMediaPlayer().getVolume();
 		mediaPlayerComponent.getMediaPlayer().play();	
@@ -63,11 +90,17 @@ public class VLCMedia extends AbstractMedia {
 		updateThread.start();
 	}
 
+	/* (non-Javadoc)
+	 * @see synergyviewcore.media.model.IMedia#dispose()
+	 */
 	public void dispose() {		
 		mediaPlayerComponent.release();
 		updateThread.shutdown();		
 	}
 
+	/* (non-Javadoc)
+	 * @see synergyviewcore.media.model.IMedia#setMute(boolean)
+	 */
 	public void setMute(boolean mute) {
 		try {
 			if (mute) {
@@ -85,14 +118,23 @@ public class VLCMedia extends AbstractMedia {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see synergyviewcore.media.model.IMedia#getTime()
+	 */
 	public int getTime() {
 		return (int)mediaPlayerComponent.getMediaPlayer().getTime();
 	}
 
+	/* (non-Javadoc)
+	 * @see synergyviewcore.media.model.IMedia#getSize()
+	 */
 	public Dimension getSize() {
 		return movieDimension;
 	}
 
+	/* (non-Javadoc)
+	 * @see synergyviewcore.media.model.IMedia#setTime(int)
+	 */
 	public void setTime(int time) {
 		try {
 			int previousTime = getTime();
@@ -104,10 +146,19 @@ public class VLCMedia extends AbstractMedia {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see synergyviewcore.media.model.IMedia#getFormattedTime()
+	 */
 	public String getFormattedTime() {
 		return getStringTimeFormat(getTime());
 	}
 
+	/**
+	 * Gets the string time format.
+	 *
+	 * @param time the time
+	 * @return the string time format
+	 */
 	private String getStringTimeFormat(int time) {
 		try {
 			if (time == 0)
@@ -128,6 +179,9 @@ public class VLCMedia extends AbstractMedia {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see synergyviewcore.media.model.IMedia#getDuration()
+	 */
 	public int getDuration() {
 		try {
 			return (int)mediaPlayerComponent.getMediaPlayer().getLength();
@@ -138,6 +192,9 @@ public class VLCMedia extends AbstractMedia {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see synergyviewcore.media.model.IMedia#setPlaying(boolean)
+	 */
 	public void setPlaying(boolean playingValue) {
 		try {
 			mediaPlayerComponent.getMediaPlayer().setPause(!playingValue);
@@ -149,6 +206,9 @@ public class VLCMedia extends AbstractMedia {
 
 
 
+	/* (non-Javadoc)
+	 * @see synergyviewcore.media.model.IMedia#getUIComponent()
+	 */
 	public Component getUIComponent() {
 		try {
 			return mediaPlayerComponent;
@@ -159,10 +219,16 @@ public class VLCMedia extends AbstractMedia {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see synergyviewcore.media.model.IMedia#getFormattedDuration()
+	 */
 	public String getFormattedDuration() {
 		return getStringTimeFormat(this.getDuration());
 	}
 
+	/* (non-Javadoc)
+	 * @see synergyviewcore.media.model.IMedia#isAudioAvailable()
+	 */
 	public boolean isAudioAvailable() {
 		try {
 			return mediaPlayerComponent.getMediaPlayer().getAudioTrackCount() > 0;
@@ -174,6 +240,9 @@ public class VLCMedia extends AbstractMedia {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see synergyviewcore.media.model.IMedia#isMute()
+	 */
 	public boolean isMute() {
 		try {
 			return (mediaPlayerComponent.getMediaPlayer().getVolume() == 0) ? true : false;
@@ -184,10 +253,16 @@ public class VLCMedia extends AbstractMedia {
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see synergyviewcore.media.model.IMedia#isPlaying()
+	 */
 	public boolean isPlaying() {
 		return mediaPlayerComponent.getMediaPlayer().isPlaying();
 	}
 
+	/* (non-Javadoc)
+	 * @see synergyviewcore.media.model.IMedia#stepFF()
+	 */
 	public void stepFF() {
 		try {			
 			long time = mediaPlayerComponent.getMediaPlayer().getTime();
@@ -202,6 +277,9 @@ public class VLCMedia extends AbstractMedia {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see synergyviewcore.media.model.IMedia#stepRE()
+	 */
 	public void stepRE() {
 		try {
 			long time = mediaPlayerComponent.getMediaPlayer().getTime();
@@ -217,6 +295,9 @@ public class VLCMedia extends AbstractMedia {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see synergyviewcore.media.model.IMedia#setRate(synergyviewcore.media.model.IMedia.PlayRate)
+	 */
 	public void setRate(PlayRate rate) {
 
 		if (isPlaying()) {
@@ -225,6 +306,9 @@ public class VLCMedia extends AbstractMedia {
 		firePropertyChange(IMedia.PROP_RATE, _currentPlayRate, _currentPlayRate = rate);
 	}
 
+	/**
+	 * Update movie play rate.
+	 */
 	private void updateMoviePlayRate() {
 		try {
 			switch (_currentPlayRate) {
@@ -250,23 +334,41 @@ public class VLCMedia extends AbstractMedia {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see synergyviewcore.media.model.IMedia#getRate()
+	 */
 	public PlayRate getRate() {
 		return _currentPlayRate;
 	}
 	
+	/**
+	 * The Class UpdateStatusThread.
+	 */
 	class UpdateStatusThread extends Thread {
 		
+		/** The active. */
 		private boolean active = true;
+		
+		/** The previous time. */
 		private int previousTime = -1;
 		
+		/**
+		 * Instantiates a new update status thread.
+		 */
 		public UpdateStatusThread () {
 			super();
 		}
 		
+		/* (non-Javadoc)
+		 * @see java.lang.Thread#start()
+		 */
 		public void start () {
 			super.start();
 		}
 		
+		/* (non-Javadoc)
+		 * @see java.lang.Thread#run()
+		 */
 		public void run () {
 			while(active){
 				if (isPlaying()){
@@ -284,6 +386,9 @@ public class VLCMedia extends AbstractMedia {
 			}
 		}
 		
+		/**
+		 * Shutdown.
+		 */
 		public void shutdown(){
 			active = false;
 		}

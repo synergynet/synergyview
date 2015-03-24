@@ -20,17 +20,23 @@
 
 package synergyviewcore.model;
 
+
 /**
- * @author phyo
+ * The Class ModelPersistenceException.
  *
+ * @author phyo
  */
 public class ModelPersistenceException extends Exception {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Instantiates a new model persistence exception.
+	 *
+	 * @param message the message
+	 * @param ex the ex
+	 */
 	public ModelPersistenceException(String message, Exception ex) {
 		super(message, ex);
 	}

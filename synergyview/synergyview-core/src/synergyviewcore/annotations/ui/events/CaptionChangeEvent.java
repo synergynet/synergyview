@@ -24,16 +24,26 @@ import java.util.EventObject;
 
 import synergyviewcore.annotations.ui.events.ICaptionChangeListener.CaptionPublishState;
 
+
 /**
- * @author phyokyaw
+ * The Class CaptionChangeEvent.
  *
+ * @author phyokyaw
  */
 public class CaptionChangeEvent extends EventObject {
 
+	/** The _caption text. */
 	private String _captionText;
+	
+	/** The _caption state. */
 	private CaptionPublishState _captionState;
+	
 	/**
-	 * @param source
+	 * Instantiates a new caption change event.
+	 *
+	 * @param source the source
+	 * @param captionText the caption text
+	 * @param captionState the caption state
 	 */
 	public CaptionChangeEvent(Object source, String captionText, CaptionPublishState captionState) {
 		super(source);
@@ -42,6 +52,8 @@ public class CaptionChangeEvent extends EventObject {
 	}
 
 	/**
+	 * Gets the caption text.
+	 *
 	 * @return the captionText
 	 */
 	public String getCaptionText() {
@@ -50,15 +62,15 @@ public class CaptionChangeEvent extends EventObject {
 
 
 	/**
+	 * Gets the caption state.
+	 *
 	 * @return the _captionState
 	 */
 	public CaptionPublishState getCaptionState() {
 		return _captionState;
 	}
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
 }

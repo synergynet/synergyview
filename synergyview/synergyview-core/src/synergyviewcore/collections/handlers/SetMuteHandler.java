@@ -30,12 +30,17 @@ import org.eclipse.ui.handlers.HandlerUtil;
 
 import synergyviewcore.timebar.model.MediaIntervalImpl;
 
+
 /**
- * @author Linxiao Ma
+ * The Class SetMuteHandler.
  *
+ * @author Linxiao Ma
  */
 public class SetMuteHandler extends AbstractHandler implements IHandler {
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	 */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		ISelection selection = HandlerUtil.getCurrentSelection(event);
 		if (!(selection instanceof IStructuredSelection))

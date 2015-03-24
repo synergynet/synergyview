@@ -60,11 +60,17 @@ import synergyviewcore.attributes.model.Attribute;
 import synergyviewcore.collections.model.Collection;
 import synergyviewcore.databinding.validation.NotEmptyOrExistValidator;
 
+
 /**
- * @author phyo
+ * The Class NewAttributeWizardPage.
  *
+ * @author phyo
  */
 public class NewAttributeWizardPage extends WizardPage implements IWizardPage {
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.dialogs.DialogPage#dispose()
+	 */
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
@@ -72,14 +78,30 @@ public class NewAttributeWizardPage extends WizardPage implements IWizardPage {
 		if (_color!=null && !_color.isDisposed())
 			_color.dispose();
 	}
+	
+	/** The decorator map. */
 	private static HashMap<Control, ControlDecoration> decoratorMap = new HashMap<Control, ControlDecoration>();
+	
+	/** The _name text. */
 	private Text _nameText;
+	
+	/** The _details text. */
 	private Text _detailsText;
-	 private Color _color;
-	 private Attribute _attribute;
+	 
+ 	/** The _color. */
+ 	private Color _color;
+	 
+ 	/** The _attribute. */
+ 	private Attribute _attribute;
+		
+		/** The _dbc. */
 		private DataBindingContext _dbc = new DataBindingContext();
+	
 	/**
-	 * @param pageName
+	 * Instantiates a new new attribute wizard page.
+	 *
+	 * @param pageName the page name
+	 * @param attributeValue the attribute value
 	 */
 	protected NewAttributeWizardPage(String pageName, Attribute attributeValue) {
 		super(pageName);
@@ -156,6 +178,9 @@ public class NewAttributeWizardPage extends WizardPage implements IWizardPage {
         WizardPageSupport.create(this, _dbc);
 	}
 
+	/**
+	 * Bind values.
+	 */
 	private void bindValues() {
 
 		List<String> existingNames = new ArrayList<String>();
@@ -202,6 +227,14 @@ public class NewAttributeWizardPage extends WizardPage implements IWizardPage {
 
 	}
 	
+	/**
+	 * Bind.
+	 *
+	 * @param textWidget the text widget
+	 * @param bean the bean
+	 * @param property the property
+	 * @param validator the validator
+	 */
 	private void bind(Text textWidget, Object bean,
 			String property, IValidator validator) {
 		UpdateValueStrategy targetToModel = null;
@@ -213,6 +246,12 @@ public class NewAttributeWizardPage extends WizardPage implements IWizardPage {
 				BeansObservables.observeValue(bean, property), targetToModel,
 				null);
 	}
+	
+	/**
+	 * Creates the control decoration.
+	 *
+	 * @param control the control
+	 */
 	private void createControlDecoration(Control control) {
 		ControlDecoration controlDecoration = new ControlDecoration(control,
 				SWT.LEFT | SWT.TOP);

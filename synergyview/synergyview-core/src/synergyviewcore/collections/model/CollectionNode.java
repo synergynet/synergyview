@@ -45,17 +45,25 @@ import synergyviewcore.navigation.model.IParentNode;
 import synergyviewcore.projects.ui.NodeEditorInput;
 import synergyviewcore.resource.ResourceLoader;
 
+
 /**
- * @author phyo
+ * The Class CollectionNode.
  *
+ * @author phyo
  */
 public class CollectionNode extends AbstractParent<Collection> {
+	
+	/** The e manager factory. */
 	private EntityManagerFactory eManagerFactory;
+	
+	/** The Constant COLLECTION_ICON. */
 	public static final String COLLECTION_ICON = "film.png";
 
 	/**
-	 * @param resourceValue
-	 * @param parentValue
+	 * Instantiates a new collection node.
+	 *
+	 * @param resourceValue the resource value
+	 * @param parentValue the parent value
 	 */
 	public CollectionNode(Collection resourceValue,
 			IParentNode parentValue) {
@@ -66,6 +74,12 @@ public class CollectionNode extends AbstractParent<Collection> {
 		
 	}
 
+	/**
+	 * Find collection media clip node.
+	 *
+	 * @param clipValue the clip value
+	 * @return the collection media clip node
+	 */
 	public CollectionMediaClipNode findCollectionMediaClipNode(CollectionMediaClip clipValue) {
 		for (INode cClipNode : _children) {
 			if (cClipNode.getResource() == clipValue) {
@@ -75,6 +89,9 @@ public class CollectionNode extends AbstractParent<Collection> {
 		return null;
 	}
 
+	/**
+	 * Load child nodes.
+	 */
 	private void loadChildNodes() {
 		for(CollectionMediaClip collectionItem : resource.getCollectionMediaClipList()) {
 			CollectionMediaClipNode collectionClipNodeFolder = new CollectionMediaClipNode(collectionItem, this);
@@ -83,6 +100,9 @@ public class CollectionNode extends AbstractParent<Collection> {
 		this.fireChildrenChanged();
 	}
 
+	/* (non-Javadoc)
+	 * @see synergyviewcore.navigation.model.AbstractNode#getIcon()
+	 */
 	public ImageDescriptor getIcon() {
 		return ResourceLoader.getIconDescriptor(COLLECTION_ICON);
 	}
@@ -121,6 +141,9 @@ public class CollectionNode extends AbstractParent<Collection> {
 		this.deleteChildren(_children.toArray(new INode[]{}));
 	}
 
+	/**
+	 * Update resource.
+	 */
 	public void updateResource() {
 		EntityManager entityManager = null;
 		try {
@@ -139,6 +162,11 @@ public class CollectionNode extends AbstractParent<Collection> {
 		}
 	}
 
+	/**
+	 * Adds the media.
+	 *
+	 * @param cMedias the c medias
+	 */
 	public void addMedia(List<CollectionMedia> cMedias) {
 		EntityManager entityManager = null;
 		try {
@@ -161,6 +189,11 @@ public class CollectionNode extends AbstractParent<Collection> {
 		}
 	}
 
+	/**
+	 * Update media.
+	 *
+	 * @param cMedia the c media
+	 */
 	public void updateMedia(CollectionMedia cMedia) {
 		EntityManager entityManager = null;
 		try {
@@ -178,6 +211,11 @@ public class CollectionNode extends AbstractParent<Collection> {
 		}
 	}
 
+	/**
+	 * Removes the media.
+	 *
+	 * @param cMedias the c medias
+	 */
 	public void removeMedia(List<CollectionMedia> cMedias) {
 		EntityManager entityManager = null;
 		try {
@@ -200,6 +238,9 @@ public class CollectionNode extends AbstractParent<Collection> {
 		}
 	}
 
+	/**
+	 * Clear media collection.
+	 */
 	public void clearMediaCollection() {
 		EntityManager entityManager = null;
 		try {
@@ -219,6 +260,12 @@ public class CollectionNode extends AbstractParent<Collection> {
 		}
 	}
 
+	/**
+	 * Adds the clip.
+	 *
+	 * @param cClips the c clips
+	 * @throws Exception the exception
+	 */
 	public void addClip(List<CollectionMediaClip> cClips) throws Exception {
 		EntityManager entityManager = null;
 		try {
@@ -243,6 +290,12 @@ public class CollectionNode extends AbstractParent<Collection> {
 		}
 	}
 
+	/**
+	 * Removes the clip.
+	 *
+	 * @param cClips the c clips
+	 * @throws Exception the exception
+	 */
 	public void removeClip(List<CollectionMediaClip> cClips) throws Exception {
 		EntityManager entityManager = null;
 		try {
@@ -266,6 +319,9 @@ public class CollectionNode extends AbstractParent<Collection> {
 		}
 	}
 
+	/**
+	 * Clear clip collection.
+	 */
 	public void clearClipCollection() {
 		EntityManager entityManager = null;
 		try {
@@ -297,6 +353,11 @@ public class CollectionNode extends AbstractParent<Collection> {
 		return nameList;
 	}
 
+	/**
+	 * Gets the media names.
+	 *
+	 * @return the media names
+	 */
 	public List<String> getMediaNames() {
 
 		EntityManager entityManager = null;

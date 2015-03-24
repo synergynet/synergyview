@@ -47,26 +47,44 @@ import synergyviewcore.navigation.model.IParentNode;
 import synergyviewcore.navigation.model.IViewerProvider;
 import synergyviewcore.resource.ResourceLoader;
 
+
 /**
- * @author phyokyaw
+ * The Class ProjectAttributeRootNode.
  *
+ * @author phyokyaw
  */
 public class ProjectAttributeRootNode extends AbstractParent<Attribute> implements CollectionChangeListener, IViewerProvider {	
+	
+	/** The attributes map. */
 	private Map<Attribute, IObservableList<List<Attribute>, Attribute>> attributesMap;
+	
+	/** The root attributes list. */
 	private IObservableList<List<Attribute>, Attribute> rootAttributesList;
+	
+	/** The e manager factory. */
 	protected EntityManagerFactory eManagerFactory;
+	
+	/** The map. */
 	private Map<Attribute, AttributeNode> map = new HashMap<Attribute, AttributeNode>();
+	
+	/** The Constant ATTRIBUTE_PARENT_ICON. */
 	public static final String ATTRIBUTE_PARENT_ICON = "folder_table.png";
+	
+	/** The tree viewer. */
 	private TreeViewer treeViewer;	
 	
+	/* (non-Javadoc)
+	 * @see synergyviewcore.navigation.model.AbstractNode#getIcon()
+	 */
 	@Override
 	public ImageDescriptor getIcon() {
 		return ResourceLoader.getIconDescriptor(ATTRIBUTE_PARENT_ICON);
 	}
 	
 	/**
-	 * @param resourceValue
-	 * @param parentValue
+	 * Instantiates a new project attribute root node.
+	 *
+	 * @param parentValue the parent value
 	 */
 	public ProjectAttributeRootNode(IParentNode parentValue) {
 		super(null, parentValue);
@@ -77,6 +95,11 @@ public class ProjectAttributeRootNode extends AbstractParent<Attribute> implemen
 	}
 	
 
+	/**
+	 * Adds the observables.
+	 *
+	 * @param attribute the attribute
+	 */
 	private void addObservables(Attribute attribute) {
 		attributesMap.put(attribute, new ObservableList<List<Attribute>,Attribute>(attribute.getChildren()));
 		for(Attribute attributeToAdd : attribute.getChildren()) {
@@ -85,6 +108,9 @@ public class ProjectAttributeRootNode extends AbstractParent<Attribute> implemen
 		}
 	}
 
+	/**
+	 * Load child attribute nodes.
+	 */
 	public void loadChildAttributeNodes() {
 		EntityManager entityManager = null;
 		try {
@@ -111,12 +137,24 @@ public class ProjectAttributeRootNode extends AbstractParent<Attribute> implemen
 		}
 	}
 	
+	/**
+	 * Gets the attributes list.
+	 *
+	 * @param parentAttribute the parent attribute
+	 * @return the attributes list
+	 */
 	public List<Attribute> getAttributesList(Attribute parentAttribute) {
 		if (parentAttribute == null) 
 			return rootAttributesList.getReadOnlyList();
 		return attributesMap.get(parentAttribute).getReadOnlyList();
 	}
 	
+	/**
+	 * Adds the attribute list change listener.
+	 *
+	 * @param listener the listener
+	 * @param parentAttribute the parent attribute
+	 */
 	public void addAttributeListChangeListener(CollectionChangeListener listener, Attribute parentAttribute) {
 		//TODO throws exception
 		IObservableList<List<Attribute>, Attribute> tempList = attributesMap.get(parentAttribute);
@@ -124,6 +162,12 @@ public class ProjectAttributeRootNode extends AbstractParent<Attribute> implemen
 			tempList.addChangeListener(listener);
 	}
 	
+	/**
+	 * Gets the attribute.
+	 *
+	 * @param attribute the attribute
+	 * @return the attribute
+	 */
 	public Attribute getAttribute(Attribute attribute) {
 		for (Attribute listAttribute : attributesMap.keySet()) {
 			if (listAttribute.equals(attribute))
@@ -132,6 +176,12 @@ public class ProjectAttributeRootNode extends AbstractParent<Attribute> implemen
 		return null;
 	}
 	
+	/**
+	 * Removes the attribute list change listener.
+	 *
+	 * @param listener the listener
+	 * @param parentAttribute the parent attribute
+	 */
 	public void removeAttributeListChangeListener(CollectionChangeListener listener, Attribute parentAttribute) {
 		//TODO throws exception
 		IObservableList<List<Attribute>, Attribute> tempList = attributesMap.get(parentAttribute);
@@ -139,6 +189,13 @@ public class ProjectAttributeRootNode extends AbstractParent<Attribute> implemen
 			tempList.removeChangeListener(listener);
 	}
 	
+	/**
+	 * Removes the attribute.
+	 *
+	 * @param attributeValue the attribute value
+	 * @param parentAttribute the parent attribute
+	 * @throws Exception the exception
+	 */
 	public void removeAttribute(Attribute attributeValue, Attribute parentAttribute) throws Exception {
 		EntityManager entityManager = null;
 		try {
@@ -171,6 +228,12 @@ public class ProjectAttributeRootNode extends AbstractParent<Attribute> implemen
 	}
 	
 
+	/**
+	 * Adds the attribute.
+	 *
+	 * @param attributeValue the attribute value
+	 * @param parentAttribute the parent attribute
+	 */
 	public void addAttribute(Attribute attributeValue, Attribute parentAttribute) {
 		EntityManager entityManager = null;
 		try {
@@ -204,7 +267,9 @@ public class ProjectAttributeRootNode extends AbstractParent<Attribute> implemen
 	}
 	
 	/**
-	 * 
+	 * Update resource.
+	 *
+	 * @param attribute the attribute
 	 */
 	public void updateResource(Attribute attribute) {
 		EntityManager entityManager = null;
@@ -265,13 +330,20 @@ public class ProjectAttributeRootNode extends AbstractParent<Attribute> implemen
 		return treeViewer;
 	}
 	
+	/**
+	 * Sets the tree viewer.
+	 *
+	 * @param treeViewer the new tree viewer
+	 */
 	public void setTreeViewer(TreeViewer treeViewer) {
 		this.treeViewer = treeViewer;
 	}
 	
 	/**
-	 * @param name
-	 * @return
+	 * Gets the attribute by name.
+	 *
+	 * @param name the name
+	 * @return the attribute by name
 	 */
 	public Attribute getAttributeByName(String name) {
 		for (Attribute listAttribute : attributesMap.keySet()) {

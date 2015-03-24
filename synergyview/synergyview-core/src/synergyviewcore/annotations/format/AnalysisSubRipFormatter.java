@@ -7,6 +7,10 @@ import synergyviewcore.annotations.model.AnnotationSetNode;
 import synergyviewcore.model.ModelObject;
 import synergyviewcore.subjects.model.Subject;
 
+
+/**
+ * The Class AnalysisSubRipFormatter.
+ */
 public class AnalysisSubRipFormatter extends ModelObject implements IAnnotationFormatter {
 
 	/* (non-Javadoc)

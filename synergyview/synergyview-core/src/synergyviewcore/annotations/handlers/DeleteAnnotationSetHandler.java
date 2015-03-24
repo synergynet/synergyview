@@ -16,9 +16,16 @@ import synergyviewcore.annotations.model.AnnotationSetNode;
 import synergyviewcore.collections.model.CollectionMediaClipNode;
 import synergyviewcore.model.ModelPersistenceException;
 
+
+/**
+ * The Class DeleteAnnotationSetHandler.
+ */
 public class DeleteAnnotationSetHandler extends AbstractHandler implements
 		IHandler {
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	 */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		ISelection selection = HandlerUtil.getCurrentSelection(event);
 		

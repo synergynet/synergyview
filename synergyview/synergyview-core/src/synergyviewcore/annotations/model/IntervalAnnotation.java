@@ -24,30 +24,43 @@ import javax.persistence.Entity;
 
 import synergyviewcore.util.DateTimeHelper;
 
+
 /**
- * @author phyokyaw
+ * The Class IntervalAnnotation.
  *
+ * @author phyokyaw
  */
 @Entity
 public class IntervalAnnotation extends Annotation {
 	
+	/** The Constant PROP_DURATION. */
 	public static final String PROP_DURATION = "duration";
+	
+	/** The duration. */
 	private long duration;
 	
 	/**
+	 * Sets the duration.
+	 *
 	 * @param duration the duration to set
 	 */
 	public void setDuration(long duration) {
 		this.firePropertyChange(PROP_DURATION, this.duration, this.duration = duration);
 	}
+	
 	/**
+	 * Gets the duration.
+	 *
 	 * @return the duration
 	 */
 	public long getDuration() {
 		return duration;
 	}
+	
 	/**
-	 * @return
+	 * Gets the formatted duration.
+	 *
+	 * @return the formatted duration
 	 */
 	public String getFormattedDuration() {
 		return DateTimeHelper.getHMSFromMilliFormatted(duration);

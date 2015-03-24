@@ -16,8 +16,9 @@ import org.eclipse.ui.PlatformUI;
 import synergyviewcore.projects.ui.PickWorkspaceDialog;
 import synergyviewcore.resource.ResourceLoader;
 
+
 /**
- * This class controls all aspects of the application's execution
+ * This class controls all aspects of the application's execution.
  */
 public class Application implements IApplication {
 

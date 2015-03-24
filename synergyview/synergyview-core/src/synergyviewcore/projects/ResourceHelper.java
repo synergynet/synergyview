@@ -15,8 +15,17 @@ import org.eclipse.ui.actions.WorkspaceModifyOperation;
 
 import synergyviewcore.Activator;
 
+
+/**
+ * The Class ResourceHelper.
+ */
 public class ResourceHelper {
 
+	/**
+	 * Delete resources.
+	 *
+	 * @param resources the resources
+	 */
 	public static void deleteResources(final IResource[] resources) {
 		final ILog logger = Activator.getDefault().getLog();
 		try {

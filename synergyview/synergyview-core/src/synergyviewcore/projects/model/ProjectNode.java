@@ -26,16 +26,40 @@ import synergyviewcore.navigation.projects.model.IEMFactoryProvider;
 import synergyviewcore.projects.ResourceHelper;
 import synergyviewcore.subjects.model.SubjectRootNode;
 
+
+/**
+ * The Class ProjectNode.
+ */
 public class ProjectNode extends AbstractParent<IProject> implements IEMFactoryProvider {
 
+	/** The Constant PROJECT_ICON. */
 	public static final String PROJECT_ICON = "project.png";
+	
+	/** The Constant PROJECT_DB. */
 	public static final String PROJECT_DB = "ProjectDB";
+	
+	/** The media root node. */
 	private MediaRootNode mediaRootNode;
+	
+	/** The collection root node. */
 	private CollectionRootNode collectionRootNode;
+	
+	/** The e manager factory. */
 	private EntityManagerFactory eManagerFactory;
+	
+	/** The attribute root node. */
 	private ProjectAttributeRootNode attributeRootNode;
+	
+	/** The subject root node. */
 	private SubjectRootNode subjectRootNode;
 	
+	/**
+	 * Instantiates a new project node.
+	 *
+	 * @param projectValue the project value
+	 * @param parentValue the parent value
+	 * @throws Exception the exception
+	 */
 	public ProjectNode(IProject projectValue, IParentNode parentValue) throws Exception {
 		super(projectValue, parentValue);
 		// Creating a DB Entity Manager
@@ -57,6 +81,11 @@ public class ProjectNode extends AbstractParent<IProject> implements IEMFactoryP
 	}
 	
 	
+	/**
+	 * Creates the project db.
+	 *
+	 * @throws Exception the exception
+	 */
 	private void createProjectDB() throws Exception{
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
@@ -87,18 +116,38 @@ public class ProjectNode extends AbstractParent<IProject> implements IEMFactoryP
 	}
 
 
+	/**
+	 * Gets the media root node.
+	 *
+	 * @return the media root node
+	 */
 	public MediaRootNode getMediaRootNode() {
 		return mediaRootNode;
 	}
 	
+	/**
+	 * Gets the project attribute root node.
+	 *
+	 * @return the project attribute root node
+	 */
 	public ProjectAttributeRootNode getProjectAttributeRootNode() {
 		return attributeRootNode;
 	}
 	
+	/**
+	 * Gets the subject root node.
+	 *
+	 * @return the subject root node
+	 */
 	public SubjectRootNode getSubjectRootNode() {
 		return subjectRootNode;
 	}
 
+	/**
+	 * Adds the node.
+	 *
+	 * @param node the node
+	 */
 	private void addNode(INode node) {
 		_children.add(node);
 		this.fireChildrenChanged();

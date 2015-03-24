@@ -20,16 +20,39 @@ import org.eclipse.swt.widgets.Label;
 import synergyviewcore.media.model.AbstractMedia;
 import synergyviewcore.resource.ResourceLoader;
 
+
+/**
+ * The Class MediaSwtAwtComposite.
+ */
 public class MediaSwtAwtComposite extends Composite {
 
+	/** The media. */
 	private AbstractMedia media;
+	
+	/** The video preview container. */
 	private Composite videoPreviewContainer;
+	
+	/** The video duration. */
 	private Label videoDuration;
+	
+	/** The awt frame. */
 	private Frame awtFrame;
+	
+	/** The video_ sw t_ aw t_container. */
 	private Composite video_SWT_AWT_container;
+	
+	/** The Constant PADDING. */
 	private static final int PADDING = 5;
+	
+	/** The Constant MEDIA_DURATION_LABEL_HEIGHT. */
 	private static final int MEDIA_DURATION_LABEL_HEIGHT = 20;
 
+	/**
+	 * Instantiates a new media swt awt composite.
+	 *
+	 * @param parent the parent
+	 * @param style the style
+	 */
 	public MediaSwtAwtComposite(Composite parent, int style) {
 		super(parent, style);
 
@@ -78,6 +101,9 @@ public class MediaSwtAwtComposite extends Composite {
 		videoDuration.setText("No media available.");
 	}
 
+	/**
+	 * Update times.
+	 */
 	private void updateTimes() {
 		Display.getDefault().syncExec(new Runnable(){
 			public void run() {
@@ -88,6 +114,11 @@ public class MediaSwtAwtComposite extends Composite {
 		});
 	}
 
+	/**
+	 * Adds the media.
+	 *
+	 * @param mediaValue the media value
+	 */
 	public void addMedia(AbstractMedia mediaValue) {
 		removeMedia();
 
@@ -119,6 +150,9 @@ public class MediaSwtAwtComposite extends Composite {
 		updateTimes();
 	}
 
+	/**
+	 * Dispose video awt frame.
+	 */
 	private void disposeVideoAwtFrame() {
 		Thread closeMediaASAP = new Thread(new Runnable () {
 			public void run() {
@@ -132,6 +166,12 @@ public class MediaSwtAwtComposite extends Composite {
 		closeMediaASAP.start();
 	}
 
+	/**
+	 * Calculate video size.
+	 *
+	 * @param parentDimension the parent dimension
+	 * @return the dimension
+	 */
 	private Dimension calculateVideoSize(Dimension parentDimension) {
 		Dimension d = media.getSize();
 		final double movieratio = d.getHeight() / d.getWidth();  
@@ -154,6 +194,9 @@ public class MediaSwtAwtComposite extends Composite {
 		}
 	}
 
+	/**
+	 * Removes the media.
+	 */
 	public void removeMedia() {
 		
 		disposeVideoAwtFrame();
@@ -178,6 +221,9 @@ public class MediaSwtAwtComposite extends Composite {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.swt.widgets.Widget#dispose()
+	 */
 	@Override
 	public void dispose() {
 		removeMedia();

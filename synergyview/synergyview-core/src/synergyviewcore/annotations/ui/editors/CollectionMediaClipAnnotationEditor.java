@@ -54,20 +54,36 @@ import synergyviewcore.media.model.MediaRootNode;
 import synergyviewcore.projects.model.ProjectNode;
 import synergyviewcore.projects.ui.NodeEditorInput;
 
+
 /**
- * @author phyo
+ * The Class CollectionMediaClipAnnotationEditor.
  *
+ * @author phyo
  */
 public class CollectionMediaClipAnnotationEditor extends EditorPart implements ISelectionProvider {
 
+	/** The Constant ID. */
 	public static final String ID = "synergyviewcore.subtitle.ui.editors.collectionMediaClipAnnotationSetEditor";
 
+	/** The annotation set node. */
 	private AnnotationSetNode annotationSetNode;
+	
+	/** The media root node. */
 	private MediaRootNode mediaRootNode;
+	
+	/** The annotation media control. */
 	private AnnotationsMediaControl annotationMediaControl;
+	
+	/** The media preview control. */
 	private MediaPreviewControl mediaPreviewControl;
+	
+	/** The refresh listener. */
 	private IPartListener refreshListener;
+	
+	/** The listeners. */
 	private ListenerList listeners = new ListenerList(); 
+	
+	/** The selection list. */
 	private List<Object> selectionList = new ArrayList<Object>();
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.part.EditorPart#doSave(org.eclipse.core.runtime.IProgressMonitor)
@@ -87,15 +103,28 @@ public class CollectionMediaClipAnnotationEditor extends EditorPart implements I
 
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.part.WorkbenchPart#dispose()
+	 */
 	@Override
 	public void dispose() {
 		this.getSite().getWorkbenchWindow().getPartService().removePartListener(refreshListener);
 	}
 
+	/**
+	 * Gets the annotation media control.
+	 *
+	 * @return the annotation media control
+	 */
 	public AnnotationsMediaControl getAnnotationMediaControl() {
 		return annotationMediaControl;
 	}
 	
+	/**
+	 * Gets the annotation set node.
+	 *
+	 * @return the annotation set node
+	 */
 	public AnnotationSetNode getAnnotationSetNode() {
 		return annotationSetNode;
 	}
@@ -202,6 +231,11 @@ public class CollectionMediaClipAnnotationEditor extends EditorPart implements I
 	
 	
 
+	/**
+	 * Adds the media preview.
+	 *
+	 * @param parent the parent
+	 */
 	private void addMediaPreview(Composite parent) {
 		Composite container = new Composite(parent, SWT.BORDER | SWT.CENTER);
 		container.setLayout(new GridLayout());
@@ -212,9 +246,9 @@ public class CollectionMediaClipAnnotationEditor extends EditorPart implements I
 
 
 	/**
-	 * 
-	 * To add media controller
-	 * 
+	 * To add media controller.
+	 *
+	 * @param parent the parent
 	 */
 	private void addMediaController(Composite parent) {
 		Composite container = new Composite(parent, SWT.BORDER | SWT.CENTER);

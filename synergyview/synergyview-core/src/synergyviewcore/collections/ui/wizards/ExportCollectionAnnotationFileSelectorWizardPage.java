@@ -35,16 +35,20 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Text;
 
+
 /**
- * @author phyo
+ * The Class ExportCollectionAnnotationFileSelectorWizardPage.
  *
+ * @author phyo
  */
 public class ExportCollectionAnnotationFileSelectorWizardPage extends
 		WizardPage {
 	
+	/** The selected file. */
 	private File selectedFile = null;
+	
 	/**
-	 * @param pageName
+	 * Instantiates a new export collection annotation file selector wizard page.
 	 */
 	protected ExportCollectionAnnotationFileSelectorWizardPage() {
 		super("Export Annotations in the Collection File Browser Page");
@@ -112,6 +116,11 @@ public class ExportCollectionAnnotationFileSelectorWizardPage extends
 		
 	}
 	
+	/**
+	 * Gets the selected file.
+	 *
+	 * @return the selected file
+	 */
 	public File getSelectedFile() {
 		return selectedFile;
 	}

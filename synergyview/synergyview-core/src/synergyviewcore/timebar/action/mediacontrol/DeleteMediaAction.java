@@ -12,9 +12,21 @@ import de.jaret.util.date.Interval;
 import de.jaret.util.ui.timebars.model.DefaultTimeBarRowModel;
 import de.jaret.util.ui.timebars.swt.TimeBarViewer;
 
+
+/**
+ * The Class DeleteMediaAction.
+ */
 public class DeleteMediaAction extends BaseTimeBarAction {
 	
+	/** The media collection. */
 	CollectionNode mediaCollection;
+    
+    /**
+     * Instantiates a new delete media action.
+     *
+     * @param tbv the tbv
+     * @param control the control
+     */
     public DeleteMediaAction(TimeBarViewer tbv, CollectionNode control) {
         super(tbv);      
         mediaCollection = control;
@@ -44,6 +56,9 @@ public class DeleteMediaAction extends BaseTimeBarAction {
         return ResourceLoader.getString("TIMEBAR_MEDIA_CONTEXTMENU_DELETE");
     }
 	
+	/* (non-Javadoc)
+	 * @see synergyviewcore.timebar.action.BaseTimeBarAction#init()
+	 */
 	@Override
 	protected void init() {
 		this.setEnabled(true);

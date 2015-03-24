@@ -38,43 +38,101 @@ import de.jaret.util.ui.timebars.TimeBarMarker;
 import de.jaret.util.ui.timebars.TimeBarMarkerImpl;
 import de.jaret.util.ui.timebars.TimeBarMarkerListener;
 
+
 /**
- * @author phyo
+ * The Class MediaClipIntervalImpl.
  *
+ * @author phyo
  */
 public class MediaClipIntervalImpl extends IntervalImpl {
+	
+	/** The label. */
 	protected String label;
+	
+	/** The _collection media. */
 	private CollectionMedia _collectionMedia;
+	
+	/** The _media. */
 	private AbstractMedia _media;
+	
+	/** The _start interval off set. */
 	private long _startIntervalOffSet;
+	
+	/** The _end interval off set. */
 	private long _endIntervalOffSet;
+	
+	/** The _media start. */
 	private long _mediaStart;
+	
+	/** The _media end. */
 	@SuppressWarnings("unused")
 	private long _mediaEnd;
+	
+	/** The _play back. */
 	private boolean _playBack;
+	
+	/** The _time available. */
 	private boolean _timeAvailable;
+	
+	/** The _left media. */
 	private boolean _leftMedia;
+	
+	/** The _marker. */
 	private TimeBarMarkerImpl _marker;
+	
+	/** The _clip start date. */
 	private JaretDate _clipStartDate;
+	
+	/** The _clip end date. */
 	private JaretDate _clipEndDate;
+	
+	/** The _ui owner. */
 	private Composite _uiOwner;
+	
+	/** The time changed listeners. */
 	private List<MediaTimeChangeListener> timeChangedListeners = new CopyOnWriteArrayList<MediaTimeChangeListener>();
+	
+	/** The time available listeners. */
 	private List<TimeAvailableListener> timeAvailableListeners = new CopyOnWriteArrayList<TimeAvailableListener>();
 
+	/** The _property change listener. */
 	private PropertyChangeListener _propertyChangeListener;
 
+	/**
+	 * Instantiates a new media clip interval impl.
+	 */
 	protected MediaClipIntervalImpl() {
 		super();
 	}
 
+	/**
+	 * Sets the mute.
+	 *
+	 * @param muteValue the new mute
+	 */
 	public void setMute(boolean muteValue) {
 		_media.setMute(muteValue);
 	}
 
+	/**
+	 * Checks if is mute.
+	 *
+	 * @return true, if is mute
+	 */
 	public boolean isMute() {
 		return _media.isMute();
 	}
 
+	/**
+	 * Instantiates a new media clip interval impl.
+	 *
+	 * @param collectionMedia the collection media
+	 * @param mediaPreview the media preview
+	 * @param clipStartDate the clip start date
+	 * @param clipDuration the clip duration
+	 * @param marker the marker
+	 * @param uiOwnerValue the ui owner value
+	 */
 	public MediaClipIntervalImpl(CollectionMedia collectionMedia, AbstractMedia mediaPreview, JaretDate clipStartDate, int clipDuration, TimeBarMarkerImpl marker, Composite uiOwnerValue) {
 		super();
 		_uiOwner = uiOwnerValue;
@@ -182,6 +240,11 @@ public class MediaClipIntervalImpl extends IntervalImpl {
 		_media.setMute(collectionMedia.isMute());
 	}
 
+	/**
+	 * Gets the current time date.
+	 *
+	 * @return the current time date
+	 */
 	private JaretDate getCurrentTimeDate() {
 		if (_leftMedia) {
 			int currentTimeValue = _media.getTime() - (int)_mediaStart;
@@ -193,16 +256,29 @@ public class MediaClipIntervalImpl extends IntervalImpl {
 		}
 	}
 
+	/**
+	 * Checks if is time available.
+	 *
+	 * @return true, if is time available
+	 */
 	public boolean isTimeAvailable() {
 		return _timeAvailable;
 	}
 
+	/**
+	 * Step re.
+	 *
+	 * @param stepMilliValue the step milli value
+	 */
 	public void stepRE(int stepMilliValue) {
 		if (_media.getTime() - stepMilliValue > _mediaStart) {
 			_media.setTime(_media.getTime() - stepMilliValue);
 		}
 	}
 
+	/**
+	 * Update media time.
+	 */
 	public void updateMediaTime() {
 		if (isMarkerInrange()) {
 			int markerMillivalue = (int) _marker.getDate().getMillisInDay() + _marker.getDate().getMillis();
@@ -210,19 +286,35 @@ public class MediaClipIntervalImpl extends IntervalImpl {
 		}
 	}
 
+	/**
+	 * Sets the label.
+	 *
+	 * @param label the new label
+	 */
 	public void setLabel(String label) {
 		this.label = label;
 	}
 
+	/**
+	 * Gets the label.
+	 *
+	 * @return the label
+	 */
 	public String getLabel() {
 		return this.label;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.jaret.util.date.IntervalImpl#toString()
+	 */
 	@Override
 	public String toString() {
 		return label!=null?label:super.toString();
 	}
 
+	/**
+	 * Play.
+	 */
 	public void play() {
 		_playBack = true;
 		if (isMarkerInrange()) {
@@ -233,30 +325,58 @@ public class MediaClipIntervalImpl extends IntervalImpl {
 		}
 	}
 
+	/**
+	 * Stop.
+	 */
 	public void stop() {
 		_playBack = false;
 		if (_media.isPlaying())
 			_media.setPlaying(false);
 	}
 
+	/**
+	 * Adds the time change listener.
+	 *
+	 * @param listener the listener
+	 */
 	public void addTimeChangeListener(MediaTimeChangeListener listener) {
 		timeChangedListeners.add(listener);
 	}
 
+	/**
+	 * Removes the time change listener.
+	 *
+	 * @param listener the listener
+	 */
 	public void removeTimeChangeListener(MediaTimeChangeListener listener) {
 		if (timeChangedListeners.contains(listener))
 			timeChangedListeners.remove(listener);
 	}
 
+	/**
+	 * Adds the time available listener.
+	 *
+	 * @param listener the listener
+	 */
 	public void addTimeAvailableListener(TimeAvailableListener listener) {
 		timeAvailableListeners.add(listener);
 	}
 
+	/**
+	 * Removes the time available listener.
+	 *
+	 * @param listener the listener
+	 */
 	public void removeTimeAvailableListener(TimeAvailableListener listener) {
 		if (timeAvailableListeners.contains(listener))
 			timeAvailableListeners.remove(listener);
 	}
 
+	/**
+	 * Checks if is marker inrange.
+	 *
+	 * @return true, if is marker inrange
+	 */
 	private boolean isMarkerInrange() {
 		if (_marker.getDate().compareTo(this.getBegin()) >= 0 && _marker.getDate().compareTo(this.getEnd()) < 0)
 			return true;
@@ -264,7 +384,9 @@ public class MediaClipIntervalImpl extends IntervalImpl {
 	}
 
 	/**
-	 * @param stepReMilli
+	 * Step ff.
+	 *
+	 * @param stepMilliValue the step milli value
 	 */
 	public void stepFF(int stepMilliValue) {
 		if (_marker.getDate().copy().advanceMillis(stepMilliValue).compareTo(_end) < 0 ) {

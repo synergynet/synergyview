@@ -50,19 +50,46 @@ import synergyviewcore.attributes.model.Attribute;
 import synergyviewcore.attributes.model.AttributeNode;
 import synergyviewcore.util.DateTimeHelper;
 
+
+/**
+ * The Class AnnotationTableViewPart.
+ */
 public class AnnotationTableViewPart extends ViewPart implements
 		ISelectionListener {
+	
+	/** The is sticky. */
 	private boolean isSticky;
+	
+	/** The Constant ID. */
 	public static final String ID = "synergyviewcore.annotations.AnnotationTableView";
+	
+	/** The annotation set label. */
 	private Label annotationSetLabel;
+	
+	/** The viewer grid data. */
 	private GridData viewerGridData;
+	
+	/** The label grid data. */
 	private GridData labelGridData;
+	
+	/** The composite. */
 	private Composite composite;
+	
+	/** The annotation set table viewer. */
 	private TableViewer annotationSetTableViewer;
+	
+	/** The active editor part listener. */
 	private IPartListener2 activeEditorPartListener;
+	
+	/** The current annotation set node. */
 	private AnnotationSetNode currentAnnotationSetNode;
+	
+	/** The drop listener. */
 	private AttributeDropListener dropListener;
 	
+	/**
+	 * Instantiates a new annotation table view part.
+	 */
 	public AnnotationTableViewPart() {
 		//
 	}
@@ -214,10 +241,30 @@ public class AnnotationTableViewPart extends ViewPart implements
 		getSite().setSelectionProvider(annotationSetTableViewer);
 	}
 
+	/**
+	 * The listener interface for receiving attributeDrop events.
+	 * The class that is interested in processing a attributeDrop
+	 * event implements this interface, and the object created
+	 * with that class is registered with a component using the
+	 * component's <code>addAttributeDropListener<code> method. When
+	 * the attributeDrop event occurs, that object's appropriate
+	 * method is invoked.
+	 *
+	 * @see AttributeDropEvent
+	 */
 	private static class AttributeDropListener extends ViewerDropAdapter {
 
+		/** The node. */
 		private AnnotationSetNode node;
+		
+		/** The drop target. */
 		private Annotation dropTarget;
+		
+		/**
+		 * Instantiates a new attribute drop listener.
+		 *
+		 * @param viewer the viewer
+		 */
 		public AttributeDropListener(TableViewer viewer) {
 			super(viewer);
 		}
@@ -226,6 +273,9 @@ public class AnnotationTableViewPart extends ViewPart implements
 		// This method performs the actual drop
 		// We simply add the String we receive to the model and trigger a refresh of the 
 		// viewer by calling its setInput method.
+		/* (non-Javadoc)
+		 * @see org.eclipse.jface.viewers.ViewerDropAdapter#performDrop(java.lang.Object)
+		 */
 		@Override
 		public boolean performDrop(Object data) {
 			if (dropTarget!=null) {
@@ -254,6 +304,9 @@ public class AnnotationTableViewPart extends ViewPart implements
 			return true;
 		}
 
+		/* (non-Javadoc)
+		 * @see org.eclipse.jface.viewers.ViewerDropAdapter#drop(org.eclipse.swt.dnd.DropTargetEvent)
+		 */
 		@Override
 		public void drop(org.eclipse.swt.dnd.DropTargetEvent event) {
 			Object obj = this.determineTarget(event);
@@ -264,6 +317,9 @@ public class AnnotationTableViewPart extends ViewPart implements
 		}
 
 
+		/* (non-Javadoc)
+		 * @see org.eclipse.jface.viewers.ViewerDropAdapter#dragOver(org.eclipse.swt.dnd.DropTargetEvent)
+		 */
 		@Override
 		public void dragOver(org.eclipse.swt.dnd.DropTargetEvent event) {
 			Object obj = this.determineTarget(event);
@@ -273,18 +329,29 @@ public class AnnotationTableViewPart extends ViewPart implements
 		}
 
 
+		/* (non-Javadoc)
+		 * @see org.eclipse.jface.viewers.ViewerDropAdapter#validateDrop(java.lang.Object, int, org.eclipse.swt.dnd.TransferData)
+		 */
 		@Override
 		public boolean validateDrop(Object target, int operation,
 				TransferData transferType) {
 			return (LocalSelectionTransfer.getTransfer().isSupportedType(transferType));
 		}
 		
+		/**
+		 * Sets the node.
+		 *
+		 * @param node the new node
+		 */
 		public void setNode(AnnotationSetNode node) {
 			this.node = node;
 		}
 
 	}
 
+	/**
+	 * Setup data.
+	 */
 	private void setupData() {
 		annotationSetTableViewer.setInput(currentAnnotationSetNode);
 		getSite().getPage().addSelectionListener(this);
@@ -292,6 +359,9 @@ public class AnnotationTableViewPart extends ViewPart implements
 		
 	}
 
+	/**
+	 * Clear data.
+	 */
 	private void clearData() {
 		if (annotationSetTableViewer.getContentProvider() != null
 				&& annotationSetTableViewer.getInput() != null) {
@@ -302,13 +372,25 @@ public class AnnotationTableViewPart extends ViewPart implements
 		getSite().getPage().removeSelectionListener(this);
 	}
 
+	/**
+	 * The Class AnnotationsContentProvider.
+	 */
 	private static class AnnotationsContentProvider implements
 	IStructuredContentProvider {
 
+		/** The content list. */
 		private List<?> contentList;
+		
+		/** The known elements. */
 		private IObservableSet knownElements;
+		
+		/** The annotation set node. */
 		private AnnotationSetNode annotationSetNode;
+		
+		/** The viewer. */
 		private Viewer viewer;
+		
+		/** The listener. */
 		private CollectionChangeListener listener = new CollectionChangeListener() {
 			public void listChanged(CollectionChangeEvent event) {
 				CollectionDiffEntry<?>[] differences = event.getListDiff().getDifferences();
@@ -334,10 +416,16 @@ public class AnnotationTableViewPart extends ViewPart implements
 			}
 		};
 
+		/**
+		 * Instantiates a new annotations content provider.
+		 */
 		public AnnotationsContentProvider() {
 			knownElements = new WritableSet(SWTObservables.getRealm(Display.getDefault()));			
 		}
 
+		/* (non-Javadoc)
+		 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java.lang.Object)
+		 */
 		public Object[] getElements(Object inputElement) {
 			return contentList!=null ? contentList.toArray() : new Object[]{};
 		}
@@ -382,24 +470,39 @@ public class AnnotationTableViewPart extends ViewPart implements
 			} 
 		}
 			
+		/**
+		 * Gets the known elements.
+		 *
+		 * @return the known elements
+		 */
 		@SuppressWarnings("unused")
 		public IObservableSet getKnownElements() {
 			return knownElements;
 		}
 	}
 
+	/**
+	 * The Class AnnotationLabelProvider.
+	 */
 	private static class AnnotationLabelProvider extends
 			StyledCellLabelProvider {
 
+		/** The resource manager. */
 		private LocalResourceManager resourceManager = new LocalResourceManager(
 				JFaceResources.getResources());
 
+		/* (non-Javadoc)
+		 * @see org.eclipse.jface.viewers.StyledCellLabelProvider#dispose()
+		 */
 		@Override
 		public void dispose() {
 			resourceManager.dispose();
 			super.dispose();
 		}
 
+		/* (non-Javadoc)
+		 * @see org.eclipse.jface.viewers.StyledCellLabelProvider#update(org.eclipse.jface.viewers.ViewerCell)
+		 */
 		@Override
 		public void update(ViewerCell cell) {
 			
@@ -437,6 +540,9 @@ public class AnnotationTableViewPart extends ViewPart implements
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.part.WorkbenchPart#dispose()
+	 */
 	@Override
 	public void dispose() {
 		getSite().getWorkbenchWindow().getPartService().removePartListener(activeEditorPartListener);
@@ -444,6 +550,9 @@ public class AnnotationTableViewPart extends ViewPart implements
 		super.dispose();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
+	 */
 	@Override
 	public void setFocus() {
 		// TODO Auto-generated method stub
@@ -483,10 +592,20 @@ public class AnnotationTableViewPart extends ViewPart implements
 			
 	}
 
+	/**
+	 * Sets the sticky.
+	 *
+	 * @param isSticky the new sticky
+	 */
 	public void setSticky(boolean isSticky) {
 		this.isSticky = isSticky;
 	}
 
+	/**
+	 * Checks if is sticky.
+	 *
+	 * @return true, if is sticky
+	 */
 	public boolean isSticky() {
 		return isSticky;
 	}

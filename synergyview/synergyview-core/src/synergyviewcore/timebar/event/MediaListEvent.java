@@ -25,22 +25,40 @@ import java.util.List;
 
 import synergyviewcore.collections.model.CollectionMedia;
 
+
 /**
- * @author Linxiao Ma
+ * The Class MediaListEvent.
  *
+ * @author Linxiao Ma
  */
 public class MediaListEvent extends EventObject {
 
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -3726699087845782876L;
 
+	/**
+	 * The Enum CollectionChangeType.
+	 */
 	public static enum CollectionChangeType{
-		MediaAdded, MediaRemoved
+		
+		/** The Media added. */
+		MediaAdded, 
+ /** The Media removed. */
+ MediaRemoved
 	}
 	
+	/** The media collection change type. */
 	protected CollectionChangeType mediaCollectionChangeType;
+	
+	/** The collection medias. */
 	protected List<CollectionMedia> collectionMedias;
+	
 	/**
-	 * @param arg0
+	 * Instantiates a new media list event.
+	 *
+	 * @param arg0 the arg0
+	 * @param mediaCollectionChangeType the media collection change type
+	 * @param collectionMedias the collection medias
 	 */
 	public MediaListEvent(Object arg0, CollectionChangeType mediaCollectionChangeType, List<CollectionMedia> collectionMedias) {
 		super(arg0);
@@ -48,10 +66,20 @@ public class MediaListEvent extends EventObject {
 		this.collectionMedias = collectionMedias;
 	}
 	
+	/**
+	 * Gets the media collection change type.
+	 *
+	 * @return the media collection change type
+	 */
 	public CollectionChangeType getMediaCollectionChangeType(){
 		return mediaCollectionChangeType;
 	}
 	
+	/**
+	 * Collection medias.
+	 *
+	 * @return the list
+	 */
 	public List<CollectionMedia> collectionMedias(){
 		return this.collectionMedias;
 	}

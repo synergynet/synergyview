@@ -29,13 +29,18 @@ import org.eclipse.ui.handlers.HandlerUtil;
 
 import synergyviewcore.annotations.ui.editors.CollectionMediaClipAnnotationEditor;
 
+
 /**
- * @author phyo
+ * The Class AddAnnotationSubjectHandler.
  *
+ * @author phyo
  */
 public class AddAnnotationSubjectHandler extends AbstractHandler implements
 		IHandler {
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.core.commands.AbstractHandler#isEnabled()
+	 */
 	@Override
 	public boolean isEnabled() {
 		return true;

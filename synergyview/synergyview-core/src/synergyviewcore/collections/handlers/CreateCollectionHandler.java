@@ -12,8 +12,15 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import synergyviewcore.collections.model.CollectionRootNode;
 import synergyviewcore.collections.ui.wizards.NewCollectionWizard;
 
+
+/**
+ * The Class CreateCollectionHandler.
+ */
 public class CreateCollectionHandler extends AbstractHandler implements IHandler {
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	 */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		ISelection selection = HandlerUtil.getCurrentSelection(event);
 		if (!(selection instanceof IStructuredSelection))

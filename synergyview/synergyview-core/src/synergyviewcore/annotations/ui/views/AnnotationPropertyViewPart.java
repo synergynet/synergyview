@@ -42,8 +42,15 @@ import synergyviewcore.projects.model.ProjectNode;
 import synergyviewcore.resource.ResourceLoader;
 
 
+
+/**
+ * The Class AnnotationPropertyViewPart.
+ */
 public class AnnotationPropertyViewPart extends ViewPart implements ISelectionListener, CollectionChangeListener {
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.part.WorkbenchPart#dispose()
+	 */
 	@Override
 	public void dispose() {
 		clearData();
@@ -56,15 +63,34 @@ public class AnnotationPropertyViewPart extends ViewPart implements ISelectionLi
 	 */
 	public static final String ID = "synergyviewcore.annotations.ui.views.AnnotationPropertyViewPart";
 
+	/** The attribute table viewer. */
 	private TableViewer attributeTableViewer;
+	
+	/** The controller. */
 	private AnnotationAttributeController controller;
+	
+	/** The annotation. */
 	private Annotation annotation;
+	
+	/** The attribute property change listener. */
 	private PropertyChangeListener attributePropertyChangeListener;
+	
+	/** The project attribute root node. */
 	private ProjectAttributeRootNode projectAttributeRootNode;
+	
+	/** The attribute list. */
 	private List<Attribute> attributeList = new ArrayList<Attribute>();
+	
+	/** The annotation text. */
 	private Text annotationText;
+	
+	/** The viewer grid data. */
 	private GridData viewerGridData;
+	
+	/** The label grid data. */
 	private GridData labelGridData;
+	
+	/** The composite. */
 	private Composite composite;
 	/**
 	 * The constructor.
@@ -76,6 +102,8 @@ public class AnnotationPropertyViewPart extends ViewPart implements ISelectionLi
 	/**
 	 * This is a callback that will allow us
 	 * to create the viewer and initialize it.
+	 *
+	 * @param parent the parent
 	 */
 	public void createPartControl(Composite parent) {
 		composite = new Composite (parent, SWT.NONE);
@@ -131,8 +159,14 @@ public class AnnotationPropertyViewPart extends ViewPart implements ISelectionLi
 		};
 	}
 
+	/**
+	 * The Class AttributesContentProvider.
+	 */
 	class AttributesContentProvider implements IStructuredContentProvider {
 
+		/* (non-Javadoc)
+		 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java.lang.Object)
+		 */
 		public Object[] getElements(Object inputElement) {
 			@SuppressWarnings("unchecked")
 			List<Attribute> attributes = (List<Attribute>) inputElement;
@@ -191,6 +225,9 @@ public class AnnotationPropertyViewPart extends ViewPart implements ISelectionLi
 	}
 
 	
+	/**
+	 * Clear data.
+	 */
 	private void clearData() {
 		if (!annotationText.isDisposed())
 			annotationText.setText("");
@@ -207,6 +244,11 @@ public class AnnotationPropertyViewPart extends ViewPart implements ISelectionLi
 		
 	}
 
+	/**
+	 * Update data.
+	 *
+	 * @param selectedController the selected controller
+	 */
 	private void updateData(AnnotationAttributeController selectedController) {
 		controller = selectedController;
 		controller.addAttributeListChangeListener(this);
@@ -221,6 +263,9 @@ public class AnnotationPropertyViewPart extends ViewPart implements ISelectionLi
 		}
 	}
 
+	/**
+	 * Removes the selected attributes.
+	 */
 	public void removeSelectedAttributes() {
 		IStructuredSelection structSel = (IStructuredSelection) attributeTableViewer.getSelection();
 		List<Attribute> listToRemove = new ArrayList<Attribute>();
@@ -256,17 +301,27 @@ public class AnnotationPropertyViewPart extends ViewPart implements ISelectionLi
 	}
 
 
+	/**
+	 * The Class AttributeTextLabelProvider.
+	 */
 	private static class AttributeTextLabelProvider extends StyledCellLabelProvider {
 
+		/** The resource manager. */
 		private LocalResourceManager resourceManager = new LocalResourceManager(
 				JFaceResources.getResources());
 		
+		/* (non-Javadoc)
+		 * @see org.eclipse.jface.viewers.StyledCellLabelProvider#dispose()
+		 */
 		@Override
 		public void dispose() {
 			resourceManager.dispose();
 			super.dispose();
 		}
 		
+		/* (non-Javadoc)
+		 * @see org.eclipse.jface.viewers.StyledCellLabelProvider#update(org.eclipse.jface.viewers.ViewerCell)
+		 */
 		@Override
 		public void update(ViewerCell cell) {
 			if (cell.getElement() instanceof Attribute) {
@@ -279,8 +334,14 @@ public class AnnotationPropertyViewPart extends ViewPart implements ISelectionLi
 		}
 	}
 	
+	/**
+	 * The Class AttributeColorLabelProvider.
+	 */
 	private static class AttributeColorLabelProvider extends StyledCellLabelProvider {
 		
+		/* (non-Javadoc)
+		 * @see org.eclipse.jface.viewers.StyledCellLabelProvider#update(org.eclipse.jface.viewers.ViewerCell)
+		 */
 		@Override
 		public void update(ViewerCell cell) {
 			if (cell.getElement() instanceof Attribute) {

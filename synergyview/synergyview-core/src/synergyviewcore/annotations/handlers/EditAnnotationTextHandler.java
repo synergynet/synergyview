@@ -22,9 +22,18 @@ import synergyviewcore.Activator;
 import synergyviewcore.annotations.ui.AnnotationIntervalImpl;
 import synergyviewcore.model.ModelPersistenceException;
 
+
+/**
+ * The Class EditAnnotationTextHandler.
+ */
 public class EditAnnotationTextHandler extends AbstractHandler implements IHandler {
+	
+	/** The logger. */
 	private ILog logger;
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	 */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		logger = Activator.getDefault().getLog();
 		ISelection selection = HandlerUtil.getCurrentSelection(event);

@@ -26,14 +26,22 @@ import org.eclipse.ui.IPersistableElement;
 
 import synergyviewcore.navigation.model.INode;
 
+
 /**
- * @author phyokyaw
+ * The Class NodeEditorInput.
  *
+ * @author phyokyaw
  */
 public class NodeEditorInput implements IEditorInput {
 
+	/** The node. */
 	private INode node;
 	
+	/**
+	 * Instantiates a new node editor input.
+	 *
+	 * @param node the node
+	 */
 	public NodeEditorInput(INode node) {
 		this.node = node;
 	}
@@ -85,10 +93,18 @@ public class NodeEditorInput implements IEditorInput {
 		return null;
 	}
 	
+	/**
+	 * Gets the node.
+	 *
+	 * @return the node
+	 */
 	public INode getNode() {
 		return node;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (super.equals(obj)) {
@@ -100,6 +116,9 @@ public class NodeEditorInput implements IEditorInput {
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		return node.hashCode();

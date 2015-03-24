@@ -51,16 +51,24 @@ import synergyviewcore.resource.ResourceLoader;
 import synergyviewcore.timebar.MediaTimeBar;
 
 
+
 /**
- * @author phyokyaw
+ * The Class CollectionEditor.
  *
+ * @author phyokyaw
  */
 public class CollectionEditor extends EditorPart {
 
+	/** The Constant ID. */
 	public static final String ID = "synergyviewcore.collections.ui.editors.collectionMediaEditor";
 
+	/** The _collection node. */
 	private CollectionNode _collectionNode;
+	
+	/** The _media preview control. */
 	private MediaPreviewControl _mediaPreviewControl;
+	
+	/** The _media collection control. */
 	private AbstractMediaCollectionControl _mediaCollectionControl;
 
 	/* (non-Javadoc)
@@ -127,6 +135,9 @@ public class CollectionEditor extends EditorPart {
 		
 	}
 	
+	/**
+	 * Adds the collection media.
+	 */
 	public void addCollectionMedia() {
 		List<String> existingMediaNames = new ArrayList<String>();
 		for (CollectionMedia media : _mediaCollectionControl.getCollectionMediaList()) {
@@ -139,6 +150,13 @@ public class CollectionEditor extends EditorPart {
 		
 	}
 	
+	/**
+	 * Show media selection.
+	 *
+	 * @param excludeItemList the exclude item list
+	 * @param owner the owner
+	 * @return the list
+	 */
 	private List<MediaNode> showMediaSelection(String[] excludeItemList,
 			Composite owner) {
 		List<INode> availableMediaList = ((ProjectNode)_collectionNode.getLastParent()).getMediaRootNode().getMediaNodes(
@@ -172,6 +190,11 @@ public class CollectionEditor extends EditorPart {
 	}
 	
 
+	/**
+	 * Adds the media preview.
+	 *
+	 * @param parent the parent
+	 */
 	private void addMediaPreview(Composite parent) {
 		Composite container = new Composite(parent, SWT.BORDER | SWT.CENTER);
 		container.setLayout(new GridLayout());
@@ -181,9 +204,9 @@ public class CollectionEditor extends EditorPart {
 
 
 	/**
-	 * 
-	 * To add media controller
-	 * 
+	 * To add media controller.
+	 *
+	 * @param parent the parent
 	 */
 	private void addMediaController(Composite parent) {
 		Composite container = new Composite(parent, SWT.BORDER | SWT.CENTER);
@@ -202,12 +225,17 @@ public class CollectionEditor extends EditorPart {
 	}
 
 	/**
-	 * 
+	 * Adds the collection media clip.
 	 */
 	public void addCollectionMediaClip() {
 		_mediaCollectionControl.addMediaClip();
 	}
 	
+	/**
+	 * Checks if is media added.
+	 *
+	 * @return true, if is media added
+	 */
 	public boolean isMediaAdded() {
 		return !_mediaCollectionControl.getCollectionMediaList().isEmpty();
 	}

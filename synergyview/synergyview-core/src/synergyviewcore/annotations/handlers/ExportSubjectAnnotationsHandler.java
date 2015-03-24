@@ -24,8 +24,15 @@ import synergyviewcore.annotations.format.IAnnotationFormatter;
 import synergyviewcore.annotations.format.XmlAnnotationFormatter;
 import synergyviewcore.annotations.ui.SubjectRowModel;
 
+
+/**
+ * The Class ExportSubjectAnnotationsHandler.
+ */
 public class ExportSubjectAnnotationsHandler extends AbstractHandler implements IHandler {
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	 */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		final ILog logger = Activator.getDefault().getLog();
 		ISelection selection = HandlerUtil.getCurrentSelection(event);

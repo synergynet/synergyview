@@ -5,13 +5,30 @@ import synergyviewcore.resource.ResourceLoader;
 import synergyviewcore.timebar.action.BaseTimeBarAction;
 import de.jaret.util.ui.timebars.swt.TimeBarViewer;
 
+
+/**
+ * The Class SetMuteAction.
+ */
 public class SetMuteAction extends BaseTimeBarAction {
 	
+	/** The Constant MUTE_ON. */
 	protected final static String MUTE_ON="Mute On";
+	
+	/** The Constant MUTE_OFF. */
 	protected final static String MUTE_OFF="Mute Off";
+	
+	/** The mute state. */
 	protected String muteState = MUTE_OFF;
 	
+	/** The media collection. */
 	AbstractMediaCollectionControl mediaCollection;
+    
+    /**
+     * Instantiates a new sets the mute action.
+     *
+     * @param tbv the tbv
+     * @param medias the medias
+     */
     public SetMuteAction(TimeBarViewer tbv, AbstractMediaCollectionControl medias) {
         super(tbv);      
         mediaCollection = medias;
@@ -44,6 +61,9 @@ public class SetMuteAction extends BaseTimeBarAction {
         return ResourceLoader.getString("TIMEBAR_MEDIA_CONTEXTMENU_MUTE");
     }
 	
+	/* (non-Javadoc)
+	 * @see synergyviewcore.timebar.action.BaseTimeBarAction#init()
+	 */
 	@Override
 	protected void init() {
 		this.setEnabled(true);

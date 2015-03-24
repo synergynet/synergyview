@@ -25,42 +25,74 @@ import javax.persistence.ManyToOne;
 
 import synergyviewcore.model.PersistenceModelObject;
 
+
 /**
- * @author phyo
+ * The Class CollectionMedia.
  *
+ * @author phyo
  */
 @Entity
 public class CollectionMedia extends PersistenceModelObject {
 
+	/** The media name. */
 	private String mediaName;
 	
+	/** The collection. */
 	@ManyToOne
 	private Collection collection;
 	
 	
+	/** The off set. */
 	private long offSet;
+	
+	/** The Constant PROP_OFFSET. */
 	public static final String PROP_OFFSET = "offSet";
 	
+	/** The Constant PROP_MEDIA_NAME. */
 	public static final String PROP_MEDIA_NAME = "mediaName";
+	
+	/**
+	 * Gets the media name.
+	 *
+	 * @return the media name
+	 */
 	public String getMediaName() {
 		return mediaName;
 	}
 	
+	/** The mute. */
 	private boolean mute;
 	
+	/**
+	 * Sets the media name.
+	 *
+	 * @param mediaName the new media name
+	 */
 	public void setMediaName(String mediaName) {
 		this.firePropertyChange(PROP_MEDIA_NAME, this.mediaName, this.mediaName = mediaName);
 	}
 
+	/**
+	 * Sets the off set.
+	 *
+	 * @param offSet the new off set
+	 */
 	public void setOffSet(long offSet) {
 		this.firePropertyChange(PROP_OFFSET, this.offSet, this.offSet = offSet);
 	}
 
+	/**
+	 * Gets the off set.
+	 *
+	 * @return the off set
+	 */
 	public long getOffSet() {
 		return offSet;
 	}
 
 	/**
+	 * Sets the collection.
+	 *
 	 * @param collection the collection to set
 	 */
 	public void setCollection(Collection collection) {
@@ -68,16 +100,28 @@ public class CollectionMedia extends PersistenceModelObject {
 	}
 
 	/**
+	 * Gets the collection.
+	 *
 	 * @return the collection
 	 */
 	public Collection getCollection() {
 		return collection;
 	}
 
+	/**
+	 * Sets the mute.
+	 *
+	 * @param mute the new mute
+	 */
 	public void setMute(boolean mute) {
 		this.mute = mute;
 	}
 
+	/**
+	 * Checks if is mute.
+	 *
+	 * @return true, if is mute
+	 */
 	public boolean isMute() {
 		return mute;
 	}

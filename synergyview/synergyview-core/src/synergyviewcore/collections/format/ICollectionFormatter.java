@@ -26,11 +26,29 @@ import java.io.OutputStream;
 import synergyviewcore.collections.model.Collection;
 import synergyviewcore.collections.model.CollectionNode;
 
+
 /**
- * @author phyo
+ * The Interface ICollectionFormatter.
  *
+ * @author phyo
  */
 public interface ICollectionFormatter {
+	
+	/**
+	 * Write.
+	 *
+	 * @param collection the collection
+	 * @param outStream the out stream
+	 * @throws Exception the exception
+	 */
 	void write(Collection collection, OutputStream outStream) throws Exception;
+	
+	/**
+	 * Read.
+	 *
+	 * @param collectionNode the collection node
+	 * @param inStream the in stream
+	 * @throws Exception the exception
+	 */
 	void read(CollectionNode collectionNode, InputStream inStream) throws Exception;
 }

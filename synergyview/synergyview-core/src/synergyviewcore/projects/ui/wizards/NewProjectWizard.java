@@ -27,9 +27,21 @@ import synergyviewcore.Activator;
 import synergyviewcore.media.model.MediaRootNode;
 import synergyviewcore.resource.ResourceLoader;
 
+
+/**
+ * The Class NewProjectWizard.
+ */
 public class NewProjectWizard extends Wizard implements INewWizard {
+	
+	/** The _main page. */
 	private WizardNewProjectCreationPage _mainPage;
+	
+	/** The logger. */
 	private final ILog logger;
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.wizard.Wizard#addPages()
+	 */
 	@Override
 	public void addPages() {
 		super.addPages();
@@ -41,16 +53,27 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 		addPage(_mainPage);
 	}
 
+	/**
+	 * Instantiates a new new project wizard.
+	 */
 	public NewProjectWizard() {
 		logger = Activator.getDefault().getLog();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.wizard.Wizard#performFinish()
+	 */
 	@Override
 	public boolean performFinish() {
 		createNewProject();
 		return true;
 	}
 
+	/**
+	 * Creates the new project.
+	 *
+	 * @return the i project
+	 */
 	public IProject createNewProject() {
 
 		final IProject newProjectHandle = _mainPage.getProjectHandle();
@@ -88,6 +111,14 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 
 	}
 
+	/**
+	 * Creates the project.
+	 *
+	 * @param description the description
+	 * @param projectHandle the project handle
+	 * @param monitor the monitor
+	 * @throws CoreException the core exception
+	 */
 	public void createProject(IProjectDescription description,
 			IProject projectHandle, IProgressMonitor monitor)
 			throws CoreException {
@@ -109,6 +140,9 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.IWorkbenchWizard#init(org.eclipse.ui.IWorkbench, org.eclipse.jface.viewers.IStructuredSelection)
+	 */
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 
 	}

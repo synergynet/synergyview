@@ -25,26 +25,44 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
+
 /**
- * @author phyo
+ * The Class PersistenceModelObject.
  *
+ * @author phyo
  */
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
 public class PersistenceModelObject extends ModelObject {
 	
+	/** The Constant PROP_ID. */
 	public static final String PROP_ID = "id";
+	
+	/** The id. */
 	@Id
 	protected String id;
 	
+	/**
+	 * Sets the id.
+	 *
+	 * @param id the new id
+	 */
 	public void setId(String id) {
 		this.firePropertyChange(PROP_ID, this.id, this.id = id);
 	}
 
+	/**
+	 * Gets the id.
+	 *
+	 * @return the id
+	 */
 	public String getId() {
 		return id;
 	}
 	
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
     @Override
     public int hashCode() {
         int hash = 0;
@@ -53,6 +71,9 @@ public class PersistenceModelObject extends ModelObject {
     }
  
     
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof PersistenceModelObject)) {
@@ -65,6 +86,9 @@ public class PersistenceModelObject extends ModelObject {
         return true;
     }
  
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
     @Override
     public String toString() {
     	return "Entity [id=" + id + "]";

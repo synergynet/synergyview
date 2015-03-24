@@ -21,11 +21,30 @@ import synergyviewcore.navigation.model.AbstractParent;
 import synergyviewcore.navigation.model.IParentNode;
 import synergyviewcore.navigation.model.IViewerProvider;
 
+
+/**
+ * The Class WorkspaceRoot.
+ */
 public class WorkspaceRoot extends AbstractParent<IWorkspaceRoot> implements IResourceChangeListener, IViewerProvider {	
+	
+	/** The instance. */
 	private static WorkspaceRoot instance; 
+	
+	/** The _realm. */
 	private Realm _realm;
+	
+	/** The _tree viewer. */
 	private TreeViewer _treeViewer;
 	
+	/**
+	 * Instantiates a new workspace root.
+	 *
+	 * @param workspaceRootValue the workspace root value
+	 * @param parentValue the parent value
+	 * @param realm the realm
+	 * @param treeViewerValue the tree viewer value
+	 * @throws Exception the exception
+	 */
 	protected WorkspaceRoot(IWorkspaceRoot workspaceRootValue, IParentNode parentValue, Realm realm, TreeViewer treeViewerValue) throws Exception {
 		super(workspaceRootValue, parentValue);
 		_realm = realm;
@@ -43,25 +62,49 @@ public class WorkspaceRoot extends AbstractParent<IWorkspaceRoot> implements IRe
 	
 
 	
+	/**
+	 * Removes the project.
+	 *
+	 * @param projectValue the project value
+	 */
 	public void removeProject(ProjectNode projectValue) {
 		_children.remove(projectValue);
 		fireChildrenChanged();
 	}
 	
+	/**
+	 * Adds the project.
+	 *
+	 * @param projectValue the project value
+	 */
 	public void addProject(ProjectNode projectValue) {
 		_children.add(projectValue);
 		fireChildrenChanged();
 	}
 
 
+	/* (non-Javadoc)
+	 * @see synergyviewcore.navigation.model.AbstractNode#getIcon()
+	 */
 	public ImageDescriptor getIcon() {
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see synergyviewcore.navigation.model.AbstractNode#getParent()
+	 */
 	public IParentNode getParent() {
 		return null;
 	}
 	
+	/**
+	 * Gets the single instance of WorkspaceRoot.
+	 *
+	 * @param realm the realm
+	 * @param treeViewerValue the tree viewer value
+	 * @return single instance of WorkspaceRoot
+	 * @throws Exception the exception
+	 */
 	public static WorkspaceRoot getInstance(Realm realm, TreeViewer treeViewerValue) throws Exception {
 		if (instance == null) {
 			instance = new WorkspaceRoot(ResourcesPlugin.getWorkspace().getRoot(), null, realm, treeViewerValue);
@@ -69,10 +112,18 @@ public class WorkspaceRoot extends AbstractParent<IWorkspaceRoot> implements IRe
 		return instance;
 	}
 	
+	/**
+	 * Gets the realm.
+	 *
+	 * @return the realm
+	 */
 	public Realm getRealm() {
 		return _realm;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.core.resources.IResourceChangeListener#resourceChanged(org.eclipse.core.resources.IResourceChangeEvent)
+	 */
 	public void resourceChanged(IResourceChangeEvent event) {
 		try {			
 			event.getDelta().accept(new IResourceDeltaVisitor() {

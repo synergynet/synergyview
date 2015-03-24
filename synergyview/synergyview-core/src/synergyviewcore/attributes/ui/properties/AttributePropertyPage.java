@@ -23,20 +23,47 @@ import org.eclipse.ui.dialogs.PropertyPage;
 import synergyviewcore.attributes.model.Attribute;
 import synergyviewcore.attributes.model.AttributeNode;
 
+
+/**
+ * The Class AttributePropertyPage.
+ */
 public class AttributePropertyPage extends PropertyPage implements
 		IWorkbenchPropertyPage {
+	
+	/** The attribute node. */
 	private AttributeNode attributeNode;
+	
+	/** The attribute. */
 	private Attribute attribute;
+	
+	/** The attribute name text. */
 	private Text attributeNameText;
+	
+	/** The attribute details text. */
 	private Text attributeDetailsText;
+	
+	/** The color label color. */
 	private Label colorLabelColor;
+	
+	/** The attribute model binding ctx. */
 	private DataBindingContext attributeModelBindingCtx = new DataBindingContext();
+	
+	/** The current color. */
 	private Color currentColor;
+	
+	/** The selected color. */
 	private Color selectedColor;
+	
+	/**
+	 * Instantiates a new attribute property page.
+	 */
 	public AttributePropertyPage() {
 		super();
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.dialogs.DialogPage#dispose()
+	 */
 	@Override
 	public void dispose() {
 		if (attributeModelBindingCtx!=null)
@@ -49,6 +76,9 @@ public class AttributePropertyPage extends PropertyPage implements
 	}
 
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.preference.PreferencePage#createContents(org.eclipse.swt.widgets.Composite)
+	 */
 	@Override
 	protected Control createContents(Composite parent) {
 		attributeNode = (AttributeNode) this.getElement();
@@ -58,6 +88,11 @@ public class AttributePropertyPage extends PropertyPage implements
 		return composite;
 	}
 
+	/**
+	 * Adds the section details.
+	 *
+	 * @param composite the composite
+	 */
 	private void addSectionDetails(final Composite composite) {
 
 		// Creates a new tab item for session details
@@ -135,6 +170,9 @@ public class AttributePropertyPage extends PropertyPage implements
 	}
 
 
+	/**
+	 * Save attribute data.
+	 */
 	private void saveAttributeData() {
 		attributeModelBindingCtx.updateModels();
 		if (selectedColor!=null && !selectedColor.isDisposed())
@@ -149,6 +187,9 @@ public class AttributePropertyPage extends PropertyPage implements
 	}
 
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.preference.PreferencePage#performDefaults()
+	 */
 	@Override
 	protected void performDefaults() {
 		if (selectedColor!=null && !selectedColor.isDisposed()) {
@@ -161,12 +202,18 @@ public class AttributePropertyPage extends PropertyPage implements
 		super.performDefaults();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.preference.PreferencePage#performApply()
+	 */
 	@Override
 	protected void performApply() {
 		saveAttributeData();
 		super.performApply();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.preference.PreferencePage#performOk()
+	 */
 	public boolean performOk() {
 		saveAttributeData();
 		return true;

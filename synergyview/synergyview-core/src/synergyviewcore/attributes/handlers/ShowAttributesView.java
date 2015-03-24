@@ -30,9 +30,11 @@ import org.eclipse.ui.handlers.HandlerUtil;
 
 import synergyviewcore.attributes.ui.views.CodingExplorerViewPart;
 
+
 /**
- * @author phyo
+ * The Class ShowAttributesView.
  *
+ * @author phyo
  */
 public class ShowAttributesView extends AbstractHandler implements IHandler {
 

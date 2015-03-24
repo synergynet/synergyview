@@ -32,15 +32,34 @@ import synergyviewcore.collections.model.Collection;
 import synergyviewcore.databinding.validation.NotEmptyOrExistValidator;
 import synergyviewcore.resource.ResourceLoader;
 
+
+/**
+ * The Class NewCollectionWizardPage.
+ */
 public class NewCollectionWizardPage extends WizardPage {
+	
+	/** The decorator map. */
 	private static HashMap<Control, ControlDecoration> decoratorMap = new HashMap<Control, ControlDecoration>();
+	
+	/** The collection. */
 	private Collection collection;
+	
+	/** The name text. */
 	private Text nameText;
+	
+	/** The details text. */
 	private Text detailsText;
+	
+	/** The _existing collection names. */
 	private List<String> _existingCollectionNames;
+	
+	/** The dbc. */
 	private DataBindingContext dbc = new DataBindingContext();
 	
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.dialogs.DialogPage#dispose()
+	 */
 	@Override
 	public void dispose() {
 		if (dbc!=null)
@@ -48,6 +67,12 @@ public class NewCollectionWizardPage extends WizardPage {
 		super.dispose();
 	}
 
+	/**
+	 * Instantiates a new new collection wizard page.
+	 *
+	 * @param collectionVAlue the collection v alue
+	 * @param existingCollectionNameValues the existing collection name values
+	 */
 	public NewCollectionWizardPage(Collection collectionVAlue, List<String> existingCollectionNameValues) {
 		super("New Session Wizard Start Page");
 		collection = collectionVAlue;
@@ -56,6 +81,9 @@ public class NewCollectionWizardPage extends WizardPage {
 		setDescription(ResourceLoader.getString("DIALOG_DESCRIPTION_START_PAGE_SESSION"));
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
+	 */
 	public void createControl(Composite parent) {
 		final Composite area = new Composite(parent, SWT.NONE);
 		setControl(area);
@@ -96,6 +124,9 @@ public class NewCollectionWizardPage extends WizardPage {
 	}
 	
 	
+	/**
+	 * Bind values.
+	 */
 	private void bindValues() {
 
 		List<String> existingCollectionNames = new ArrayList<String>();
@@ -141,6 +172,14 @@ public class NewCollectionWizardPage extends WizardPage {
 
 	}
 	
+	/**
+	 * Bind.
+	 *
+	 * @param textWidget the text widget
+	 * @param bean the bean
+	 * @param property the property
+	 * @param validator the validator
+	 */
 	private void bind(Text textWidget, Object bean,
 			String property, IValidator validator) {
 		UpdateValueStrategy targetToModel = null;
@@ -153,6 +192,11 @@ public class NewCollectionWizardPage extends WizardPage {
 				null);
 	}
 	
+	/**
+	 * Creates the control decoration.
+	 *
+	 * @param control the control
+	 */
 	private void createControlDecoration(Control control) {
 		ControlDecoration controlDecoration = new ControlDecoration(control,
 				SWT.LEFT | SWT.TOP);

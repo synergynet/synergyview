@@ -25,9 +25,16 @@ import synergyviewcore.collections.format.XmlCollectionFormatter;
 import synergyviewcore.collections.model.Collection;
 import synergyviewcore.collections.model.CollectionNode;
 
+
+/**
+ * The Class SaveCollectionHandler.
+ */
 public class SaveCollectionHandler extends AbstractHandler implements
 		IHandler {
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	 */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		final ILog logger = Activator.getDefault().getLog();
 		ISelection selection = HandlerUtil.getCurrentSelection(event);

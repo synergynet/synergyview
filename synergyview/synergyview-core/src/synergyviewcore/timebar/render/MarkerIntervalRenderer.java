@@ -36,6 +36,10 @@ import de.jaret.util.ui.timebars.swt.renderer.TimeBarRenderer2;
 
 import synergyviewcore.timebar.model.MarkerInterval;
 
+
+/**
+ * The Class MarkerIntervalRenderer.
+ */
 public class MarkerIntervalRenderer extends RendererBase implements TimeBarRenderer, TimeBarRenderer2 {
     /** size of the drawn element. */
     private static final int SIZE = 10;
@@ -182,8 +186,9 @@ public class MarkerIntervalRenderer extends RendererBase implements TimeBarRende
 
     /**
      * Calculate the drawing area for the marking symbol.
-     * 
+     *
      * @param drawingArea drawing area as given for the time
+     * @param horizontal the horizontal
      * @return Rectangle for drawing the main symbol
      */
     private Rectangle getDrawingRect(Rectangle drawingArea, boolean horizontal) {
@@ -196,6 +201,9 @@ public class MarkerIntervalRenderer extends RendererBase implements TimeBarRende
         }
     }
 
+    /* (non-Javadoc)
+     * @see de.jaret.util.ui.timebars.swt.renderer.TimeBarRenderer2#getToolTipText(de.jaret.util.ui.timebars.TimeBarViewerDelegate, de.jaret.util.date.Interval, org.eclipse.swt.graphics.Rectangle, int, int, boolean)
+     */
     public String getToolTipText(TimeBarViewerDelegate delegate, Interval interval, Rectangle drawingArea, int x,
             int y, boolean overlapping) {
         if (contains(delegate, interval, drawingArea, x, y, overlapping)) {
@@ -204,6 +212,9 @@ public class MarkerIntervalRenderer extends RendererBase implements TimeBarRende
         return null;
     }
 
+    /* (non-Javadoc)
+     * @see de.jaret.util.ui.timebars.swt.renderer.TimeBarRenderer2#contains(de.jaret.util.ui.timebars.TimeBarViewerDelegate, de.jaret.util.date.Interval, org.eclipse.swt.graphics.Rectangle, int, int, boolean)
+     */
     public boolean contains(TimeBarViewerDelegate delegate, Interval interval, Rectangle drawingArea, int x, int y,
             boolean overlapping) {
         boolean horizontal = delegate.getOrientation() == TimeBarViewerInterface.Orientation.HORIZONTAL;
@@ -211,6 +222,9 @@ public class MarkerIntervalRenderer extends RendererBase implements TimeBarRende
         return da.contains(drawingArea.x + x, drawingArea.y + y);
     }
 
+    /* (non-Javadoc)
+     * @see de.jaret.util.ui.timebars.swt.renderer.TimeBarRenderer2#getContainingRectangle(de.jaret.util.ui.timebars.TimeBarViewerDelegate, de.jaret.util.date.Interval, org.eclipse.swt.graphics.Rectangle, boolean)
+     */
     public Rectangle getContainingRectangle(TimeBarViewerDelegate delegate, Interval interval, Rectangle drawingArea,
             boolean overlapping) {
         boolean horizontal = delegate.getOrientation() == TimeBarViewerInterface.Orientation.HORIZONTAL;

@@ -22,15 +22,22 @@ import synergyviewcore.annotations.model.AnnotationSetNode;
 import synergyviewcore.collections.model.CollectionNode;
 import synergyviewcore.navigation.model.INode;
 
+
+/**
+ * The Class NavigatorLabelProvider.
+ */
 public class NavigatorLabelProvider extends ColumnLabelProvider implements IStyledLabelProvider {
 
 
+	/** The attribute maps. */
 	private IObservableMap[] attributeMaps = null;
 	
+	/** The resource manager. */
 	private LocalResourceManager resourceManager = new LocalResourceManager(
 			JFaceResources.getResources());
 	
-	 private IMapChangeListener  mapChangeListener = new IMapChangeListener() {
+	 /** The map change listener. */
+ 	private IMapChangeListener  mapChangeListener = new IMapChangeListener() {
 		          @SuppressWarnings("unchecked")
 				public void handleMapChange(MapChangeEvent event) {
 		             Set<MapDiff> affectedElements = event.diff.getChangedKeys();
@@ -41,13 +48,27 @@ public class NavigatorLabelProvider extends ColumnLabelProvider implements IStyl
 		         }
 		     };
 
+	/**
+	 * Instantiates a new navigator label provider.
+	 */
 	public NavigatorLabelProvider() {
 		//
 	}
+	
+	/**
+	 * Instantiates a new navigator label provider.
+	 *
+	 * @param knownElements the known elements
+	 */
 	public NavigatorLabelProvider(IObservableSet knownElements) {
 		setObserable(Properties.observeEach(knownElements, BeanProperties.values(new String[] { "label" })));
 	}
 	
+	/**
+	 * Sets the obserable.
+	 *
+	 * @param attributeMaps the new obserable
+	 */
 	public void setObserable(IObservableMap[] attributeMaps) {
 		         this.attributeMaps = attributeMaps;
 		         for (int i = 0; i < attributeMaps.length; i++) {
@@ -57,6 +78,9 @@ public class NavigatorLabelProvider extends ColumnLabelProvider implements IStyl
 		     }
 
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.viewers.ColumnLabelProvider#getText(java.lang.Object)
+	 */
 	public String getText(Object element) {
 		if (element instanceof INode) {
 			return ((INode) element).getLabel();
@@ -65,6 +89,9 @@ public class NavigatorLabelProvider extends ColumnLabelProvider implements IStyl
 	}
 	
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.viewers.ColumnLabelProvider#getImage(java.lang.Object)
+	 */
 	public Image getImage(Object element) {
 		if (element instanceof INode) {
 			return (Image) resourceManager.get(((INode) element).getIcon());
@@ -73,6 +100,9 @@ public class NavigatorLabelProvider extends ColumnLabelProvider implements IStyl
 	}
 	
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.viewers.BaseLabelProvider#dispose()
+	 */
 	public void dispose() {
 		if (attributeMaps!=null) {
 			for (int i = 0; i < attributeMaps.length; i++) {

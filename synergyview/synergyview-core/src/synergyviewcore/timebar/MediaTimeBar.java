@@ -50,25 +50,57 @@ import de.jaret.util.ui.timebars.model.TimeBarRow;
 import de.jaret.util.ui.timebars.swt.TimeBarViewer;
 import de.jaret.util.ui.timebars.swt.renderer.DefaultTitleRenderer;
 
+
+/**
+ * The Class MediaTimeBar.
+ */
 public class MediaTimeBar extends AbstractMediaCollectionControl {
 	
+	/** The Constant MEDIA_START_TIME. */
 	public static final JaretDate MEDIA_START_TIME= new JaretDate().setTime(0, 0, 0, 0);
 	
+	/** The time bar listeners. */
 	protected List<TimeSlideListener> timeBarListeners = new ArrayList<TimeSlideListener>();
 	
+	/** The parent. */
 	protected Composite parent;
 	
+	/** The time scale control panel. */
 	protected TimeScaleBar timeScaleControlPanel;
+	
+	/** The media control bar. */
 	protected MediaControlBar mediaControlBar;
 	
+	/** The initial media lenght. */
 	protected int initialMediaLenght = 3600;	
+	
+	/** The time marker. */
 	protected MediaTimeBarMarkerImpl timeMarker;	
+	
+	/** The is marker dragging. */
 	protected boolean isMarkerDragging=false;
+	
+	/** The is media duration bar on. */
 	protected boolean isMediaDurationBarOn=true;
+	
+	/** The media status. */
 	protected boolean mediaStatus = false;
+	
+	/** The lock. */
 	protected boolean lock = false;
+	
+	/** The time bar interval renderer. */
 	protected TimeBarIntervalRenderer timeBarIntervalRenderer;
 	
+	/**
+	 * Instantiates a new media time bar.
+	 *
+	 * @param parent the parent
+	 * @param style the style
+	 * @param mediaMap the media map
+	 * @param collectionNode the collection node
+	 * @param mediaFolderValue the media folder value
+	 */
 	public MediaTimeBar(Composite parent, int style, IObservableMap mediaMap,  CollectionNode collectionNode, MediaRootNode mediaFolderValue) {
 		super(parent, style, mediaMap, collectionNode, mediaFolderValue);
 		this.parent = parent;
@@ -86,7 +118,7 @@ public class MediaTimeBar extends AbstractMediaCollectionControl {
 	}
 		
 	/**
-	 * 
+	 * Dispose resources.
 	 */
 	protected void disposeResources() {
 		if (timeBarIntervalRenderer!=null)
@@ -94,6 +126,12 @@ public class MediaTimeBar extends AbstractMediaCollectionControl {
 		
 	}
 
+	/**
+	 * Creates the controls.
+	 *
+	 * @param parent the parent
+	 * @param mediaLength the media length
+	 */
 	protected void createControls(Composite parent, int mediaLength){
 		
 		if (mediaLength<=0) mediaLength = initialMediaLenght;
@@ -227,10 +265,20 @@ public class MediaTimeBar extends AbstractMediaCollectionControl {
 		});
 	}
 		
+	/**
+	 * Show duration bar.
+	 *
+	 * @param showDurationBar the show duration bar
+	 */
 	protected void showDurationBar(boolean showDurationBar){
 		this.isMediaDurationBarOn = showDurationBar;
 	}
 	
+	/**
+	 * Register change listener.
+	 *
+	 * @param tbv the tbv
+	 */
 	protected void registerChangeListener(TimeBarViewer tbv) {
 
         tbv.addTimeBarChangeListener(new ITimeBarChangeListener() {
@@ -312,6 +360,9 @@ public class MediaTimeBar extends AbstractMediaCollectionControl {
         
     }
 
+	/**
+	 * Register interval modifier.
+	 */
 	protected void registerIntervalModifier(){
 		timeBarViewer.addIntervalModificator(new DefaultIntervalModificator(){
 
@@ -368,6 +419,9 @@ public class MediaTimeBar extends AbstractMediaCollectionControl {
 		});
 	}
 	
+	/**
+	 * Register media playing listener.
+	 */
 	protected void registerMediaPlayingListener(){
 
 		//add media playing listenr
@@ -404,6 +458,9 @@ public class MediaTimeBar extends AbstractMediaCollectionControl {
 	    });
 	}
 	
+	/**
+	 * Update time bar.
+	 */
 	private void updateTimeBar(){
 		
 		long mediaLength = initialMediaLenght;
@@ -421,12 +478,18 @@ public class MediaTimeBar extends AbstractMediaCollectionControl {
 		syncMedia();
 	}
 	
+	/**
+	 * Time bar scaled.
+	 */
 	protected void timeBarScaled(){
 		 if (this.collectionNode.getResource().getCollectionMediaList().isEmpty()) return;
 		 long markerTime = timeMarker.getDate().getDate().getTime() - MEDIA_START_TIME.copy().getDate().getTime();
 		 setTimeRange(markerTime);        	
 	}
 	
+	/**
+	 * Adds the markers.
+	 */
 	private void addMarkers(){
 		//add Marker
 	    timeMarker = new MediaTimeBarMarkerImpl(true, new JaretDate().setTime(0, 0, 0));
@@ -466,6 +529,11 @@ public class MediaTimeBar extends AbstractMediaCollectionControl {
 	    timeBarViewer.addMarker(timeMarker);
 	}
 	
+	/**
+	 * Sets the time range.
+	 *
+	 * @param markerTime the new time range
+	 */
 	private void setTimeRange(long markerTime){
 		
 		long timeSpanForCurrentTimeScale = getTimeSpanForCurrentTimeScale();			
@@ -496,6 +564,9 @@ public class MediaTimeBar extends AbstractMediaCollectionControl {
 		}
 	}
 	
+	/**
+	 * Sync media.
+	 */
 	private void syncMedia(){
 		if (isEmpty()) 
 			timeMarker.setDate(MEDIA_START_TIME.copy());
@@ -504,6 +575,9 @@ public class MediaTimeBar extends AbstractMediaCollectionControl {
 		}
 	}
 	
+	/**
+	 * Update intervals.
+	 */
 	protected void updateIntervals(){
 		
 		DefaultTimeBarRowModel timeBarRow = (DefaultTimeBarRowModel)(timeBarViewer.getModel().getRow(0));
@@ -518,6 +592,9 @@ public class MediaTimeBar extends AbstractMediaCollectionControl {
 		
 	}
 	
+	/**
+	 * Builds the intervals.
+	 */
 	protected void buildIntervals(){
 		DefaultTimeBarRowModel timeBarRow = (DefaultTimeBarRowModel)(timeBarViewer.getModel().getRow(0));
 		timeBarRow.clear();
@@ -532,6 +609,11 @@ public class MediaTimeBar extends AbstractMediaCollectionControl {
 		}
 	}
 	
+	/**
+	 * Update media clips.
+	 *
+	 * @param mediaSegmentInterval the media segment interval
+	 */
 	protected void updateMediaClips(MediaSegmentIntervalImpl mediaSegmentInterval){
 		for (CollectionMediaClip segment: this.collectionNode.getResource().getCollectionMediaClipList()){
 			if (segment.getClipName().equals(mediaSegmentInterval.getLabel())){
@@ -545,6 +627,9 @@ public class MediaTimeBar extends AbstractMediaCollectionControl {
 		}
 	}
 	
+	/**
+	 * Update media clips.
+	 */
 	protected void updateMediaClips(){
 		CollectionMediaClipRowModel timeBarRow = (CollectionMediaClipRowModel)(timeBarViewer.getModel().getRow(1));
 		timeBarRow.clear();
@@ -558,10 +643,20 @@ public class MediaTimeBar extends AbstractMediaCollectionControl {
 		
 	}
 	
+	/**
+	 * Display marker at center.
+	 *
+	 * @param markerTime the marker time
+	 */
 	private void displayMarkerAtCenter(long markerTime){
 		timeBarViewer.setStartDate(MEDIA_START_TIME.copy().advanceMillis(markerTime-getTimeSpanForCurrentTimeScale()/2));
 	}
 	
+	/**
+	 * Adds the time scale bar.
+	 *
+	 * @param parent the parent
+	 */
 	protected void addTimeScaleBar(Composite parent){
 		 timeScaleControlPanel = new TimeScaleBar(parent, SWT.NULL, (double)(300)/(double)this.initialMediaLenght);
 		    timeScaleControlPanel.addTimeScaleListener(new TimeScaleListener(){
@@ -576,6 +671,11 @@ public class MediaTimeBar extends AbstractMediaCollectionControl {
 		     });
 	}
 		
+	/**
+	 * Adds the media control bar.
+	 *
+	 * @param parent the parent
+	 */
 	protected void addMediaControlBar(Composite parent){
 		mediaControlBar=new MediaControlBar(parent, SWT.NULL);
 		mediaControlBar.addMediaControlListener(new MediaControlListener(){
@@ -603,6 +703,9 @@ public class MediaTimeBar extends AbstractMediaCollectionControl {
 	
 
 	
+	/**
+	 * Update pixels per second.
+	 */
 	protected void updatePixelsPerSecond(){
 		if (isEmpty()) return;	
 		long mediaLength=initialMediaLenght;	//TODO if media is empty all rows and intervals should be removed?
@@ -618,6 +721,9 @@ public class MediaTimeBar extends AbstractMediaCollectionControl {
 
 	}
 	
+	/**
+	 * Register size update.
+	 */
 	protected void registerSizeUpdate(){
 		timeBarViewer.addControlListener(new ControlListener(){
 
@@ -632,10 +738,18 @@ public class MediaTimeBar extends AbstractMediaCollectionControl {
 		});
 	}
 	
+	/**
+	 * Gets the time span for current time scale.
+	 *
+	 * @return the time span for current time scale
+	 */
 	protected long getTimeSpanForCurrentTimeScale(){
 		return (long) ((double)(1000*timeBarViewer.getBounds().width)/(double)(timeBarViewer.getPixelPerSecond()));
 	}
 	
+	/**
+	 * Update row height.
+	 */
 	protected void updateRowHeight(){
 		if (timeBarViewer.getSize().y>50){
 			int rowsAreaHeight = timeBarViewer.getSize().y-50;
@@ -648,6 +762,17 @@ public class MediaTimeBar extends AbstractMediaCollectionControl {
 		}
 	}
 	
+	/**
+	 * The listener interface for receiving timeSlide events.
+	 * The class that is interested in processing a timeSlide
+	 * event implements this interface, and the object created
+	 * with that class is registered with a component using the
+	 * component's <code>addTimeSlideListener<code> method. When
+	 * the timeSlide event occurs, that object's appropriate
+	 * method is invoked.
+	 *
+	 * @see TimeSlideEvent
+	 */
 	public interface TimeSlideListener {
 	}
 

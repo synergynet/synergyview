@@ -24,8 +24,15 @@ import synergyviewcore.collections.ui.editors.CollectionEditor;
 import synergyviewcore.navigation.model.INode;
 import synergyviewcore.projects.ui.NodeEditorInput;
 
+
+/**
+ * The Class OpenCollectionMediaEditorHandler.
+ */
 public class OpenCollectionMediaEditorHandler extends AbstractHandler implements IHandler  {
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	 */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		final ILog logger = Activator.getDefault().getLog();
 

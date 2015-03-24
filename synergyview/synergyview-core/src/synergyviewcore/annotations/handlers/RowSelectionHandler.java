@@ -10,8 +10,15 @@ import org.eclipse.ui.PlatformUI;
 
 import synergyviewcore.annotations.ui.editors.CollectionMediaClipAnnotationEditor;
 
+
+/**
+ * The Class RowSelectionHandler.
+ */
 public class RowSelectionHandler extends AbstractHandler implements IHandler {
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	 */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		String id = event.getCommand().getId();
 		int number = Integer.parseInt(id.substring(id.length() - 1));

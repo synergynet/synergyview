@@ -35,6 +35,7 @@ import synergyviewcore.projects.model.ProjectNode;
 import synergyviewcore.projects.ui.ProjectExplorerViewPart;
 
 
+
 /**
  * This sample class demonstrates how to plug-in a new
  * workbench view. The view shows data obtained from the
@@ -55,8 +56,12 @@ import synergyviewcore.projects.ui.ProjectExplorerViewPart;
 
 public class CodingExplorerViewPart extends ViewPart implements ISelectionListener {
 
+	/** The is sticky. */
 	private boolean isSticky;
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.part.WorkbenchPart#dispose()
+	 */
 	@Override
 	public void dispose() {
 		this.getSite().getPage().removeSelectionListener(this);
@@ -70,7 +75,10 @@ public class CodingExplorerViewPart extends ViewPart implements ISelectionListen
 	 */
 	public static final String ID = "synergyviewcore.attributes.ui.CodingExplorerViewPart";
 
+	/** The attributes viewer. */
 	private TreeViewer attributesViewer;
+	
+	/** The label. */
 	private Label label;
 	/**
 	 * The constructor.
@@ -81,6 +89,8 @@ public class CodingExplorerViewPart extends ViewPart implements ISelectionListen
 	/**
 	 * This is a callback that will allow us
 	 * to create the viewer and initialize it.
+	 *
+	 * @param parent the parent
 	 */
 	public void createPartControl(Composite parent) {
 		Composite composite = new Composite (parent, SWT.NONE);
@@ -177,6 +187,11 @@ public class CodingExplorerViewPart extends ViewPart implements ISelectionListen
 		}
 	}
 	
+	/**
+	 * Sets the input.
+	 *
+	 * @param node the new input
+	 */
 	private void setInput(ProjectAttributeRootNode node) {
 		node.setTreeViewer(attributesViewer);
 		attributesViewer.setInput(node); 
@@ -185,31 +200,56 @@ public class CodingExplorerViewPart extends ViewPart implements ISelectionListen
 	}
 
 	
+	/**
+	 * Gets the root node.
+	 *
+	 * @return the root node
+	 */
 	public INode getRootNode() {
 		if (attributesViewer!=null)
 			return (INode) attributesViewer.getInput();
 		else return null;
 	}
 
+	/**
+	 * Sets the sticky.
+	 *
+	 * @param isSticky the new sticky
+	 */
 	public void setSticky(boolean isSticky) {
 		this.isSticky = isSticky;
 	}
 
+	/**
+	 * Checks if is sticky.
+	 *
+	 * @return true, if is sticky
+	 */
 	public boolean isSticky() {
 		return isSticky;
 	}
 	
+	/**
+	 * The Class AttributeTextLabelProvider.
+	 */
 	private static class AttributeTextLabelProvider extends StyledCellLabelProvider {
 
+		/** The resource manager. */
 		private LocalResourceManager resourceManager = new LocalResourceManager(
 				JFaceResources.getResources());
 		
+		/* (non-Javadoc)
+		 * @see org.eclipse.jface.viewers.StyledCellLabelProvider#dispose()
+		 */
 		@Override
 		public void dispose() {
 			resourceManager.dispose();
 			super.dispose();
 		}
 		
+		/* (non-Javadoc)
+		 * @see org.eclipse.jface.viewers.StyledCellLabelProvider#update(org.eclipse.jface.viewers.ViewerCell)
+		 */
 		@Override
 		public void update(ViewerCell cell) {
 			if (cell.getElement() instanceof AttributeNode) {
@@ -222,8 +262,14 @@ public class CodingExplorerViewPart extends ViewPart implements ISelectionListen
 		}
 	}
 	
+	/**
+	 * The Class AttributeColorLabelProvider.
+	 */
 	private static class AttributeColorLabelProvider extends StyledCellLabelProvider {
 		
+		/* (non-Javadoc)
+		 * @see org.eclipse.jface.viewers.StyledCellLabelProvider#update(org.eclipse.jface.viewers.ViewerCell)
+		 */
 		@Override
 		public void update(ViewerCell cell) {
 			if (cell.getElement() instanceof AttributeNode) {

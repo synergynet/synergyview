@@ -39,17 +39,25 @@ import synergyviewcore.navigation.model.INode;
 import synergyviewcore.navigation.model.IParentNode;
 import synergyviewcore.resource.ResourceLoader;
 
+
 /**
- * @author phyokyaw
+ * The Class CollectionMediaClipNode.
  *
+ * @author phyokyaw
  */
 public class CollectionMediaClipNode extends AbstractParent<CollectionMediaClip> {
+	
+	/** The _e manager factory. */
 	private EntityManagerFactory _eManagerFactory;
+	
+	/** The Constant COLLECTION_CLIP_ICON. */
 	public static final String COLLECTION_CLIP_ICON = "link.png";
 
 	/**
-	 * @param resourceValue
-	 * @param parentValue
+	 * Instantiates a new collection media clip node.
+	 *
+	 * @param resourceValue the resource value
+	 * @param parentValue the parent value
 	 */
 	public CollectionMediaClipNode(CollectionMediaClip resourceValue, IParentNode parentValue) {
 		super(resourceValue, parentValue);
@@ -59,6 +67,9 @@ public class CollectionMediaClipNode extends AbstractParent<CollectionMediaClip>
 		loadAnnotation();
 	}
 
+	/**
+	 * Update resource.
+	 */
 	public void updateResource() {
 		EntityManager entityManager = null;
 		try {
@@ -76,7 +87,7 @@ public class CollectionMediaClipNode extends AbstractParent<CollectionMediaClip>
 	}
 
 	/**
-	 * 
+	 * Load annotation.
 	 */
 	private void loadAnnotation() {
 
@@ -88,6 +99,9 @@ public class CollectionMediaClipNode extends AbstractParent<CollectionMediaClip>
 
 	}
 
+	/* (non-Javadoc)
+	 * @see synergyviewcore.navigation.model.AbstractNode#getIcon()
+	 */
 	public ImageDescriptor getIcon() {
 		return ResourceLoader.getIconDescriptor(COLLECTION_CLIP_ICON);
 	}
@@ -108,7 +122,9 @@ public class CollectionMediaClipNode extends AbstractParent<CollectionMediaClip>
 	}
 
 	/**
-	 * 
+	 * Adds the annotation set.
+	 *
+	 * @param annotationSetName the annotation set name
 	 */
 	public void addAnnotationSet(String annotationSetName) {
 		EntityManager entityManager = null;
@@ -131,6 +147,12 @@ public class CollectionMediaClipNode extends AbstractParent<CollectionMediaClip>
 		}
 	}
 
+	/**
+	 * Removes the annotation set node.
+	 *
+	 * @param nodeValue the node value
+	 * @throws ModelPersistenceException the model persistence exception
+	 */
 	public void removeAnnotationSetNode(AnnotationSetNode nodeValue) throws ModelPersistenceException {
 		EntityManager entityManager = null;
 		try {
@@ -149,6 +171,12 @@ public class CollectionMediaClipNode extends AbstractParent<CollectionMediaClip>
 		}
 	}
 	
+	/**
+	 * Rename clip.
+	 *
+	 * @param name the name
+	 * @throws ModelPersistenceException the model persistence exception
+	 */
 	public void renameClip(String name) throws ModelPersistenceException {
 		EntityManager entityManager = null;
 		try {

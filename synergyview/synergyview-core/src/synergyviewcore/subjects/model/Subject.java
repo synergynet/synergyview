@@ -25,29 +25,60 @@ import javax.persistence.Entity;
 
 import synergyviewcore.model.PersistenceModelObject;
 
+
 /**
- * @author phyo
+ * The Class Subject.
  *
+ * @author phyo
  */
 @Entity
 public class Subject extends PersistenceModelObject {
 	
+	/** The name. */
 	@Column(unique=true, nullable=false)
 	private String name;
+	
+	/** The Constant PROP_NAME. */
 	public static final String PROP_NAME = "name";
 	
+	/** The description. */
 	private String description;
+	
+	/** The Constant PROP_DESCRIPTION. */
 	public static final String PROP_DESCRIPTION = "description";
 	
+	/**
+	 * Sets the name.
+	 *
+	 * @param name the new name
+	 */
 	public void setName(String name) {
 		this.firePropertyChange(PROP_NAME, this.name, this.name = name);
 	}
+	
+	/**
+	 * Gets the name.
+	 *
+	 * @return the name
+	 */
 	public String getName() {
 		return name;
 	}
+	
+	/**
+	 * Sets the description.
+	 *
+	 * @param description the new description
+	 */
 	public void setDescription(String description) {
 		this.firePropertyChange(PROP_DESCRIPTION, this.description, this.description = description);
 	}
+	
+	/**
+	 * Gets the description.
+	 *
+	 * @return the description
+	 */
 	public String getDescription() {
 		return description;
 	}

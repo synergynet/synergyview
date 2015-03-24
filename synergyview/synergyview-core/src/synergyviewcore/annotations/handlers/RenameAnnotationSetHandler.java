@@ -20,9 +20,16 @@ import synergyviewcore.Activator;
 import synergyviewcore.annotations.model.AnnotationSetNode;
 import synergyviewcore.model.ModelPersistenceException;
 
+
+/**
+ * The Class RenameAnnotationSetHandler.
+ */
 public class RenameAnnotationSetHandler extends AbstractHandler implements
 		IHandler {
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	 */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		final ILog logger = Activator.getDefault().getLog();
 		ISelection selection = HandlerUtil.getCurrentSelection(event);

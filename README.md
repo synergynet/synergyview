@@ -8,4 +8,6 @@ Using the eclipse RCP this product allows the annotation of videos along a timel
 
 * [Developing with SynergyView](https://github.com/synergynet/synergyview/wiki/Developing-with-SynergyView)
 
+[![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.54566.svg)](http://dx.doi.org/10.5281/zenodo.54566)
+
 [![Analytics](https://ga-beacon.appspot.com/UA-29400586-7/synergyvew?pixel)](https://github.com/igrigorik/ga-beacon)

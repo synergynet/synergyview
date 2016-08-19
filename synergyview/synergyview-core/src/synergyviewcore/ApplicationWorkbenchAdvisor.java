@@ -222,7 +222,8 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
 		String vlcLib = ManagementFactory.getRuntimeMXBean()
 				.getSystemProperties().get("vlc");
 		if (vlcLib != null) {
-			found = true;
+    		found = true;
+    		NativeLibrary.addSearchPath("vlc", vlcLib); 
 		}
 		if (!found) {
 			found = new NativeDiscovery().discover();
@@ -233,9 +234,10 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
 							PlatformUI.getWorkbench().getDisplay()
 									.getActiveShell(),
 							"Error",
-							"Cannot play videos.  VLC is either not installed or located in an unexpected directory.  "
-									+ "If VLC is installed in an unexpected directory you can provide the path to its library "
-									+ "location with the argument: '-Dvlc=\"...\"");
+						"Cannot play videos.  VLC is either not installed or located in an unexpected directory.  " + 
+						"If VLC is installed in an unexpected directory you can provide the path to its library. " + 
+						"Find SynergyView.ini and add a line to the end (if not already there) starting with " + 
+						"-Dvlc= followed by the path to an installation instance of VLC's lib folder."); 
 		}
 		
 	};

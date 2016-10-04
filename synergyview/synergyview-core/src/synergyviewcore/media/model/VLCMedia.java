@@ -124,7 +124,7 @@ public class VLCMedia extends AbstractMedia {
 		
 		try {
 			mediaPlayerComponent = new EmbeddedMediaPlayerComponent();
-			mediaPlayerComponent.getMediaPlayer().mute(true);
+			//mediaPlayerComponent.getMediaPlayer().mute(true);
 			mediaPlayerComponent.getMediaPlayer().setRepeat(true);
 			mediaPlayerComponent.getMediaPlayer().prepareMedia(
 					new File(mediaUrl).toString(), "");

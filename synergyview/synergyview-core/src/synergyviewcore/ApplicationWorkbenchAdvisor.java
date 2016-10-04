@@ -22,6 +22,8 @@ import org.eclipse.ui.internal.ide.IDEInternalWorkbenchImages;
 import org.eclipse.ui.internal.ide.IDEWorkbenchPlugin;
 import org.osgi.framework.Bundle;
 
+import com.sun.jna.NativeLibrary;
+
 import uk.co.caprica.vlcj.discovery.NativeDiscovery;
 
 /**

@@ -1,7 +1,0 @@
-instructions.configure=\
-  addRepository(type:0,location:file${#58}//Users/phyo/Desktop/export/repository/);\
-  addRepository(type:1,location:file${#58}//Users/phyo/Desktop/export/);
-
-instructions.configure=\
-  addRepository(type:0,location:http${#58}//tel.dur.ac.uk/~dcs0pk/covanto/repository/);\
-  addRepository(type:1,location:http${#58}//tel.dur.ac.uk/~dcs0pk/covanto/repository/);

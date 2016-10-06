@@ -148,6 +148,9 @@ public class MediaSwtAwtComposite extends Composite {
 		this.layout();
 		this.media.prepareMedia();
 		updateTimes();
+		
+		// TODO (BUG) Some frames disappearing.
+		
 	}
 	
 	/**

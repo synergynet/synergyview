@@ -1,19 +1,32 @@
 package synergyviewcore.media.model;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.GraphicsEnvironment;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URI;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Calendar;
 
+import javax.swing.JPanel;
+
 import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 
 import synergyviewcore.Activator;
-import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
+import uk.co.caprica.vlcj.player.MediaPlayer;
+import uk.co.caprica.vlcj.player.MediaPlayerEventAdapter;
+import uk.co.caprica.vlcj.player.MediaPlayerFactory;
+import uk.co.caprica.vlcj.player.direct.BufferFormat;
+import uk.co.caprica.vlcj.player.direct.BufferFormatCallback;
+import uk.co.caprica.vlcj.player.direct.DirectMediaPlayer;
+import uk.co.caprica.vlcj.player.direct.RenderCallbackAdapter;
+import uk.co.caprica.vlcj.player.direct.format.RV32BufferFormat;
 
 /**
  * The Class VLCMedia.
@@ -47,8 +60,11 @@ public class VLCMedia extends AbstractMedia {
 			while (active) {
 				if (isPlaying()) {
 					try {
+						
+						// TODO Don't do this on repeat
+						
 						int currentTime = (int) mediaPlayerComponent
-								.getMediaPlayer().getTime();
+								.getTime();
 						VLCMedia.this.firePropertyChange(IMedia.PROP_TIME,
 								previousTime, currentTime);
 					} catch (Exception ex) {
@@ -90,17 +106,22 @@ public class VLCMedia extends AbstractMedia {
 	/** The height. */
 	private int height = 320;
 	
+
+    /**
+     *
+     */
+    private final BufferedImage image;
+	
+	private JPanel jPanel;
+	
 	/** The logger. */
 	private final ILog logger;
 	
 	/** The media player component. */
-	private EmbeddedMediaPlayerComponent mediaPlayerComponent;
+	private DirectMediaPlayer mediaPlayerComponent;
 	
 	/** The movie dimension. */
 	private Dimension movieDimension;
-	
-	/** The saved volume. */
-	private int savedVolume = 0;
 	
 	/** The update thread. */
 	private UpdateStatusThread updateThread;
@@ -122,12 +143,59 @@ public class VLCMedia extends AbstractMedia {
 		
 		movieDimension = new Dimension(width, height);
 		
+		jPanel = new JPanel() {
+			private static final long serialVersionUID = -575622818908986903L;
+
+			@Override
+            protected void paintComponent(Graphics g) {				
+				super.paintComponents(g);				
+				
+				
+				// TODO Get actual dimensions to draw to.
+				
+//				int videoWidth = mediaPlayerComponent.getVideoDimension().width;
+//				int videoHeight = mediaPlayerComponent.getVideoDimension().height;
+				
+                g.setColor(Color.black);
+                g.fillRect(0, 0, getWidth(), getHeight());
+                g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+            }
+        };
+        jPanel.setBackground(Color.red);
+        jPanel.setOpaque(true);
+
+        image = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration().createCompatibleImage(width, height);
+
+		
+		// TODO Fix line disappearing bug
+		
 		try {
-			mediaPlayerComponent = new EmbeddedMediaPlayerComponent();
-			//mediaPlayerComponent.getMediaPlayer().mute(true);
-			mediaPlayerComponent.getMediaPlayer().setRepeat(true);
-			mediaPlayerComponent.getMediaPlayer().prepareMedia(
-					new File(mediaUrl).toString(), "");
+			
+			MediaPlayerFactory mediaPlayerFactory = new MediaPlayerFactory("--no-video-title-show", "--quiet");
+			
+	        BufferFormatCallback bufferFormatCallback = new BufferFormatCallback() {
+	            @Override
+	            public BufferFormat getBufferFormat(int sourceWidth, int sourceHeight) {
+	                return new RV32BufferFormat(width, height);
+	            }
+	        };
+			
+			mediaPlayerComponent = mediaPlayerFactory.newDirectMediaPlayer(bufferFormatCallback, new JPanelRenderCallbackAdapter());
+			//mediaPlayerComponent.mute(true);		
+			
+			mediaPlayerComponent.setRepeat(true); 
+			mediaPlayerComponent.addMediaPlayerEventListener(new MediaPlayerEventAdapter() {
+			    @Override
+			    public void finished(MediaPlayer mediaPlayer) {
+			    	// TODO: Pause at video end
+			    	mediaPlayer.setPause(true);
+			    	mediaPlayer.setPosition(mediaPlayer.getLength());
+			    }
+			});
+
+			mediaPlayerComponent.prepareMedia(new File(mediaUrl).toString(), "");
+			
+			
 			this.name = name;
 		} catch (Exception ex) {
 			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID,
@@ -153,7 +221,7 @@ public class VLCMedia extends AbstractMedia {
 	 */
 	public int getDuration() {
 		try {
-			return (int) mediaPlayerComponent.getMediaPlayer().getLength();
+			return (int) mediaPlayerComponent.getLength();
 		} catch (Exception ex) {
 			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID,
 					ex.getMessage(), ex);
@@ -235,7 +303,7 @@ public class VLCMedia extends AbstractMedia {
 	 * @see synergyviewcore.media.model.IMedia#getTime()
 	 */
 	public int getTime() {
-		return (int) mediaPlayerComponent.getMediaPlayer().getTime();
+		return (int) mediaPlayerComponent.getTime();
 	}
 	
 	/*
@@ -245,7 +313,8 @@ public class VLCMedia extends AbstractMedia {
 	 */
 	public Component getUIComponent() {
 		try {
-			return mediaPlayerComponent;
+		
+			return jPanel;
 		} catch (Exception ex) {
 			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID,
 					ex.getMessage(), ex);
@@ -261,7 +330,7 @@ public class VLCMedia extends AbstractMedia {
 	 */
 	public boolean isAudioAvailable() {
 		try {
-			return mediaPlayerComponent.getMediaPlayer().getAudioTrackCount() > 0;
+			return mediaPlayerComponent.getAudioTrackCount() > 0;
 		} catch (Exception ex) {
 			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID,
 					ex.getMessage(), ex);
@@ -278,8 +347,7 @@ public class VLCMedia extends AbstractMedia {
 	 */
 	public boolean isMute() {
 		try {
-			return (mediaPlayerComponent.getMediaPlayer().getVolume() == 0) ? true
-					: false;
+			return mediaPlayerComponent.isMute();
 		} catch (Exception ex) {
 			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID,
 					ex.getMessage(), ex);
@@ -294,7 +362,7 @@ public class VLCMedia extends AbstractMedia {
 	 * @see synergyviewcore.media.model.IMedia#isPlaying()
 	 */
 	public boolean isPlaying() {
-		return mediaPlayerComponent.getMediaPlayer().isPlaying();
+		return mediaPlayerComponent.isPlaying();
 	}
 	
 	/*
@@ -303,18 +371,20 @@ public class VLCMedia extends AbstractMedia {
 	 * @see synergyviewcore.media.model.IMedia#prepareMedia()
 	 */
 	public void prepareMedia() {
-		int initialVolume = mediaPlayerComponent.getMediaPlayer().getVolume();
-		mediaPlayerComponent.getMediaPlayer().play();
+		
+		mediaPlayerComponent.mute(true);
+		mediaPlayerComponent.play();
 		try {
-			Thread.sleep(100);
+			Thread.sleep(1000);
+			mediaPlayerComponent.pause();
+			mediaPlayerComponent.setPosition(0);
+			mediaPlayerComponent.mute(false);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-		}
-		mediaPlayerComponent.getMediaPlayer().pause();
-		mediaPlayerComponent.getMediaPlayer().setVolume(initialVolume);
-		
+		}		
 		updateThread = new UpdateStatusThread();
 		updateThread.start();
+		
 	}
 	
 	/*
@@ -324,18 +394,7 @@ public class VLCMedia extends AbstractMedia {
 	 */
 	public void setMute(boolean mute) {
 		try {
-			if (mute) {
-				if (mediaPlayerComponent.getMediaPlayer().getVolume() != 0) {
-					savedVolume = mediaPlayerComponent.getMediaPlayer()
-							.getVolume();
-					mediaPlayerComponent.getMediaPlayer().setVolume(0);
-				}
-			} else {
-				if (mediaPlayerComponent.getMediaPlayer().getVolume() == 0) {
-					mediaPlayerComponent.getMediaPlayer()
-							.setVolume(savedVolume);
-				}
-			}
+			mediaPlayerComponent.mute(mute);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -348,7 +407,7 @@ public class VLCMedia extends AbstractMedia {
 	 */
 	public void setPlaying(boolean playingValue) {
 		try {
-			mediaPlayerComponent.getMediaPlayer().setPause(!playingValue);
+			mediaPlayerComponent.setPause(!playingValue);
 		} catch (Exception ex) {
 			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID,
 					ex.getMessage(), ex);
@@ -381,7 +440,7 @@ public class VLCMedia extends AbstractMedia {
 		try {
 			int previousTime = getTime();
 			this.firePropertyChange(IMedia.PROP_TIME, previousTime, time);
-			mediaPlayerComponent.getMediaPlayer().setTime(time);
+			mediaPlayerComponent.setTime(time);
 		} catch (Exception ex) {
 			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID,
 					ex.getMessage(), ex);
@@ -396,12 +455,12 @@ public class VLCMedia extends AbstractMedia {
 	 */
 	public void stepFF() {
 		try {
-			long time = mediaPlayerComponent.getMediaPlayer().getTime();
+			long time = mediaPlayerComponent.getTime();
 			long newTime = time + OFFSET;
-			if (newTime > mediaPlayerComponent.getMediaPlayer().getLength()) {
-				newTime = mediaPlayerComponent.getMediaPlayer().getLength();
+			if (newTime > mediaPlayerComponent.getLength()) {
+				newTime = mediaPlayerComponent.getLength();
 			}
-			mediaPlayerComponent.getMediaPlayer().setTime(time);
+			mediaPlayerComponent.setTime(time);
 			firePropertyChange(IMedia.PROP_TIME, time, newTime);
 		} catch (Exception ex) {
 			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID,
@@ -418,12 +477,12 @@ public class VLCMedia extends AbstractMedia {
 	 */
 	public void stepRE() {
 		try {
-			long time = mediaPlayerComponent.getMediaPlayer().getTime();
+			long time = mediaPlayerComponent.getTime();
 			long newTime = time - OFFSET;
 			if (newTime < 0) {
 				newTime = 0;
 			}
-			mediaPlayerComponent.getMediaPlayer().setTime(time);
+			mediaPlayerComponent.setTime(time);
 			firePropertyChange(IMedia.PROP_TIME, time, newTime);
 			
 		} catch (Exception ex) {
@@ -441,19 +500,19 @@ public class VLCMedia extends AbstractMedia {
 		try {
 			switch (_currentPlayRate) {
 				case HALF:
-					mediaPlayerComponent.getMediaPlayer().setRate(0.5f);
+					mediaPlayerComponent.setRate(0.5f);
 					break;
 				case X1:
-					mediaPlayerComponent.getMediaPlayer().setRate(1f);
+					mediaPlayerComponent.setRate(1f);
 					break;
 				case X2:
-					mediaPlayerComponent.getMediaPlayer().setRate(2f);
+					mediaPlayerComponent.setRate(2f);
 					break;
 				case X3:
-					mediaPlayerComponent.getMediaPlayer().setRate(3f);
+					mediaPlayerComponent.setRate(3f);
 					break;
 				case X4:
-					mediaPlayerComponent.getMediaPlayer().setRate(4f);
+					mediaPlayerComponent.setRate(4f);
 					break;
 			}
 		} catch (Exception ex) {
@@ -462,5 +521,19 @@ public class VLCMedia extends AbstractMedia {
 			logger.log(status);
 		}
 	}
+	
+    private class JPanelRenderCallbackAdapter extends RenderCallbackAdapter {
+
+        private JPanelRenderCallbackAdapter() {
+            super(new int[width * height]);
+        }
+
+        @Override
+        protected void onDisplay(DirectMediaPlayer mediaPlayer, int[] rgbBuffer) {
+            image.setRGB(0, 0, width, height, rgbBuffer, 0, width);
+            
+            jPanel.repaint();
+        }
+    }
 	
 }

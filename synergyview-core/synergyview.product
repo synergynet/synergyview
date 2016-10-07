@@ -15,7 +15,7 @@
 
    <launcherArgs>
       <programArgs>-data @noDefault</programArgs>
-      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts -d32</vmArgsMac>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
 
    <windowImages i16="/synergyview-core/icons/logo_16.png" i32="/synergyview-core/icons/logo_32.png" i48="/synergyview-core/icons/logo_48.png" i64="/synergyview-core/icons/logo_64.png" i128="/synergyview-core/icons/logo_128.png"/>

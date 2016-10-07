@@ -191,7 +191,7 @@ public class VLCMedia extends AbstractMedia {
 			MediaPlayerFactory mediaPlayerFactory = new MediaPlayerFactory("--no-video-title-show", "--quiet");
 			
 	        BufferFormatCallback bufferFormatCallback = new BufferFormatCallback() {
-	            @Override
+
 	            public BufferFormat getBufferFormat(int sourceWidth, int sourceHeight) {
 	                return new RV32BufferFormat(width, height);
 	            }

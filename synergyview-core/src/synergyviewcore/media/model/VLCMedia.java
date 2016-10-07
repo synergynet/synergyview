@@ -106,13 +106,11 @@ public class VLCMedia extends AbstractMedia {
 	
 	/** The height. */
 	private int height = 320;
-	
 
-    /**
-     *
-     */
+    /** The image to render the video playback to. */
     private final BufferedImage image;
-	
+    
+	/** The panel to add the image to. */
 	private JPanel jPanel;
 	
 	/** The logger. */
@@ -120,6 +118,8 @@ public class VLCMedia extends AbstractMedia {
 	
 	/** The media player component. */
 	private DirectMediaPlayer mediaPlayerComponent;
+	
+	private String mediaLoc = "";
 	
 	/** The movie dimension. */
 	private Dimension movieDimension;
@@ -156,10 +156,9 @@ public class VLCMedia extends AbstractMedia {
 				
 				float pos = mediaPlayerComponent.getPosition();
 				
-				if (pos > 0 && pos < 1){
+				if (pos > 0.0001 && pos < 1) {
 					
 					// Get actual dimensions to draw to.
-					
 					int videoWidth = mediaPlayerComponent.getVideoDimension().width;
 					int videoHeight = mediaPlayerComponent.getVideoDimension().height;
 					
@@ -184,7 +183,9 @@ public class VLCMedia extends AbstractMedia {
 
         image = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration().createCompatibleImage(width, height);
 		
-		try {
+		try {			
+
+			mediaLoc = new File(mediaUrl).toString();
 			
 			MediaPlayerFactory mediaPlayerFactory = new MediaPlayerFactory("--no-video-title-show", "--quiet");
 			
@@ -201,14 +202,14 @@ public class VLCMedia extends AbstractMedia {
 			mediaPlayerComponent.addMediaPlayerEventListener(new MediaPlayerEventAdapter() {
 			    @Override
 			    public void finished(MediaPlayer mediaPlayer) {
-			    	// TODO: Play and pause at video end
+			    	mediaPlayerComponent.prepareMedia(mediaLoc, "");	
 			    	mediaPlayer.play();
 			    	mediaPlayer.setPosition(1);
 			    	mediaPlayer.setPause(true);
 			    }
 			});
 
-			mediaPlayerComponent.prepareMedia(new File(mediaUrl).toString(), "");			
+			mediaPlayerComponent.prepareMedia(mediaLoc, "");			
 			
 			this.name = name;
 		} catch (Exception ex) {
@@ -536,17 +537,28 @@ public class VLCMedia extends AbstractMedia {
 		}
 	}
 	
+	/**
+	 * Handles rendering of videos to the image on a jPanel.
+	 */
     private class JPanelRenderCallbackAdapter extends RenderCallbackAdapter {
 
+    	/**
+    	 * Set up Renderer.
+    	 */
         private JPanelRenderCallbackAdapter() {
             super(new int[width * height]);
         }
 
+        /**
+         * Called on render, outputs video frame to image object.
+         * 
+         * @param mediaPlayer The VLC Media player object.
+         * @param rgbBuffer The buffer holding the current video frame.
+         * 
+         */
         @Override
         protected void onDisplay(DirectMediaPlayer mediaPlayer, int[] rgbBuffer) {
-
-            image.setRGB(0, 0, width, height, rgbBuffer, 0, width);
-            
+            image.setRGB(0, 0, width, height, rgbBuffer, 0, width);            
             jPanel.repaint();
         }
     }

@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GraphicsEnvironment;
+import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URI;
@@ -61,12 +62,12 @@ public class VLCMedia extends AbstractMedia {
 				if (isPlaying()) {
 					try {
 						
-						// TODO Don't do this on repeat
+						float pos = mediaPlayerComponent.getPosition();						
+						if (pos > 0 && pos < 1){						
+							int currentTime = (int) mediaPlayerComponent.getTime();
+							VLCMedia.this.firePropertyChange(IMedia.PROP_TIME, previousTime, currentTime);
+						}
 						
-						int currentTime = (int) mediaPlayerComponent
-								.getTime();
-						VLCMedia.this.firePropertyChange(IMedia.PROP_TIME,
-								previousTime, currentTime);
 					} catch (Exception ex) {
 					}
 				}
@@ -143,31 +144,45 @@ public class VLCMedia extends AbstractMedia {
 		
 		movieDimension = new Dimension(width, height);
 		
-		jPanel = new JPanel() {
+		jPanel = new JPanel(new GridLayout()) {
 			private static final long serialVersionUID = -575622818908986903L;
 
 			@Override
             protected void paintComponent(Graphics g) {				
-				super.paintComponents(g);				
+				super.paintComponents(g);			
 				
-				
-				// TODO Get actual dimensions to draw to.
-				
-//				int videoWidth = mediaPlayerComponent.getVideoDimension().width;
-//				int videoHeight = mediaPlayerComponent.getVideoDimension().height;
-				
-                g.setColor(Color.black);
+                g.setColor(Color.BLACK);
                 g.fillRect(0, 0, getWidth(), getHeight());
-                g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+				
+				float pos = mediaPlayerComponent.getPosition();
+				
+				if (pos > 0 && pos < 1){
+					
+					// Get actual dimensions to draw to.
+					
+					int videoWidth = mediaPlayerComponent.getVideoDimension().width;
+					int videoHeight = mediaPlayerComponent.getVideoDimension().height;
+					
+					float ratio = 1;
+					if (videoWidth > videoHeight) {
+						ratio = (float)getWidth()/videoWidth;
+					} else{
+						ratio =  (float)getHeight()/videoHeight;
+					}
+					
+					int scaledWidth = Math.round(ratio * videoWidth); 
+					int scaledHeight = Math.round(ratio * videoHeight); 
+					
+					int xOffset = (getWidth() - scaledWidth)/2;
+					int yOffset = (getHeight() - scaledHeight)/2;			
+
+	                g.drawImage(image, xOffset, yOffset, scaledWidth, scaledHeight, null);
+				}
             }
         };
-        jPanel.setBackground(Color.red);
         jPanel.setOpaque(true);
 
         image = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration().createCompatibleImage(width, height);
-
-		
-		// TODO Fix line disappearing bug
 		
 		try {
 			
@@ -181,20 +196,19 @@ public class VLCMedia extends AbstractMedia {
 	        };
 			
 			mediaPlayerComponent = mediaPlayerFactory.newDirectMediaPlayer(bufferFormatCallback, new JPanelRenderCallbackAdapter());
-			//mediaPlayerComponent.mute(true);		
 			
-			mediaPlayerComponent.setRepeat(true); 
+//			mediaPlayerComponent.setRepeat(true); 
 			mediaPlayerComponent.addMediaPlayerEventListener(new MediaPlayerEventAdapter() {
 			    @Override
 			    public void finished(MediaPlayer mediaPlayer) {
-			    	// TODO: Pause at video end
+			    	// TODO: Play and pause at video end
+			    	mediaPlayer.play();
+			    	mediaPlayer.setPosition(1);
 			    	mediaPlayer.setPause(true);
-			    	mediaPlayer.setPosition(mediaPlayer.getLength());
 			    }
 			});
 
-			mediaPlayerComponent.prepareMedia(new File(mediaUrl).toString(), "");
-			
+			mediaPlayerComponent.prepareMedia(new File(mediaUrl).toString(), "");			
 			
 			this.name = name;
 		} catch (Exception ex) {
@@ -530,6 +544,7 @@ public class VLCMedia extends AbstractMedia {
 
         @Override
         protected void onDisplay(DirectMediaPlayer mediaPlayer, int[] rgbBuffer) {
+
             image.setRGB(0, 0, width, height, rgbBuffer, 0, width);
             
             jPanel.repaint();

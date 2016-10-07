@@ -116,6 +116,7 @@ public class MediaSwtAwtComposite extends Composite {
 	 *            the media value
 	 */
 	public void addMedia(AbstractMedia mediaValue) {
+		
 		removeMedia();
 		
 		this.media = mediaValue;
@@ -127,6 +128,8 @@ public class MediaSwtAwtComposite extends Composite {
 					
 				});
 		updateTimes();
+		
+		this.media.prepareMedia();
 		
 		awtFrame = SWT_AWT.new_Frame(video_SWT_AWT_container);
 		Panel awtPanel = new Panel();
@@ -146,10 +149,7 @@ public class MediaSwtAwtComposite extends Composite {
 		swtAwtGridData.grabExcessVerticalSpace = true;
 		videoPreviewContainer.layout();
 		this.layout();
-		this.media.prepareMedia();
 		updateTimes();
-		
-		// TODO (BUG) Some frames disappearing.
 		
 	}
 	

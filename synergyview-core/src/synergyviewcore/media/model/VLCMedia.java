@@ -119,6 +119,7 @@ public class VLCMedia extends AbstractMedia {
 	/** The media player component. */
 	private DirectMediaPlayer mediaPlayerComponent;
 	
+	/** The string representing the location of the media file to be played. */
 	private String mediaLoc = "";
 	
 	/** The movie dimension. */

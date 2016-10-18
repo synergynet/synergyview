@@ -21,11 +21,11 @@ import javax.persistence.EntityManagerFactory;
  * @author phyokyaw
  */
 public interface IEMFactoryProvider {
-	
-	/**
-	 * Gets the entity manager factory.
-	 * 
-	 * @return the entity manager factory
-	 */
-	public EntityManagerFactory getEntityManagerFactory();
+
+    /**
+     * Gets the entity manager factory.
+     * 
+     * @return the entity manager factory
+     */
+    public EntityManagerFactory getEntityManagerFactory();
 }

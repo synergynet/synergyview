@@ -29,23 +29,21 @@ import synergyviewcore.attributes.ui.views.CodingExplorerViewPart;
  * @author phyo
  */
 public class ShowAttributesView extends AbstractHandler implements IHandler {
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.core.commands.IHandler#execute(org.eclipse.core.commands.
-	 * ExecutionEvent)
-	 */
-	public Object execute(ExecutionEvent event) throws ExecutionException {
-		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindow(event);
-		try {
-			window.getActivePage().showView(CodingExplorerViewPart.ID);
-		} catch (PartInitException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.core.commands.IHandler#execute(org.eclipse.core.commands. ExecutionEvent)
+     */
+    public Object execute(ExecutionEvent event) throws ExecutionException {
+	IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindow(event);
+	try {
+	    window.getActivePage().showView(CodingExplorerViewPart.ID);
+	} catch (PartInitException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
 	}
-	
+	return null;
+    }
+
 }

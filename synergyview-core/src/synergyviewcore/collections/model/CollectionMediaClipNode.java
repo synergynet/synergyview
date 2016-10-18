@@ -37,176 +37,166 @@ import synergyviewcore.resource.ResourceLoader;
  * 
  * @author phyokyaw
  */
-public class CollectionMediaClipNode extends
-		AbstractParent<CollectionMediaClip> {
-	
-	/** The Constant COLLECTION_CLIP_ICON. */
-	public static final String COLLECTION_CLIP_ICON = "link.png";
-	
-	/** The _e manager factory. */
-	private EntityManagerFactory _eManagerFactory;
-	
-	/**
-	 * Instantiates a new collection media clip node.
-	 * 
-	 * @param resourceValue
-	 *            the resource value
-	 * @param parentValue
-	 *            the parent value
-	 */
-	public CollectionMediaClipNode(CollectionMediaClip resourceValue,
-			IParentNode parentValue) {
-		super(resourceValue, parentValue);
-		this.setLabel(resource.getClipName());
-		_eManagerFactory = parentValue.getEMFactoryProvider()
-				.getEntityManagerFactory();
-		
-		loadAnnotation();
+public class CollectionMediaClipNode extends AbstractParent<CollectionMediaClip> {
+
+    /** The Constant COLLECTION_CLIP_ICON. */
+    public static final String COLLECTION_CLIP_ICON = "link.png";
+
+    /** The _e manager factory. */
+    private EntityManagerFactory _eManagerFactory;
+
+    /**
+     * Instantiates a new collection media clip node.
+     * 
+     * @param resourceValue
+     *            the resource value
+     * @param parentValue
+     *            the parent value
+     */
+    public CollectionMediaClipNode(CollectionMediaClip resourceValue, IParentNode parentValue) {
+	super(resourceValue, parentValue);
+	this.setLabel(resource.getClipName());
+	_eManagerFactory = parentValue.getEMFactoryProvider().getEntityManagerFactory();
+
+	loadAnnotation();
+    }
+
+    /**
+     * Adds the annotation set.
+     * 
+     * @param annotationSetName
+     *            the annotation set name
+     */
+    public void addAnnotationSet(String annotationSetName) {
+	EntityManager entityManager = null;
+	try {
+	    entityManager = _eManagerFactory.createEntityManager();
+	    entityManager.getTransaction().begin();
+	    AnnotationSet annotationSet = new AnnotationSet();
+	    annotationSet.setName(annotationSetName);
+	    annotationSet.setCollectionMediaClip(resource);
+	    annotationSet.setId(UUID.randomUUID().toString());
+	    resource.getAnnotationSetList().add(annotationSet);
+	    entityManager.persist(annotationSet);
+	    entityManager.getTransaction().commit();
+	    AnnotationSetNode node = new AnnotationSetNode(annotationSet, this);
+	    _children.add(node);
+	    this.fireChildrenChanged();
+	} catch (Exception ex) {
+	    IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, ex.getMessage(), ex);
+	    logger.log(status);
 	}
-	
-	/**
-	 * Adds the annotation set.
-	 * 
-	 * @param annotationSetName
-	 *            the annotation set name
-	 */
-	public void addAnnotationSet(String annotationSetName) {
-		EntityManager entityManager = null;
-		try {
-			entityManager = _eManagerFactory.createEntityManager();
-			entityManager.getTransaction().begin();
-			AnnotationSet annotationSet = new AnnotationSet();
-			annotationSet.setName(annotationSetName);
-			annotationSet.setCollectionMediaClip(resource);
-			annotationSet.setId(UUID.randomUUID().toString());
-			resource.getAnnotationSetList().add(annotationSet);
-			entityManager.persist(annotationSet);
-			entityManager.getTransaction().commit();
-			AnnotationSetNode node = new AnnotationSetNode(annotationSet, this);
-			_children.add(node);
-			this.fireChildrenChanged();
-		} catch (Exception ex) {
-			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID,
-					ex.getMessage(), ex);
-			logger.log(status);
-		}
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see synergyviewcore.navigation.model.INode#dispose()
+     */
+    public void dispose() {
+	this.deleteChildren(_children.toArray(new INode[] {}));
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see synergyviewcore.navigation.model.IParentNode#getChildrenNames()
+     */
+    public List<String> getChildrenNames() {
+	// TODO Auto-generated method stub
+	return null;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see synergyviewcore.navigation.model.AbstractNode#getIcon()
+     */
+    public ImageDescriptor getIcon() {
+	return ResourceLoader.getIconDescriptor(COLLECTION_CLIP_ICON);
+    }
+
+    /**
+     * Load annotation.
+     */
+    private void loadAnnotation() {
+
+	for (AnnotationSet annotationSetItem : resource.getAnnotationSetList()) {
+	    AnnotationSetNode annotationSetNode = new AnnotationSetNode(annotationSetItem, this);
+	    _children.add(annotationSetNode);
 	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see synergyviewcore.navigation.model.INode#dispose()
-	 */
-	public void dispose() {
-		this.deleteChildren(_children.toArray(new INode[] {}));
+	this.fireChildrenChanged();
+
+    }
+
+    /**
+     * Removes the annotation set node.
+     * 
+     * @param nodeValue
+     *            the node value
+     * @throws ModelPersistenceException
+     *             the model persistence exception
+     */
+    public void removeAnnotationSetNode(AnnotationSetNode nodeValue) throws ModelPersistenceException {
+	EntityManager entityManager = null;
+	try {
+	    entityManager = _eManagerFactory.createEntityManager();
+	    entityManager.getTransaction().begin();
+	    resource.getAnnotationSetList().remove(nodeValue.getResource());
+	    AnnotationSet setToRemove = entityManager.merge(nodeValue.getResource());
+	    entityManager.remove(setToRemove);
+	    entityManager.getTransaction().commit();
+	    this.deleteChildren(new INode[] { nodeValue });
+	    this.fireChildrenChanged();
+	} catch (Exception ex) {
+	    IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, ex.getMessage(), ex);
+	    logger.log(status);
+	    throw new ModelPersistenceException("Unable to delete.", ex);
 	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see synergyviewcore.navigation.model.IParentNode#getChildrenNames()
-	 */
-	public List<String> getChildrenNames() {
-		// TODO Auto-generated method stub
-		return null;
+    }
+
+    /**
+     * Rename clip.
+     * 
+     * @param name
+     *            the name
+     * @throws ModelPersistenceException
+     *             the model persistence exception
+     */
+    public void renameClip(String name) throws ModelPersistenceException {
+	EntityManager entityManager = null;
+	try {
+	    entityManager = _eManagerFactory.createEntityManager();
+	    entityManager.getTransaction().begin();
+	    resource.setClipName(name);
+	    entityManager.merge(resource);
+	    entityManager.getTransaction().commit();
+	    this.getViewerProvider().getTreeViewer().refresh(this);
+	} catch (Exception ex) {
+	    IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, ex.getMessage(), ex);
+	    logger.log(status);
+	    throw new ModelPersistenceException("Unable to rename.", ex);
 	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see synergyviewcore.navigation.model.AbstractNode#getIcon()
-	 */
-	public ImageDescriptor getIcon() {
-		return ResourceLoader.getIconDescriptor(COLLECTION_CLIP_ICON);
+    }
+
+    /**
+     * Update resource.
+     */
+    public void updateResource() {
+	EntityManager entityManager = null;
+	try {
+	    entityManager = _eManagerFactory.createEntityManager();
+	    entityManager.getTransaction().begin();
+	    entityManager.merge(this.getResource());
+	    entityManager.getTransaction().commit();
+	} catch (Exception ex) {
+	    IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, ex.getMessage(), ex);
+	    logger.log(status);
+	} finally {
+	    if (entityManager.isOpen()) {
+		entityManager.close();
+	    }
 	}
-	
-	/**
-	 * Load annotation.
-	 */
-	private void loadAnnotation() {
-		
-		for (AnnotationSet annotationSetItem : resource.getAnnotationSetList()) {
-			AnnotationSetNode annotationSetNode = new AnnotationSetNode(
-					annotationSetItem, this);
-			_children.add(annotationSetNode);
-		}
-		this.fireChildrenChanged();
-		
-	}
-	
-	/**
-	 * Removes the annotation set node.
-	 * 
-	 * @param nodeValue
-	 *            the node value
-	 * @throws ModelPersistenceException
-	 *             the model persistence exception
-	 */
-	public void removeAnnotationSetNode(AnnotationSetNode nodeValue)
-			throws ModelPersistenceException {
-		EntityManager entityManager = null;
-		try {
-			entityManager = _eManagerFactory.createEntityManager();
-			entityManager.getTransaction().begin();
-			resource.getAnnotationSetList().remove(nodeValue.getResource());
-			AnnotationSet setToRemove = entityManager.merge(nodeValue
-					.getResource());
-			entityManager.remove(setToRemove);
-			entityManager.getTransaction().commit();
-			this.deleteChildren(new INode[] { nodeValue });
-			this.fireChildrenChanged();
-		} catch (Exception ex) {
-			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID,
-					ex.getMessage(), ex);
-			logger.log(status);
-			throw new ModelPersistenceException("Unable to delete.", ex);
-		}
-	}
-	
-	/**
-	 * Rename clip.
-	 * 
-	 * @param name
-	 *            the name
-	 * @throws ModelPersistenceException
-	 *             the model persistence exception
-	 */
-	public void renameClip(String name) throws ModelPersistenceException {
-		EntityManager entityManager = null;
-		try {
-			entityManager = _eManagerFactory.createEntityManager();
-			entityManager.getTransaction().begin();
-			resource.setClipName(name);
-			entityManager.merge(resource);
-			entityManager.getTransaction().commit();
-			this.getViewerProvider().getTreeViewer().refresh(this);
-		} catch (Exception ex) {
-			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID,
-					ex.getMessage(), ex);
-			logger.log(status);
-			throw new ModelPersistenceException("Unable to rename.", ex);
-		}
-	}
-	
-	/**
-	 * Update resource.
-	 */
-	public void updateResource() {
-		EntityManager entityManager = null;
-		try {
-			entityManager = _eManagerFactory.createEntityManager();
-			entityManager.getTransaction().begin();
-			entityManager.merge(this.getResource());
-			entityManager.getTransaction().commit();
-		} catch (Exception ex) {
-			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID,
-					ex.getMessage(), ex);
-			logger.log(status);
-		} finally {
-			if (entityManager.isOpen()) {
-				entityManager.close();
-			}
-		}
-	}
-	
+    }
+
 }

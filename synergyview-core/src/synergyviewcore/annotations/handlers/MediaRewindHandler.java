@@ -14,25 +14,21 @@ import synergyviewcore.annotations.ui.editors.CollectionMediaClipAnnotationEdito
  * The Class MediaRewindHandler.
  */
 public class MediaRewindHandler extends AbstractHandler implements IHandler {
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands
-	 * .ExecutionEvent)
-	 */
-	public Object execute(ExecutionEvent event) throws ExecutionException {
-		IWorkbenchWindow window = PlatformUI.getWorkbench()
-				.getActiveWorkbenchWindow();
-		
-		IWorkbenchPage page = window.getActivePage();
-		if (page.getActiveEditor() instanceof CollectionMediaClipAnnotationEditor) {
-			CollectionMediaClipAnnotationEditor subtitleEditor = (CollectionMediaClipAnnotationEditor) page
-					.getActiveEditor();
-			subtitleEditor.getAnnotationMediaControl().stepRewind();
-		}
-		return null;
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands .ExecutionEvent)
+     */
+    public Object execute(ExecutionEvent event) throws ExecutionException {
+	IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+
+	IWorkbenchPage page = window.getActivePage();
+	if (page.getActiveEditor() instanceof CollectionMediaClipAnnotationEditor) {
+	    CollectionMediaClipAnnotationEditor subtitleEditor = (CollectionMediaClipAnnotationEditor) page.getActiveEditor();
+	    subtitleEditor.getAnnotationMediaControl().stepRewind();
 	}
-	
+	return null;
+    }
+
 }

@@ -19,67 +19,67 @@ package synergyviewcore.annotations.ui;
  * @author phyokyaw
  */
 public interface IAnnotationMediaControl {
-	
-	/**
-	 * Checks if is mute.
-	 * 
-	 * @param mediaClipIntervalImpl
-	 *            the media clip interval impl
-	 * @return true, if is mute
-	 */
-	boolean isMute(MediaClipIntervalImpl mediaClipIntervalImpl);
-	
-	/**
-	 * Checks if is playing.
-	 * 
-	 * @return true, if is playing
-	 */
-	boolean isPlaying();
-	
-	/**
-	 * Sets the mute.
-	 * 
-	 * @param mediaClipIntervalImpl
-	 *            the media clip interval impl
-	 * @param muteValue
-	 *            the mute value
-	 */
-	void setMute(MediaClipIntervalImpl mediaClipIntervalImpl, boolean muteValue);
-	
-	/**
-	 * Sets the playing.
-	 * 
-	 * @param playValue
-	 *            the new playing
-	 */
-	void setPlaying(boolean playValue);
-	
-	/**
-	 * Sets the row selection.
-	 * 
-	 * @param number
-	 *            the new row selection
-	 */
-	void setRowSelection(int number);
-	
-	/**
-	 * Start caption mark.
-	 */
-	void startCaptionMark();
-	
-	/**
-	 * Step forward.
-	 */
-	void stepForward();
-	
-	/**
-	 * Step rewind.
-	 */
-	void stepRewind();
-	
-	/**
-	 * Stop caption mark.
-	 */
-	void stopCaptionMark();
-	
+
+    /**
+     * Checks if is mute.
+     * 
+     * @param mediaClipIntervalImpl
+     *            the media clip interval impl
+     * @return true, if is mute
+     */
+    boolean isMute(MediaClipIntervalImpl mediaClipIntervalImpl);
+
+    /**
+     * Checks if is playing.
+     * 
+     * @return true, if is playing
+     */
+    boolean isPlaying();
+
+    /**
+     * Sets the mute.
+     * 
+     * @param mediaClipIntervalImpl
+     *            the media clip interval impl
+     * @param muteValue
+     *            the mute value
+     */
+    void setMute(MediaClipIntervalImpl mediaClipIntervalImpl, boolean muteValue);
+
+    /**
+     * Sets the playing.
+     * 
+     * @param playValue
+     *            the new playing
+     */
+    void setPlaying(boolean playValue);
+
+    /**
+     * Sets the row selection.
+     * 
+     * @param number
+     *            the new row selection
+     */
+    void setRowSelection(int number);
+
+    /**
+     * Start caption mark.
+     */
+    void startCaptionMark();
+
+    /**
+     * Step forward.
+     */
+    void stepForward();
+
+    /**
+     * Step rewind.
+     */
+    void stepRewind();
+
+    /**
+     * Stop caption mark.
+     */
+    void stopCaptionMark();
+
 }

@@ -21,103 +21,102 @@ import synergyviewcommons.model.PropertySupportObject;
  * The Class IdBasedObject.
  */
 public abstract class IdBasedObject extends PropertySupportObject {
-	
-	/** The Constant PROP_ID. */
-	public static final String PROP_ID = "id";
-	
-	/**
-	 * Creates the.
-	 * 
-	 * @param <T>
-	 *            the generic type
-	 * @param className
-	 *            the class name
-	 * @return the t
-	 */
-	public static <T extends IdBasedObject> T create(Class<T> className) {
-		T instance = null;
-		try {
-			instance = className.newInstance();
-			instance.setId(createUUID());
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return instance;
+
+    /** The Constant PROP_ID. */
+    public static final String PROP_ID = "id";
+
+    /**
+     * Creates the.
+     * 
+     * @param <T>
+     *            the generic type
+     * @param className
+     *            the class name
+     * @return the t
+     */
+    public static <T extends IdBasedObject> T create(Class<T> className) {
+	T instance = null;
+	try {
+	    instance = className.newInstance();
+	    instance.setId(createUUID());
+	} catch (InstantiationException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	} catch (IllegalAccessException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
 	}
-	
-	/**
-	 * Creates the uuid.
-	 * 
-	 * @return the string
-	 */
-	public static String createUUID() {
-		return UUID.randomUUID().toString();
+	return instance;
+    }
+
+    /**
+     * Creates the uuid.
+     * 
+     * @return the string
+     */
+    public static String createUUID() {
+	return UUID.randomUUID().toString();
+    }
+
+    /** The id. */
+    protected String id;
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    public boolean equals(Object object) {
+	// TODO: Warning - this method won't work in the case the id fields are
+	// not set
+	if (!(object instanceof IdBasedObject)) {
+	    return false;
 	}
-	
-	/** The id. */
-	protected String id;
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	public boolean equals(Object object) {
-		// TODO: Warning - this method won't work in the case the id fields are
-		// not set
-		if (!(object instanceof IdBasedObject)) {
-			return false;
-		}
-		IdBasedObject other = (IdBasedObject) object;
-		if (((this.id == null) && (other.id != null))
-				|| ((this.id != null) && !this.id.equals(other.id))) {
-			return false;
-		}
-		return true;
+	IdBasedObject other = (IdBasedObject) object;
+	if (((this.id == null) && (other.id != null)) || ((this.id != null) && !this.id.equals(other.id))) {
+	    return false;
 	}
-	
-	/**
-	 * Gets the id.
-	 * 
-	 * @return the id
-	 */
-	public String getId() {
-		return id;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		int hash = 0;
-		hash += (id != null ? id.hashCode() : 0);
-		return hash;
-	}
-	
-	/**
-	 * Sets the id.
-	 * 
-	 * @param id
-	 *            the new id
-	 */
-	public void setId(String id) {
-		this.firePropertyChange(PROP_ID, this.id, this.id = id);
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "Entity [id=" + id + "]";
-	}
+	return true;
+    }
+
+    /**
+     * Gets the id.
+     * 
+     * @return the id
+     */
+    public String getId() {
+	return id;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+	int hash = 0;
+	hash += (id != null ? id.hashCode() : 0);
+	return hash;
+    }
+
+    /**
+     * Sets the id.
+     * 
+     * @param id
+     *            the new id
+     */
+    public void setId(String id) {
+	this.firePropertyChange(PROP_ID, this.id, this.id = id);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+	return "Entity [id=" + id + "]";
+    }
 }

@@ -32,67 +32,61 @@ import synergyviewcore.projects.model.ProjectNode;
  * @author phyo
  */
 public class NewAttributeWizard extends Wizard implements IWorkbenchWizard {
-	
-	/** The main page. */
-	private NewAttributeWizardPage mainPage;
-	
-	/** The new attribute. */
-	private Attribute newAttribute;
-	
-	/** The parent node. */
-	private INode parentNode = null;
-	
-	/**
-	 * Instantiates a new new attribute wizard.
-	 */
-	public NewAttributeWizard() {
-		super();
+
+    /** The main page. */
+    private NewAttributeWizardPage mainPage;
+
+    /** The new attribute. */
+    private Attribute newAttribute;
+
+    /** The parent node. */
+    private INode parentNode = null;
+
+    /**
+     * Instantiates a new new attribute wizard.
+     */
+    public NewAttributeWizard() {
+	super();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.jface.wizard.IWizard#addPages()
+     */
+    public void addPages() {
+	super.addPages();
+	addPage(mainPage);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.ui.IWorkbenchWizard#init(org.eclipse.ui.IWorkbench, org.eclipse.jface.viewers.IStructuredSelection)
+     */
+    public void init(IWorkbench arg0, IStructuredSelection arg1) {
+	if (arg1 != StructuredSelection.EMPTY) {
+	    parentNode = (INode) arg1.getFirstElement();
 	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.wizard.IWizard#addPages()
-	 */
-	public void addPages() {
-		super.addPages();
-		addPage(mainPage);
+	newAttribute = new Attribute();
+	newAttribute.setId(UUID.randomUUID().toString());
+	mainPage = new NewAttributeWizardPage("New Attribute Page", newAttribute);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.jface.wizard.Wizard#performFinish()
+     */
+    @Override
+    public boolean performFinish() {
+
+	if (parentNode instanceof AttributeNode) {
+	    ((ProjectNode) parentNode.getLastParent()).getProjectAttributeRootNode().addAttribute(newAttribute, ((AttributeNode) parentNode).getResource());
+	} else {
+	    ((ProjectNode) parentNode.getLastParent()).getProjectAttributeRootNode().addAttribute(newAttribute, null);
 	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.IWorkbenchWizard#init(org.eclipse.ui.IWorkbench,
-	 * org.eclipse.jface.viewers.IStructuredSelection)
-	 */
-	public void init(IWorkbench arg0, IStructuredSelection arg1) {
-		if (arg1 != StructuredSelection.EMPTY) {
-			parentNode = (INode) arg1.getFirstElement();
-		}
-		newAttribute = new Attribute();
-		newAttribute.setId(UUID.randomUUID().toString());
-		mainPage = new NewAttributeWizardPage("New Attribute Page",
-				newAttribute);
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.wizard.Wizard#performFinish()
-	 */
-	@Override
-	public boolean performFinish() {
-		
-		if (parentNode instanceof AttributeNode) {
-			((ProjectNode) parentNode.getLastParent())
-					.getProjectAttributeRootNode().addAttribute(newAttribute,
-							((AttributeNode) parentNode).getResource());
-		} else {
-			((ProjectNode) parentNode.getLastParent())
-					.getProjectAttributeRootNode().addAttribute(newAttribute,
-							null);
-		}
-		return true;
-	}
-	
+	return true;
+    }
+
 }

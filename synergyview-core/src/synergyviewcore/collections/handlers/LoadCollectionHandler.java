@@ -28,68 +28,55 @@ import synergyviewcore.collections.model.CollectionNode;
  * The Class LoadCollectionHandler.
  */
 public class LoadCollectionHandler extends AbstractHandler implements IHandler {
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands
-	 * .ExecutionEvent)
-	 */
-	public Object execute(ExecutionEvent event) throws ExecutionException {
-		final ILog logger = Activator.getDefault().getLog();
-		
-		ISelection selection = HandlerUtil.getCurrentSelection(event);
-		IWorkbenchPart activePart = HandlerUtil.getActiveWorkbenchWindow(event)
-				.getActivePage().getActivePart();
-		if (!(selection instanceof IStructuredSelection)) {
-			return null;
-		}
-		IStructuredSelection structSel = (IStructuredSelection) selection;
-		Object object = structSel.getFirstElement();
-		if (object instanceof CollectionNode) {
-			CollectionNode collectionNode = ((CollectionNode) object);
-			FileDialog fd = new FileDialog(activePart.getSite().getShell(),
-					SWT.OPEN);
-			fd.setText("Open Collection Media Clips for "
-					+ collectionNode.getResource().getName());
-			String[] filterExt = { "*.ccxml" };
-			fd.setFilterExtensions(filterExt);
-			String selected = fd.open();
-			if (selected != null) {
-				BufferedInputStream bufferedInputStream = null;
-				try {
-					bufferedInputStream = new BufferedInputStream(
-							new FileInputStream(selected));
-					ICollectionFormatter formatter = new XmlCollectionFormatter();
-					formatter.read(collectionNode, bufferedInputStream);
-					MessageDialog.openInformation(activePart.getSite()
-							.getShell(), "Successful!",
-							"Annotations successfully loaded.");
-				} catch (Exception ex) {
-					IStatus status = new Status(IStatus.ERROR,
-							Activator.PLUGIN_ID, ex.getMessage(), ex);
-					logger.log(status);
-					MessageDialog.openError(activePart.getSite().getShell(),
-							"Open Error", "Unable to open Annotations!");
-				} finally {
-					if (bufferedInputStream != null) {
-						try {
-							bufferedInputStream.close();
-						} catch (IOException ex) {
-							IStatus status = new Status(IStatus.ERROR,
-									Activator.PLUGIN_ID, ex.getMessage(), ex);
-							logger.log(status);
-							MessageDialog.openError(activePart.getSite()
-									.getShell(), "Open Error",
-									"Unable to open Annotations!");
-						}
-					}
-				}
-			}
-		}
-		
-		return null;
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands .ExecutionEvent)
+     */
+    public Object execute(ExecutionEvent event) throws ExecutionException {
+	final ILog logger = Activator.getDefault().getLog();
+
+	ISelection selection = HandlerUtil.getCurrentSelection(event);
+	IWorkbenchPart activePart = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().getActivePart();
+	if (!(selection instanceof IStructuredSelection)) {
+	    return null;
 	}
-	
+	IStructuredSelection structSel = (IStructuredSelection) selection;
+	Object object = structSel.getFirstElement();
+	if (object instanceof CollectionNode) {
+	    CollectionNode collectionNode = ((CollectionNode) object);
+	    FileDialog fd = new FileDialog(activePart.getSite().getShell(), SWT.OPEN);
+	    fd.setText("Open Collection Media Clips for " + collectionNode.getResource().getName());
+	    String[] filterExt = { "*.ccxml" };
+	    fd.setFilterExtensions(filterExt);
+	    String selected = fd.open();
+	    if (selected != null) {
+		BufferedInputStream bufferedInputStream = null;
+		try {
+		    bufferedInputStream = new BufferedInputStream(new FileInputStream(selected));
+		    ICollectionFormatter formatter = new XmlCollectionFormatter();
+		    formatter.read(collectionNode, bufferedInputStream);
+		    MessageDialog.openInformation(activePart.getSite().getShell(), "Successful!", "Annotations successfully loaded.");
+		} catch (Exception ex) {
+		    IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, ex.getMessage(), ex);
+		    logger.log(status);
+		    MessageDialog.openError(activePart.getSite().getShell(), "Open Error", "Unable to open Annotations!");
+		} finally {
+		    if (bufferedInputStream != null) {
+			try {
+			    bufferedInputStream.close();
+			} catch (IOException ex) {
+			    IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, ex.getMessage(), ex);
+			    logger.log(status);
+			    MessageDialog.openError(activePart.getSite().getShell(), "Open Error", "Unable to open Annotations!");
+			}
+		    }
+		}
+	    }
+	}
+
+	return null;
+    }
+
 }

@@ -25,29 +25,28 @@ import synergyviewcore.collections.model.CollectionNode;
  * @author phyo
  */
 public interface ICollectionFormatter {
-	
-	/**
-	 * Read.
-	 * 
-	 * @param collectionNode
-	 *            the collection node
-	 * @param inStream
-	 *            the in stream
-	 * @throws Exception
-	 *             the exception
-	 */
-	void read(CollectionNode collectionNode, InputStream inStream)
-			throws Exception;
-	
-	/**
-	 * Write.
-	 * 
-	 * @param collection
-	 *            the collection
-	 * @param outStream
-	 *            the out stream
-	 * @throws Exception
-	 *             the exception
-	 */
-	void write(Collection collection, OutputStream outStream) throws Exception;
+
+    /**
+     * Read.
+     * 
+     * @param collectionNode
+     *            the collection node
+     * @param inStream
+     *            the in stream
+     * @throws Exception
+     *             the exception
+     */
+    void read(CollectionNode collectionNode, InputStream inStream) throws Exception;
+
+    /**
+     * Write.
+     * 
+     * @param collection
+     *            the collection
+     * @param outStream
+     *            the out stream
+     * @throws Exception
+     *             the exception
+     */
+    void write(Collection collection, OutputStream outStream) throws Exception;
 }

@@ -36,152 +36,124 @@ import synergyviewcore.subjects.model.Subject;
  * @author phyo
  */
 public class XmlCollectionFormatter implements ICollectionFormatter {
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * synergyviewcore.collections.format.ICollectionMediaClipFormatter#export
-	 * (java.util.List, java.io.OutputStream)
-	 */
-	/**
-	 * Export.
-	 * 
-	 * @param clipsToExport
-	 *            the clips to export
-	 * @param outStream
-	 *            the out stream
-	 * @throws Exception
-	 *             the exception
-	 */
-	public void export(List<CollectionMediaClip> clipsToExport,
-			OutputStream outStream) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see synergyviewcore.annotations.format.IAnnotationSetFormatter
-	 * #read(synergyviewcore.collections.model. CollectionMediaClipNode,
-	 * java.io.InputStream)
-	 */
-	public void read(CollectionNode collectionNode, InputStream inStream)
-			throws Exception {
-		XMLDecoder d = new XMLDecoder(inStream);
-		try {
-			if (collectionNode.getResource().getCollectionMediaList().isEmpty()) {
-				throw new Exception("No media found in the collection!");
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see synergyviewcore.collections.format.ICollectionMediaClipFormatter#export (java.util.List, java.io.OutputStream)
+     */
+    /**
+     * Export.
+     * 
+     * @param clipsToExport
+     *            the clips to export
+     * @param outStream
+     *            the out stream
+     * @throws Exception
+     *             the exception
+     */
+    public void export(List<CollectionMediaClip> clipsToExport, OutputStream outStream) throws Exception {
+	// TODO Auto-generated method stub
+
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see synergyviewcore.annotations.format.IAnnotationSetFormatter #read(synergyviewcore.collections.model. CollectionMediaClipNode, java.io.InputStream)
+     */
+    public void read(CollectionNode collectionNode, InputStream inStream) throws Exception {
+	XMLDecoder d = new XMLDecoder(inStream);
+	try {
+	    if (collectionNode.getResource().getCollectionMediaList().isEmpty()) {
+		throw new Exception("No media found in the collection!");
+	    }
+	    @SuppressWarnings("unchecked")
+	    List<CollectionMediaClip> collectionMediaClipList = (List<CollectionMediaClip>) d.readObject();
+	    List<CollectionMediaClip> newCollectionMediaClipList = new ArrayList<CollectionMediaClip>();
+	    for (CollectionMediaClip clip : collectionMediaClipList) {
+		CollectionMediaClip newClip = new CollectionMediaClip();
+		newClip.setClipName(clip.getClipName());
+		newClip.setId(UUID.randomUUID().toString());
+		newClip.setDuration(clip.getDuration());
+		newClip.setStartOffset(clip.getStartOffset());
+		newClip.setCollection(collectionNode.getResource());
+		newCollectionMediaClipList.add(newClip);
+
+		for (AnnotationSet annotationSet : clip.getAnnotationSetList()) {
+		    annotationSet.setCollectionMediaClip(newClip);
+		    annotationSet.setId(UUID.randomUUID().toString());
+
+		    List<Subject> newSubjectList = new ArrayList<Subject>();
+		    List<Annotation> newAnnotationtList = new ArrayList<Annotation>();
+		    for (Subject subject : annotationSet.getSubjectList()) {
+			Subject currentSubject = ((ProjectNode) collectionNode.getLastParent()).getSubjectRootNode().getSubject(subject.getId());
+			if (currentSubject == null) {
+			    currentSubject = ((ProjectNode) collectionNode.getLastParent()).getSubjectRootNode().getSubjectByName(subject.getName());
+			    if (currentSubject == null) {
+				throw new Exception("Unable to find the subject used in the collection clip for annotation list.");
+			    }
 			}
-			@SuppressWarnings("unchecked")
-			List<CollectionMediaClip> collectionMediaClipList = (List<CollectionMediaClip>) d
-					.readObject();
-			List<CollectionMediaClip> newCollectionMediaClipList = new ArrayList<CollectionMediaClip>();
-			for (CollectionMediaClip clip : collectionMediaClipList) {
-				CollectionMediaClip newClip = new CollectionMediaClip();
-				newClip.setClipName(clip.getClipName());
-				newClip.setId(UUID.randomUUID().toString());
-				newClip.setDuration(clip.getDuration());
-				newClip.setStartOffset(clip.getStartOffset());
-				newClip.setCollection(collectionNode.getResource());
-				newCollectionMediaClipList.add(newClip);
-				
-				for (AnnotationSet annotationSet : clip.getAnnotationSetList()) {
-					annotationSet.setCollectionMediaClip(newClip);
-					annotationSet.setId(UUID.randomUUID().toString());
-					
-					List<Subject> newSubjectList = new ArrayList<Subject>();
-					List<Annotation> newAnnotationtList = new ArrayList<Annotation>();
-					for (Subject subject : annotationSet.getSubjectList()) {
-						Subject currentSubject = ((ProjectNode) collectionNode
-								.getLastParent()).getSubjectRootNode()
-								.getSubject(subject.getId());
-						if (currentSubject == null) {
-							currentSubject = ((ProjectNode) collectionNode
-									.getLastParent()).getSubjectRootNode()
-									.getSubjectByName(subject.getName());
-							if (currentSubject == null) {
-								throw new Exception(
-										"Unable to find the subject used in the collection clip for annotation list.");
-							}
-						}
-						newSubjectList.add(currentSubject);
-					}
-					for (Annotation annotation : annotationSet
-							.getAnnotationList()) {
-						
-						// Adding existing subjects
-						Subject currentSubject = ((ProjectNode) collectionNode
-								.getLastParent()).getSubjectRootNode()
-								.getSubject(annotation.getSubject().getId());
-						
-						if (currentSubject == null) {
-							currentSubject = ((ProjectNode) collectionNode
-									.getLastParent()).getSubjectRootNode()
-									.getSubjectByName(
-											annotation.getSubject().getName());
-							if (currentSubject == null) {
-								throw new Exception(
-										"Unable to find the subject used in the collection clip for annotation.");
-							}
-						}
-						
-						annotation.setSubject(currentSubject);
-						
-						// Adding existing attributes
-						List<Attribute> currentAttributeList = new ArrayList<Attribute>();
-						for (Attribute attribute : annotation.getAttributes()) {
-							Attribute currentAttribute = ((ProjectNode) collectionNode
-									.getLastParent())
-									.getProjectAttributeRootNode()
-									.getAttribute(attribute);
-							if (currentAttribute == null) {
-								currentAttribute = ((ProjectNode) collectionNode
-										.getLastParent())
-										.getProjectAttributeRootNode()
-										.getAttributeByName(attribute.getName());
-							}
-							currentAttributeList.add(currentAttribute);
-						}
-						annotation.setAttributes(currentAttributeList);
-						
-						annotation.setId(UUID.randomUUID().toString());
-						newAnnotationtList.add(annotation);
-					}
-					annotationSet.setSubjectList(newSubjectList);
-					annotationSet.setAnnotationList(newAnnotationtList);
-					newClip.getAnnotationSetList().add(annotationSet);
-				}
+			newSubjectList.add(currentSubject);
+		    }
+		    for (Annotation annotation : annotationSet.getAnnotationList()) {
+
+			// Adding existing subjects
+			Subject currentSubject = ((ProjectNode) collectionNode.getLastParent()).getSubjectRootNode().getSubject(annotation.getSubject().getId());
+
+			if (currentSubject == null) {
+			    currentSubject = ((ProjectNode) collectionNode.getLastParent()).getSubjectRootNode().getSubjectByName(annotation.getSubject().getName());
+			    if (currentSubject == null) {
+				throw new Exception("Unable to find the subject used in the collection clip for annotation.");
+			    }
 			}
-			collectionNode.addClip(newCollectionMediaClipList);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			throw new Exception("Unable to load the collection clips!", ex);
-		} finally {
-			d.close();
+
+			annotation.setSubject(currentSubject);
+
+			// Adding existing attributes
+			List<Attribute> currentAttributeList = new ArrayList<Attribute>();
+			for (Attribute attribute : annotation.getAttributes()) {
+			    Attribute currentAttribute = ((ProjectNode) collectionNode.getLastParent()).getProjectAttributeRootNode().getAttribute(attribute);
+			    if (currentAttribute == null) {
+				currentAttribute = ((ProjectNode) collectionNode.getLastParent()).getProjectAttributeRootNode().getAttributeByName(attribute.getName());
+			    }
+			    currentAttributeList.add(currentAttribute);
+			}
+			annotation.setAttributes(currentAttributeList);
+
+			annotation.setId(UUID.randomUUID().toString());
+			newAnnotationtList.add(annotation);
+		    }
+		    annotationSet.setSubjectList(newSubjectList);
+		    annotationSet.setAnnotationList(newAnnotationtList);
+		    newClip.getAnnotationSetList().add(annotationSet);
 		}
+	    }
+	    collectionNode.addClip(newCollectionMediaClipList);
+	} catch (Exception ex) {
+	    ex.printStackTrace();
+	    throw new Exception("Unable to load the collection clips!", ex);
+	} finally {
+	    d.close();
 	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see synergyviewcore.annotations.format.IAnnotationSetFormatter #
-	 * write(synergyviewcore.collections.model.CollectionMediaClip ,
-	 * java.io.OutputStream)
-	 */
-	public void write(Collection collection, OutputStream outStream)
-			throws Exception {
-		XMLEncoder e = new XMLEncoder(outStream);
-		try {
-			e.writeObject(collection.getCollectionMediaClipList());
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			throw new Exception("Unable to save the collection clips!", ex);
-		} finally {
-			e.close();
-		}
-		
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see synergyviewcore.annotations.format.IAnnotationSetFormatter # write(synergyviewcore.collections.model.CollectionMediaClip , java.io.OutputStream)
+     */
+    public void write(Collection collection, OutputStream outStream) throws Exception {
+	XMLEncoder e = new XMLEncoder(outStream);
+	try {
+	    e.writeObject(collection.getCollectionMediaClipList());
+	} catch (Exception ex) {
+	    ex.printStackTrace();
+	    throw new Exception("Unable to save the collection clips!", ex);
+	} finally {
+	    e.close();
 	}
-	
+
+    }
+
 }

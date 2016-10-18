@@ -37,126 +37,117 @@ import synergyviewcore.navigation.projects.model.IEMFactoryProvider;
  * 
  * @author phyo
  */
-public class CodingRoot extends ProjectAttributeRootNode implements
-		IViewerProvider, IEMFactoryProvider {
-	
-	/** The Constant ATTRIBUTES_DB. */
-	public static final String ATTRIBUTES_DB = "AttributesDB";
-	
-	/** The instance. */
-	private static CodingRoot instance;
-	
-	/**
-	 * Gets the single instance of CodingRoot.
-	 * 
-	 * @return single instance of CodingRoot
-	 */
-	public static CodingRoot getInstance() {
-		if (instance == null) {
-			instance = new CodingRoot();
+public class CodingRoot extends ProjectAttributeRootNode implements IViewerProvider, IEMFactoryProvider {
+
+    /** The Constant ATTRIBUTES_DB. */
+    public static final String ATTRIBUTES_DB = "AttributesDB";
+
+    /** The instance. */
+    private static CodingRoot instance;
+
+    /**
+     * Gets the single instance of CodingRoot.
+     * 
+     * @return single instance of CodingRoot
+     */
+    public static CodingRoot getInstance() {
+	if (instance == null) {
+	    instance = new CodingRoot();
+	}
+	return instance;
+    }
+
+    /** The _tree viewer. */
+    private TreeViewer _treeViewer;
+
+    /**
+     * Instantiates a new coding root.
+     */
+    private CodingRoot() {
+	super(null);
+    }
+
+    /**
+     * Creates the attributes db.
+     */
+    private void createAttributesDB() {
+	Map<String, Object> map = new HashMap<String, Object>();
+	String dbUri = String.format("jdbc:derby:%s/%s;create=true", ResourcesPlugin.getWorkspace().getRoot().getLocation().toString(), ATTRIBUTES_DB);
+	map.put(PersistenceUnitProperties.JDBC_URL, dbUri);
+	map.put(PersistenceUnitProperties.CLASSLOADER, Activator.class.getClassLoader());
+	eManagerFactory = new PersistenceProvider().createEntityManagerFactory(ATTRIBUTES_DB, map);
+	eManagerFactory.createEntityManager().close();
+
+	PlatformUI.getWorkbench().addWorkbenchListener(new IWorkbenchListener() {
+	    public void postShutdown(IWorkbench workbench) {
+	    }
+
+	    public boolean preShutdown(IWorkbench workbench, boolean forced) {
+		if (CodingRoot.this.eManagerFactory.isOpen()) {
+		    CodingRoot.this.eManagerFactory.close();
 		}
-		return instance;
-	}
-	
-	/** The _tree viewer. */
-	private TreeViewer _treeViewer;
-	
-	/**
-	 * Instantiates a new coding root.
-	 */
-	private CodingRoot() {
-		super(null);
-	}
-	
-	/**
-	 * Creates the attributes db.
-	 */
-	private void createAttributesDB() {
-		Map<String, Object> map = new HashMap<String, Object>();
-		String dbUri = String.format("jdbc:derby:%s/%s;create=true",
-				ResourcesPlugin.getWorkspace().getRoot().getLocation()
-						.toString(), ATTRIBUTES_DB);
-		map.put(PersistenceUnitProperties.JDBC_URL, dbUri);
-		map.put(PersistenceUnitProperties.CLASSLOADER,
-				Activator.class.getClassLoader());
-		eManagerFactory = new PersistenceProvider().createEntityManagerFactory(
-				ATTRIBUTES_DB, map);
-		eManagerFactory.createEntityManager().close();
-		
-		PlatformUI.getWorkbench().addWorkbenchListener(
-				new IWorkbenchListener() {
-					public void postShutdown(IWorkbench workbench) {
-					}
-					
-					public boolean preShutdown(IWorkbench workbench,
-							boolean forced) {
-						if (CodingRoot.this.eManagerFactory.isOpen()) {
-							CodingRoot.this.eManagerFactory.close();
-						}
-						return true;
-					}
-				});
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see synergyviewcore.navigation.projects.model.IEMFactoryProvider#
-	 * getEntityManagerFactory()
-	 */
-	public EntityManagerFactory getEntityManagerFactory() {
-		return eManagerFactory;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see synergyviewcore.attributes.model.ProjectAttributeRootNode#getIcon()
-	 */
-	@Override
-	public ImageDescriptor getIcon() {
-		return null;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see synergyviewcore.navigation.model.AbstractNode#getParent()
-	 */
-	@Override
-	public IParentNode getParent() {
-		return null;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see synergyviewcore.navigation.model.IViewerProvider#getTreeViewer()
-	 */
-	public TreeViewer getTreeViewer() {
-		return _treeViewer;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see synergyviewcore.attributes.model.ProjectAttributeRootNode#
-	 * loadChildAttributeNodes()
-	 */
-	@Override
-	public void loadChildAttributeNodes() {
-		createAttributesDB();
-		super.loadChildAttributeNodes();
-	}
-	
-	/**
-	 * Sets the tree viewer.
-	 * 
-	 * @param _treeViewer
-	 *            the _treeViewer to set
-	 */
-	public void setTreeViewer(TreeViewer _treeViewer) {
-		this._treeViewer = _treeViewer;
-	}
-	
+		return true;
+	    }
+	});
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see synergyviewcore.navigation.projects.model.IEMFactoryProvider# getEntityManagerFactory()
+     */
+    public EntityManagerFactory getEntityManagerFactory() {
+	return eManagerFactory;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see synergyviewcore.attributes.model.ProjectAttributeRootNode#getIcon()
+     */
+    @Override
+    public ImageDescriptor getIcon() {
+	return null;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see synergyviewcore.navigation.model.AbstractNode#getParent()
+     */
+    @Override
+    public IParentNode getParent() {
+	return null;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see synergyviewcore.navigation.model.IViewerProvider#getTreeViewer()
+     */
+    public TreeViewer getTreeViewer() {
+	return _treeViewer;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see synergyviewcore.attributes.model.ProjectAttributeRootNode# loadChildAttributeNodes()
+     */
+    @Override
+    public void loadChildAttributeNodes() {
+	createAttributesDB();
+	super.loadChildAttributeNodes();
+    }
+
+    /**
+     * Sets the tree viewer.
+     * 
+     * @param _treeViewer
+     *            the _treeViewer to set
+     */
+    public void setTreeViewer(TreeViewer _treeViewer) {
+	this._treeViewer = _treeViewer;
+    }
+
 }

@@ -19,5 +19,5 @@ package synergyviewcore.navigation.model;
  * @author phyokyaw
  */
 public interface IResourceContainer {
-	
+
 }

@@ -20,57 +20,46 @@ import synergyviewcore.subjects.model.Subject;
 /**
  * The Class DeleteAnnotationSubjectHandler.
  */
-public class DeleteAnnotationSubjectHandler extends AbstractHandler implements
-		IHandler {
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands
-	 * .ExecutionEvent)
-	 */
-	public Object execute(ExecutionEvent event) throws ExecutionException {
-		ISelection selection = HandlerUtil.getCurrentSelection(event);
-		if (!(selection instanceof IStructuredSelection)) {
-			return null;
-		}
-		IStructuredSelection structSel = (IStructuredSelection) selection;
-		
-		@SuppressWarnings("rawtypes")
-		Iterator iteratorCaptionInterval = structSel.iterator();
-		List<SubjectRowModel> subjectRowsToBeRemoved = new ArrayList<SubjectRowModel>();
-		while (iteratorCaptionInterval.hasNext()) {
-			Object element = iteratorCaptionInterval.next();
-			if (element instanceof SubjectRowModel) {
-				SubjectRowModel cElement = (SubjectRowModel) element;
-				subjectRowsToBeRemoved.add(cElement);
-			}
-		}
-		if (subjectRowsToBeRemoved.size() > 0) {
-			boolean answer = MessageDialog.openConfirm(PlatformUI
-					.getWorkbench().getDisplay().getActiveShell(),
-					"Delete Confirmation", String.format(
-							"Are you sure you want to delete %d Subject(s)?",
-							subjectRowsToBeRemoved.size()));
-			if (answer == true) {
-				
-				for (SubjectRowModel subjectRow : subjectRowsToBeRemoved) {
-					List<Subject> subjectToBeRemoved = new ArrayList<Subject>();
-					subjectToBeRemoved.add(subjectRow.getSubject());
-					try {
-						subjectRow.getAnnotationSetNode().removeSubjects(
-								subjectToBeRemoved);
-					} catch (Exception e) {
-						MessageDialog.openError(PlatformUI.getWorkbench()
-								.getDisplay().getActiveShell(), "Error", String
-								.format("Unable to delete %s.", subjectRow
-										.getSubject().getName()));
-					}
-				}
-			}
-			
-		}
-		return null;
+public class DeleteAnnotationSubjectHandler extends AbstractHandler implements IHandler {
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands .ExecutionEvent)
+     */
+    public Object execute(ExecutionEvent event) throws ExecutionException {
+	ISelection selection = HandlerUtil.getCurrentSelection(event);
+	if (!(selection instanceof IStructuredSelection)) {
+	    return null;
 	}
+	IStructuredSelection structSel = (IStructuredSelection) selection;
+
+	@SuppressWarnings("rawtypes")
+	Iterator iteratorCaptionInterval = structSel.iterator();
+	List<SubjectRowModel> subjectRowsToBeRemoved = new ArrayList<SubjectRowModel>();
+	while (iteratorCaptionInterval.hasNext()) {
+	    Object element = iteratorCaptionInterval.next();
+	    if (element instanceof SubjectRowModel) {
+		SubjectRowModel cElement = (SubjectRowModel) element;
+		subjectRowsToBeRemoved.add(cElement);
+	    }
+	}
+	if (subjectRowsToBeRemoved.size() > 0) {
+	    boolean answer = MessageDialog.openConfirm(PlatformUI.getWorkbench().getDisplay().getActiveShell(), "Delete Confirmation", String.format("Are you sure you want to delete %d Subject(s)?", subjectRowsToBeRemoved.size()));
+	    if (answer == true) {
+
+		for (SubjectRowModel subjectRow : subjectRowsToBeRemoved) {
+		    List<Subject> subjectToBeRemoved = new ArrayList<Subject>();
+		    subjectToBeRemoved.add(subjectRow.getSubject());
+		    try {
+			subjectRow.getAnnotationSetNode().removeSubjects(subjectToBeRemoved);
+		    } catch (Exception e) {
+			MessageDialog.openError(PlatformUI.getWorkbench().getDisplay().getActiveShell(), "Error", String.format("Unable to delete %s.", subjectRow.getSubject().getName()));
+		    }
+		}
+	    }
+
+	}
+	return null;
+    }
 }

@@ -7,11 +7,11 @@ package synergyviewcommons.collections;
  *            the generic type
  */
 public abstract class CollectionDiff<R> {
-	
-	/**
-	 * Gets the differences.
-	 * 
-	 * @return the differences
-	 */
-	public abstract CollectionDiffEntry<R>[] getDifferences();
+
+    /**
+     * Gets the differences.
+     * 
+     * @return the differences
+     */
+    public abstract CollectionDiffEntry<R>[] getDifferences();
 }

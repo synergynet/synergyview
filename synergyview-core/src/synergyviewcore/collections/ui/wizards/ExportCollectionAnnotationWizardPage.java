@@ -35,81 +35,72 @@ import synergyviewcore.collections.model.CollectionMediaClip;
  * @author phyo
  */
 public class ExportCollectionAnnotationWizardPage extends WizardPage {
-	
-	/** The collection. */
-	private Collection collection;
-	
-	/** The selected collcation media clips. */
-	private List<CollectionMediaClip> selectedCollcationMediaClips = new ArrayList<CollectionMediaClip>();
-	
-	/**
-	 * Instantiates a new export collection annotation wizard page.
-	 * 
-	 * @param collection
-	 *            the collection
-	 */
-	protected ExportCollectionAnnotationWizardPage(Collection collection) {
-		super("Export Annotations in the Collection");
-		this.setTitle("Export Annotations in the Collection");
-		setDescription("Select the Collection Media Clips to Export");
-		this.collection = collection;
+
+    /** The collection. */
+    private Collection collection;
+
+    /** The selected collcation media clips. */
+    private List<CollectionMediaClip> selectedCollcationMediaClips = new ArrayList<CollectionMediaClip>();
+
+    /**
+     * Instantiates a new export collection annotation wizard page.
+     * 
+     * @param collection
+     *            the collection
+     */
+    protected ExportCollectionAnnotationWizardPage(Collection collection) {
+	super("Export Annotations in the Collection");
+	this.setTitle("Export Annotations in the Collection");
+	setDescription("Select the Collection Media Clips to Export");
+	this.collection = collection;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets .Composite)
+     */
+    public void createControl(Composite parent) {
+	final Composite area = new Composite(parent, SWT.NONE);
+	setControl(area);
+	GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, true);
+	area.setLayoutData(gridData);
+	GridLayout layoutData = new GridLayout(1, false);
+	area.setLayout(layoutData);
+	this.setPageComplete(false);
+	Table table = new Table(area, SWT.CHECK | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
+	table.setLayoutData(gridData);
+	for (CollectionMediaClip clip : collection.getCollectionMediaClipList()) {
+	    TableItem item = new TableItem(table, SWT.NONE);
+	    item.setText(clip.getClipName());
+	    item.setData(clip);
 	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets
-	 * .Composite)
-	 */
-	public void createControl(Composite parent) {
-		final Composite area = new Composite(parent, SWT.NONE);
-		setControl(area);
-		GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, true);
-		area.setLayoutData(gridData);
-		GridLayout layoutData = new GridLayout(1, false);
-		area.setLayout(layoutData);
-		this.setPageComplete(false);
-		Table table = new Table(area, SWT.CHECK | SWT.BORDER | SWT.V_SCROLL
-				| SWT.H_SCROLL);
-		table.setLayoutData(gridData);
-		for (CollectionMediaClip clip : collection.getCollectionMediaClipList()) {
-			TableItem item = new TableItem(table, SWT.NONE);
-			item.setText(clip.getClipName());
-			item.setData(clip);
+	table.addListener(SWT.Selection, new Listener() {
+	    public void handleEvent(Event event) {
+		if (event.detail == SWT.CHECK) {
+		    TableItem changedItem = (TableItem) event.item;
+		    if (changedItem.getChecked()) {
+			selectedCollcationMediaClips.add((CollectionMediaClip) ((TableItem) event.item).getData());
+		    } else {
+			selectedCollcationMediaClips.remove((CollectionMediaClip) ((TableItem) event.item).getData());
+		    }
 		}
-		table.addListener(SWT.Selection, new Listener() {
-			public void handleEvent(Event event) {
-				if (event.detail == SWT.CHECK) {
-					TableItem changedItem = (TableItem) event.item;
-					if (changedItem.getChecked()) {
-						selectedCollcationMediaClips
-								.add((CollectionMediaClip) ((TableItem) event.item)
-										.getData());
-					} else {
-						selectedCollcationMediaClips
-								.remove((CollectionMediaClip) ((TableItem) event.item)
-										.getData());
-					}
-				}
-				if (selectedCollcationMediaClips.isEmpty()) {
-					ExportCollectionAnnotationWizardPage.this
-							.setPageComplete(false);
-				} else {
-					ExportCollectionAnnotationWizardPage.this
-							.setPageComplete(true);
-				}
-			}
-		});
-	}
-	
-	/**
-	 * Gets the selected collcation media clips.
-	 * 
-	 * @return the selected collcation media clips
-	 */
-	public List<CollectionMediaClip> getSelectedCollcationMediaClips() {
-		return selectedCollcationMediaClips;
-	}
-	
+		if (selectedCollcationMediaClips.isEmpty()) {
+		    ExportCollectionAnnotationWizardPage.this.setPageComplete(false);
+		} else {
+		    ExportCollectionAnnotationWizardPage.this.setPageComplete(true);
+		}
+	    }
+	});
+    }
+
+    /**
+     * Gets the selected collcation media clips.
+     * 
+     * @return the selected collcation media clips
+     */
+    public List<CollectionMediaClip> getSelectedCollcationMediaClips() {
+	return selectedCollcationMediaClips;
+    }
+
 }

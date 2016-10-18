@@ -25,56 +25,55 @@ import synergyviewcore.model.PersistenceModelObject;
  */
 @Entity
 public class Subject extends PersistenceModelObject {
-	
-	/** The Constant PROP_DESCRIPTION. */
-	public static final String PROP_DESCRIPTION = "description";
-	
-	/** The Constant PROP_NAME. */
-	public static final String PROP_NAME = "name";
-	
-	/** The description. */
-	private String description;
-	
-	/** The name. */
-	@Column(unique = true, nullable = false)
-	private String name;
-	
-	/**
-	 * Gets the description.
-	 * 
-	 * @return the description
-	 */
-	public String getDescription() {
-		return description;
-	}
-	
-	/**
-	 * Gets the name.
-	 * 
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
-	
-	/**
-	 * Sets the description.
-	 * 
-	 * @param description
-	 *            the new description
-	 */
-	public void setDescription(String description) {
-		this.firePropertyChange(PROP_DESCRIPTION, this.description,
-				this.description = description);
-	}
-	
-	/**
-	 * Sets the name.
-	 * 
-	 * @param name
-	 *            the new name
-	 */
-	public void setName(String name) {
-		this.firePropertyChange(PROP_NAME, this.name, this.name = name);
-	}
+
+    /** The Constant PROP_DESCRIPTION. */
+    public static final String PROP_DESCRIPTION = "description";
+
+    /** The Constant PROP_NAME. */
+    public static final String PROP_NAME = "name";
+
+    /** The description. */
+    private String description;
+
+    /** The name. */
+    @Column(unique = true, nullable = false)
+    private String name;
+
+    /**
+     * Gets the description.
+     * 
+     * @return the description
+     */
+    public String getDescription() {
+	return description;
+    }
+
+    /**
+     * Gets the name.
+     * 
+     * @return the name
+     */
+    public String getName() {
+	return name;
+    }
+
+    /**
+     * Sets the description.
+     * 
+     * @param description
+     *            the new description
+     */
+    public void setDescription(String description) {
+	this.firePropertyChange(PROP_DESCRIPTION, this.description, this.description = description);
+    }
+
+    /**
+     * Sets the name.
+     * 
+     * @param name
+     *            the new name
+     */
+    public void setName(String name) {
+	this.firePropertyChange(PROP_NAME, this.name, this.name = name);
+    }
 }

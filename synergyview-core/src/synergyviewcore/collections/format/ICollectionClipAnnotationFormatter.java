@@ -21,15 +21,15 @@ import synergyviewcore.collections.model.CollectionMediaClip;
  * @author phyo
  */
 public interface ICollectionClipAnnotationFormatter {
-	
-	/**
-	 * Export.
-	 * 
-	 * @param clipToExport
-	 *            the clip to export
-	 * @return the string
-	 * @throws Exception
-	 *             the exception
-	 */
-	String export(CollectionMediaClip clipToExport) throws Exception;
+
+    /**
+     * Export.
+     * 
+     * @param clipToExport
+     *            the clip to export
+     * @return the string
+     * @throws Exception
+     *             the exception
+     */
+    String export(CollectionMediaClip clipToExport) throws Exception;
 }

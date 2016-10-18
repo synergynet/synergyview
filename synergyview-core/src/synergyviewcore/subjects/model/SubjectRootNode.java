@@ -36,179 +36,173 @@ import synergyviewcore.resource.ResourceLoader;
  * @author phyo
  */
 public class SubjectRootNode extends AbstractParent<Subject> {
-	
-	/** The Constant SUBJECTSFOLDER_ICON. */
-	public static final String SUBJECTSFOLDER_ICON = "page_gear.png";
-	
-	/** The _e manager factory. */
-	private EntityManagerFactory _eManagerFactory;
-	
-	/** The subject list. */
-	private List<Subject> subjectList = null;
-	
-	/**
-	 * Instantiates a new subject root node.
-	 * 
-	 * @param parentValue
-	 *            the parent value
-	 */
-	public SubjectRootNode(IParentNode parentValue) {
-		super(null, parentValue);
-		this.setLabel("Subjects");
-		_eManagerFactory = parentValue.getEMFactoryProvider()
-				.getEntityManagerFactory();
-		loadChildNodes();
+
+    /** The Constant SUBJECTSFOLDER_ICON. */
+    public static final String SUBJECTSFOLDER_ICON = "page_gear.png";
+
+    /** The _e manager factory. */
+    private EntityManagerFactory _eManagerFactory;
+
+    /** The subject list. */
+    private List<Subject> subjectList = null;
+
+    /**
+     * Instantiates a new subject root node.
+     * 
+     * @param parentValue
+     *            the parent value
+     */
+    public SubjectRootNode(IParentNode parentValue) {
+	super(null, parentValue);
+	this.setLabel("Subjects");
+	_eManagerFactory = parentValue.getEMFactoryProvider().getEntityManagerFactory();
+	loadChildNodes();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see synergyviewcore.attributes.model.IAttributeNode#addChildAttribute( synergyviewcore.attributes.model.Attribute)
+     */
+    /**
+     * Adds the child collection.
+     * 
+     * @param subjectValue
+     *            the subject value
+     */
+    public void addChildCollection(Subject subjectValue) {
+	EntityManager entityManager = null;
+	try {
+	    entityManager = _eManagerFactory.createEntityManager();
+	    entityManager.getTransaction().begin();
+	    entityManager.persist(subjectValue);
+	    entityManager.getTransaction().commit();
+	    SubjectNode node = new SubjectNode(subjectValue, this);
+	    _children.add(node);
+	    this.fireChildrenChanged();
+	} catch (Exception ex) {
+	    IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, ex.getMessage(), ex);
+	    logger.log(status);
+	} finally {
+	    if (entityManager.isOpen()) {
+		entityManager.close();
+	    }
 	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see synergyviewcore.attributes.model.IAttributeNode#addChildAttribute(
-	 * synergyviewcore.attributes.model.Attribute)
-	 */
-	/**
-	 * Adds the child collection.
-	 * 
-	 * @param subjectValue
-	 *            the subject value
-	 */
-	public void addChildCollection(Subject subjectValue) {
-		EntityManager entityManager = null;
-		try {
-			entityManager = _eManagerFactory.createEntityManager();
-			entityManager.getTransaction().begin();
-			entityManager.persist(subjectValue);
-			entityManager.getTransaction().commit();
-			SubjectNode node = new SubjectNode(subjectValue, this);
-			_children.add(node);
-			this.fireChildrenChanged();
-		} catch (Exception ex) {
-			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID,
-					ex.getMessage(), ex);
-			logger.log(status);
-		} finally {
-			if (entityManager.isOpen()) {
-				entityManager.close();
-			}
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see synergyviewcore.navigation.model.INode#dispose()
+     */
+    public void dispose() {
+	this.deleteChildren(_children.toArray(new INode[] {}));
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see synergyviewcore.navigation.model.IParentNode#getChildrenNames()
+     */
+    public List<String> getChildrenNames() {
+	List<String> nameList = new ArrayList<String>();
+	for (INode subjectNode : _children) {
+	    nameList.add(((SubjectNode) subjectNode).getResource().getName());
+	}
+	return nameList;
+
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see synergyviewcore.navigation.model.AbstractNode#getIcon()
+     */
+    public ImageDescriptor getIcon() {
+	return ResourceLoader.getIconDescriptor(SUBJECTSFOLDER_ICON);
+    }
+
+    /**
+     * Gets the subject.
+     * 
+     * @param id
+     *            the id
+     * @return the subject
+     */
+    public Subject getSubject(String id) {
+	for (Subject subject : subjectList) {
+	    if (subject.getId().compareTo(id) == 0) {
+		return subject;
+	    }
+	}
+	return null;
+    }
+
+    /**
+     * Gets the subject by name.
+     * 
+     * @param name
+     *            the name
+     * @return the subject by name
+     */
+    public Subject getSubjectByName(String name) {
+	for (Subject subject : subjectList) {
+	    if (subject.getName().compareTo(name) == 0) {
+		return subject;
+	    }
+	}
+	return null;
+    }
+
+    /**
+     * Load child nodes.
+     */
+    private void loadChildNodes() {
+	EntityManager entityManager = null;
+	try {
+	    entityManager = _eManagerFactory.createEntityManager();
+	    TypedQuery<Subject> query = entityManager.createQuery("select S from Subject S", Subject.class);
+	    subjectList = query.getResultList();
+	    if (subjectList.size() > 0) {
+		for (Subject subjectItem : subjectList) {
+		    SubjectNode subjectNode = new SubjectNode(subjectItem, this);
+		    _children.add(subjectNode);
 		}
+		this.fireChildrenChanged();
+	    }
+	} catch (Exception ex) {
+	    IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, ex.getMessage(), ex);
+	    logger.log(status);
+	} finally {
+	    if (entityManager.isOpen()) {
+		entityManager.close();
+	    }
 	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see synergyviewcore.navigation.model.INode#dispose()
-	 */
-	public void dispose() {
-		this.deleteChildren(_children.toArray(new INode[] {}));
+    }
+
+    /**
+     * Removes the child collection node.
+     * 
+     * @param subjectNodeValue
+     *            the subject node value
+     */
+    public void removeChildCollectionNode(SubjectNode subjectNodeValue) {
+	EntityManager entityManager = null;
+	try {
+	    entityManager = _eManagerFactory.createEntityManager();
+	    entityManager.getTransaction().begin();
+	    Subject c = entityManager.merge(subjectNodeValue.getResource());
+	    entityManager.remove(c);
+	    entityManager.getTransaction().commit();
+	    this.deleteChildren(new INode[] { ((INode) subjectNodeValue) });
+	    this.fireChildrenChanged();
+	} catch (Exception ex) {
+	    IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, ex.getMessage(), ex);
+	    logger.log(status);
+	} finally {
+	    if (entityManager.isOpen()) {
+		entityManager.close();
+	    }
 	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see synergyviewcore.navigation.model.IParentNode#getChildrenNames()
-	 */
-	public List<String> getChildrenNames() {
-		List<String> nameList = new ArrayList<String>();
-		for (INode subjectNode : _children) {
-			nameList.add(((SubjectNode) subjectNode).getResource().getName());
-		}
-		return nameList;
-		
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see synergyviewcore.navigation.model.AbstractNode#getIcon()
-	 */
-	public ImageDescriptor getIcon() {
-		return ResourceLoader.getIconDescriptor(SUBJECTSFOLDER_ICON);
-	}
-	
-	/**
-	 * Gets the subject.
-	 * 
-	 * @param id
-	 *            the id
-	 * @return the subject
-	 */
-	public Subject getSubject(String id) {
-		for (Subject subject : subjectList) {
-			if (subject.getId().compareTo(id) == 0) {
-				return subject;
-			}
-		}
-		return null;
-	}
-	
-	/**
-	 * Gets the subject by name.
-	 * 
-	 * @param name
-	 *            the name
-	 * @return the subject by name
-	 */
-	public Subject getSubjectByName(String name) {
-		for (Subject subject : subjectList) {
-			if (subject.getName().compareTo(name) == 0) {
-				return subject;
-			}
-		}
-		return null;
-	}
-	
-	/**
-	 * Load child nodes.
-	 */
-	private void loadChildNodes() {
-		EntityManager entityManager = null;
-		try {
-			entityManager = _eManagerFactory.createEntityManager();
-			TypedQuery<Subject> query = entityManager.createQuery(
-					"select S from Subject S", Subject.class);
-			subjectList = query.getResultList();
-			if (subjectList.size() > 0) {
-				for (Subject subjectItem : subjectList) {
-					SubjectNode subjectNode = new SubjectNode(subjectItem, this);
-					_children.add(subjectNode);
-				}
-				this.fireChildrenChanged();
-			}
-		} catch (Exception ex) {
-			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID,
-					ex.getMessage(), ex);
-			logger.log(status);
-		} finally {
-			if (entityManager.isOpen()) {
-				entityManager.close();
-			}
-		}
-	}
-	
-	/**
-	 * Removes the child collection node.
-	 * 
-	 * @param subjectNodeValue
-	 *            the subject node value
-	 */
-	public void removeChildCollectionNode(SubjectNode subjectNodeValue) {
-		EntityManager entityManager = null;
-		try {
-			entityManager = _eManagerFactory.createEntityManager();
-			entityManager.getTransaction().begin();
-			Subject c = entityManager.merge(subjectNodeValue.getResource());
-			entityManager.remove(c);
-			entityManager.getTransaction().commit();
-			this.deleteChildren(new INode[] { ((INode) subjectNodeValue) });
-			this.fireChildrenChanged();
-		} catch (Exception ex) {
-			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID,
-					ex.getMessage(), ex);
-			logger.log(status);
-		} finally {
-			if (entityManager.isOpen()) {
-				entityManager.close();
-			}
-		}
-	}
+    }
 }

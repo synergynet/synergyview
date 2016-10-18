@@ -29,28 +29,24 @@ import synergyviewcore.annotations.ui.editors.CollectionMediaClipAnnotationEdito
  * @author phyokyaw
  */
 public class PlayStopHandler extends AbstractHandler implements IHandler {
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.core.commands.IHandler#execute(org.eclipse.core.commands.
-	 * ExecutionEvent)
-	 */
-	public Object execute(ExecutionEvent event) throws ExecutionException {
-		IWorkbenchWindow window = PlatformUI.getWorkbench()
-				.getActiveWorkbenchWindow();
-		IWorkbenchPage page = window.getActivePage();
-		if (page.getActiveEditor() instanceof CollectionMediaClipAnnotationEditor) {
-			CollectionMediaClipAnnotationEditor annotationEditor = (CollectionMediaClipAnnotationEditor) page
-					.getActiveEditor();
-			if (!annotationEditor.getAnnotationMediaControl().isPlaying()) {
-				annotationEditor.getAnnotationMediaControl().setPlaying(true);
-			} else {
-				annotationEditor.getAnnotationMediaControl().setPlaying(false);
-			}
-		}
-		return null;
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.core.commands.IHandler#execute(org.eclipse.core.commands. ExecutionEvent)
+     */
+    public Object execute(ExecutionEvent event) throws ExecutionException {
+	IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+	IWorkbenchPage page = window.getActivePage();
+	if (page.getActiveEditor() instanceof CollectionMediaClipAnnotationEditor) {
+	    CollectionMediaClipAnnotationEditor annotationEditor = (CollectionMediaClipAnnotationEditor) page.getActiveEditor();
+	    if (!annotationEditor.getAnnotationMediaControl().isPlaying()) {
+		annotationEditor.getAnnotationMediaControl().setPlaying(true);
+	    } else {
+		annotationEditor.getAnnotationMediaControl().setPlaying(false);
+	    }
 	}
-	
+	return null;
+    }
+
 }

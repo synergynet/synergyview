@@ -35,82 +35,73 @@ import synergyviewcore.media.model.AbstractMedia;
  * @author phyo
  */
 public class MediaPreviewControl extends Composite {
-	
-	/** The _map changed listener. */
-	private IMapChangeListener _mapChangedListener;
-	
-	/** The _observable media preview list. */
-	private IObservableMap _observableMediaPreviewList;
-	
-	/** The media swt awt composite list. */
-	private Map<AbstractMedia, MediaSwtAwtComposite> mediaSwtAwtCompositeList = new HashMap<AbstractMedia, MediaSwtAwtComposite>();
-	
-	/**
-	 * Instantiates a new media preview control.
-	 * 
-	 * @param parent
-	 *            the parent
-	 * @param style
-	 *            the style
-	 */
-	public MediaPreviewControl(Composite parent, int style) {
-		super(parent, style);
-		this.setLayout(new FillLayout(SWT.HORIZONTAL));
-		this.addDisposeListener(new DisposeListener() {
-			
-			public void widgetDisposed(DisposeEvent e) {
-				disposeResourse();
-			}
-			
-		});
-		_observableMediaPreviewList = new WritableMap(
-				SWTObservables.getRealm(parent.getDisplay()), String.class,
-				AbstractMedia.class);
-		_mapChangedListener = new IMapChangeListener() {
-			
-			public void handleMapChange(MapChangeEvent arg0) {
-				for (Object key : arg0.diff.getAddedKeys()) {
-					MediaSwtAwtComposite mediaComposite = new MediaSwtAwtComposite(
-							MediaPreviewControl.this, SWT.None);
-					mediaComposite
-							.addMedia((AbstractMedia) _observableMediaPreviewList
-									.get(key));
-					mediaSwtAwtCompositeList.put(
-							(AbstractMedia) _observableMediaPreviewList
-									.get(key), mediaComposite);
-				}
-				for (Object key : arg0.diff.getRemovedKeys()) {
-					AbstractMedia media = (AbstractMedia) arg0.diff
-							.getOldValue(key);
-					if (media != null) {
-						mediaSwtAwtCompositeList.get(media).dispose();
-						mediaSwtAwtCompositeList.remove(media);
-					}
-				}
-				MediaPreviewControl.this.layout(true);
-				
-			}
-			
-		};
-		
-		_observableMediaPreviewList.addMapChangeListener(_mapChangedListener);
-	}
-	
-	/**
-	 * Dispose resourse.
-	 */
-	private void disposeResourse() {
-		_observableMediaPreviewList.clear();
-		_observableMediaPreviewList
-				.removeMapChangeListener(_mapChangedListener);
-	}
-	
-	/**
-	 * Gets the observable media preview list.
-	 * 
-	 * @return the observable media preview list
-	 */
-	public IObservableMap getObservableMediaPreviewList() {
-		return _observableMediaPreviewList;
-	}
+
+    /** The _map changed listener. */
+    private IMapChangeListener _mapChangedListener;
+
+    /** The _observable media preview list. */
+    private IObservableMap _observableMediaPreviewList;
+
+    /** The media swt awt composite list. */
+    private Map<AbstractMedia, MediaSwtAwtComposite> mediaSwtAwtCompositeList = new HashMap<AbstractMedia, MediaSwtAwtComposite>();
+
+    /**
+     * Instantiates a new media preview control.
+     * 
+     * @param parent
+     *            the parent
+     * @param style
+     *            the style
+     */
+    public MediaPreviewControl(Composite parent, int style) {
+	super(parent, style);
+	this.setLayout(new FillLayout(SWT.HORIZONTAL));
+	this.addDisposeListener(new DisposeListener() {
+
+	    public void widgetDisposed(DisposeEvent e) {
+		disposeResourse();
+	    }
+
+	});
+	_observableMediaPreviewList = new WritableMap(SWTObservables.getRealm(parent.getDisplay()), String.class, AbstractMedia.class);
+	_mapChangedListener = new IMapChangeListener() {
+
+	    public void handleMapChange(MapChangeEvent arg0) {
+		for (Object key : arg0.diff.getAddedKeys()) {
+		    MediaSwtAwtComposite mediaComposite = new MediaSwtAwtComposite(MediaPreviewControl.this, SWT.None);
+		    mediaComposite.addMedia((AbstractMedia) _observableMediaPreviewList.get(key));
+		    mediaSwtAwtCompositeList.put((AbstractMedia) _observableMediaPreviewList.get(key), mediaComposite);
+		}
+		for (Object key : arg0.diff.getRemovedKeys()) {
+		    AbstractMedia media = (AbstractMedia) arg0.diff.getOldValue(key);
+		    if (media != null) {
+			mediaSwtAwtCompositeList.get(media).dispose();
+			mediaSwtAwtCompositeList.remove(media);
+		    }
+		}
+		MediaPreviewControl.this.layout(true);
+
+	    }
+
+	};
+
+	_observableMediaPreviewList.addMapChangeListener(_mapChangedListener);
+    }
+
+    /**
+     * Dispose resourse.
+     */
+    private void disposeResourse() {
+	_observableMediaPreviewList.clear();
+	_observableMediaPreviewList.removeMapChangeListener(_mapChangedListener);
+    }
+
+    /**
+     * Gets the observable media preview list.
+     * 
+     * @return the observable media preview list
+     */
+    public IObservableMap getObservableMediaPreviewList() {
+	return _observableMediaPreviewList;
+    }
 }

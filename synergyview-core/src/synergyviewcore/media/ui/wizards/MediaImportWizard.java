@@ -17,51 +17,49 @@ import org.eclipse.ui.IWorkbench;
  * The Class MediaImportWizard.
  */
 public class MediaImportWizard extends Wizard implements IImportWizard {
-	
-	/** The main page. */
-	MediaImportWizardPage mainPage;
-	
-	/**
-	 * Instantiates a new media import wizard.
-	 */
-	public MediaImportWizard() {
-		super();
+
+    /** The main page. */
+    MediaImportWizardPage mainPage;
+
+    /**
+     * Instantiates a new media import wizard.
+     */
+    public MediaImportWizard() {
+	super();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.jface.wizard.IWizard#addPages()
+     */
+    public void addPages() {
+	super.addPages();
+	addPage(mainPage);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.ui.IWorkbenchWizard#init(org.eclipse.ui.IWorkbench, org.eclipse.jface.viewers.IStructuredSelection)
+     */
+    public void init(IWorkbench workbench, IStructuredSelection selection) {
+	setWindowTitle("File Import Wizard"); // NON-NLS-1
+	setNeedsProgressMonitor(true);
+	mainPage = new MediaImportWizardPage("Import File to media folder.", selection); // NON-NLS-1
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.jface.wizard.Wizard#performFinish()
+     */
+    public boolean performFinish() {
+	IFile file = mainPage.createNewFile();
+	if (file == null) {
+	    return false;
 	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.wizard.IWizard#addPages()
-	 */
-	public void addPages() {
-		super.addPages();
-		addPage(mainPage);
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.IWorkbenchWizard#init(org.eclipse.ui.IWorkbench,
-	 * org.eclipse.jface.viewers.IStructuredSelection)
-	 */
-	public void init(IWorkbench workbench, IStructuredSelection selection) {
-		setWindowTitle("File Import Wizard"); // NON-NLS-1
-		setNeedsProgressMonitor(true);
-		mainPage = new MediaImportWizardPage("Import File to media folder.",
-				selection); // NON-NLS-1
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.wizard.Wizard#performFinish()
-	 */
-	public boolean performFinish() {
-		IFile file = mainPage.createNewFile();
-		if (file == null) {
-			return false;
-		}
-		return true;
-	}
-	
+	return true;
+    }
+
 }

@@ -23,32 +23,32 @@ import de.jaret.util.date.JaretDate;
  * @author phyo
  */
 public class TimeChangeEvent extends EventObject {
-	
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 1L;
-	
-	/** The _current time. */
-	private JaretDate _currentTime;
-	
-	/**
-	 * Instantiates a new time change event.
-	 * 
-	 * @param source
-	 *            the source
-	 * @param currentTime
-	 *            the current time
-	 */
-	public TimeChangeEvent(Object source, JaretDate currentTime) {
-		super(source);
-		_currentTime = currentTime;
-	}
-	
-	/**
-	 * Gets the current time.
-	 * 
-	 * @return the current time
-	 */
-	public JaretDate getCurrentTime() {
-		return _currentTime;
-	}
+
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = 1L;
+
+    /** The _current time. */
+    private JaretDate _currentTime;
+
+    /**
+     * Instantiates a new time change event.
+     * 
+     * @param source
+     *            the source
+     * @param currentTime
+     *            the current time
+     */
+    public TimeChangeEvent(Object source, JaretDate currentTime) {
+	super(source);
+	_currentTime = currentTime;
+    }
+
+    /**
+     * Gets the current time.
+     * 
+     * @return the current time
+     */
+    public JaretDate getCurrentTime() {
+	return _currentTime;
+    }
 }

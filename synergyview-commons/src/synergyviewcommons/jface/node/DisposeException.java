@@ -19,30 +19,30 @@ package synergyviewcommons.jface.node;
  * @author phyo
  */
 public class DisposeException extends Exception {
-	
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 1L;
-	
-	/**
-	 * Instantiates a new dispose exception.
-	 * 
-	 * @param message
-	 *            the message
-	 */
-	public DisposeException(String message) {
-		super(message);
-	}
-	
-	/**
-	 * Instantiates a new dispose exception.
-	 * 
-	 * @param message
-	 *            the message
-	 * @param e
-	 *            the e
-	 */
-	public DisposeException(String message, Throwable e) {
-		super(message, e);
-	}
-	
+
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * Instantiates a new dispose exception.
+     * 
+     * @param message
+     *            the message
+     */
+    public DisposeException(String message) {
+	super(message);
+    }
+
+    /**
+     * Instantiates a new dispose exception.
+     * 
+     * @param message
+     *            the message
+     * @param e
+     *            the e
+     */
+    public DisposeException(String message, Throwable e) {
+	super(message, e);
+    }
+
 }

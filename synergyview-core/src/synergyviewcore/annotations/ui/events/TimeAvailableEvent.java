@@ -21,32 +21,32 @@ import java.util.EventObject;
  * @author phyo
  */
 public class TimeAvailableEvent extends EventObject {
-	
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 1L;
-	
-	/** The _time available. */
-	private boolean _timeAvailable;
-	
-	/**
-	 * Instantiates a new time available event.
-	 * 
-	 * @param source
-	 *            the source
-	 * @param timeAvailable
-	 *            the time available
-	 */
-	public TimeAvailableEvent(Object source, boolean timeAvailable) {
-		super(source);
-		_timeAvailable = timeAvailable;
-	}
-	
-	/**
-	 * Gets the time available.
-	 * 
-	 * @return the time available
-	 */
-	public boolean getTimeAvailable() {
-		return _timeAvailable;
-	}
+
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = 1L;
+
+    /** The _time available. */
+    private boolean _timeAvailable;
+
+    /**
+     * Instantiates a new time available event.
+     * 
+     * @param source
+     *            the source
+     * @param timeAvailable
+     *            the time available
+     */
+    public TimeAvailableEvent(Object source, boolean timeAvailable) {
+	super(source);
+	_timeAvailable = timeAvailable;
+    }
+
+    /**
+     * Gets the time available.
+     * 
+     * @return the time available
+     */
+    public boolean getTimeAvailable() {
+	return _timeAvailable;
+    }
 }

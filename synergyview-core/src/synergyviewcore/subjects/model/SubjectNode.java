@@ -34,78 +34,76 @@ import synergyviewcore.resource.ResourceLoader;
  * @author phyo
  */
 public class SubjectNode extends AbstractParent<Subject> {
-	
-	/** The Constant SUBJECT_ICON. */
-	public static final String SUBJECT_ICON = "page_key.png";
-	
-	/** The e manager factory. */
-	private EntityManagerFactory eManagerFactory;
-	
-	/**
-	 * Instantiates a new subject node.
-	 * 
-	 * @param subject
-	 *            the subject
-	 * @param parent
-	 *            the parent
-	 */
-	public SubjectNode(Subject subject, IParentNode parent) {
-		super(subject, parent);
-		this.setLabel(subject.getName());
-		this.eManagerFactory = parent.getEMFactoryProvider()
-				.getEntityManagerFactory();
+
+    /** The Constant SUBJECT_ICON. */
+    public static final String SUBJECT_ICON = "page_key.png";
+
+    /** The e manager factory. */
+    private EntityManagerFactory eManagerFactory;
+
+    /**
+     * Instantiates a new subject node.
+     * 
+     * @param subject
+     *            the subject
+     * @param parent
+     *            the parent
+     */
+    public SubjectNode(Subject subject, IParentNode parent) {
+	super(subject, parent);
+	this.setLabel(subject.getName());
+	this.eManagerFactory = parent.getEMFactoryProvider().getEntityManagerFactory();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see synergyviewcore.navigation.model.INode#dispose()
+     */
+    public void dispose() throws DisposeException {
+	// TODO Auto-generated method stub
+
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see synergyviewcore.navigation.model.IParentNode#getChildrenNames()
+     */
+    public List<String> getChildrenNames() {
+	// TODO Auto-generated method stub
+	return null;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see synergyviewcore.navigation.model.AbstractNode#getIcon()
+     */
+    public ImageDescriptor getIcon() {
+	return ResourceLoader.getIconDescriptor(SUBJECT_ICON);
+    }
+
+    /**
+     * Update resource.
+     */
+    public void updateResource() {
+	EntityManager entityManager = null;
+	try {
+	    entityManager = eManagerFactory.createEntityManager();
+	    entityManager.getTransaction().begin();
+	    entityManager.merge(this.getResource());
+	    entityManager.getTransaction().commit();
+	    this.setLabel(resource.getName());
+	    this.getViewerProvider().getTreeViewer().refresh(this);
+	} catch (Exception ex) {
+	    IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, ex.getMessage(), ex);
+	    logger.log(status);
+	} finally {
+	    if (entityManager.isOpen()) {
+		entityManager.close();
+	    }
 	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see synergyviewcore.navigation.model.INode#dispose()
-	 */
-	public void dispose() throws DisposeException {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see synergyviewcore.navigation.model.IParentNode#getChildrenNames()
-	 */
-	public List<String> getChildrenNames() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see synergyviewcore.navigation.model.AbstractNode#getIcon()
-	 */
-	public ImageDescriptor getIcon() {
-		return ResourceLoader.getIconDescriptor(SUBJECT_ICON);
-	}
-	
-	/**
-	 * Update resource.
-	 */
-	public void updateResource() {
-		EntityManager entityManager = null;
-		try {
-			entityManager = eManagerFactory.createEntityManager();
-			entityManager.getTransaction().begin();
-			entityManager.merge(this.getResource());
-			entityManager.getTransaction().commit();
-			this.setLabel(resource.getName());
-			this.getViewerProvider().getTreeViewer().refresh(this);
-		} catch (Exception ex) {
-			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID,
-					ex.getMessage(), ex);
-			logger.log(status);
-		} finally {
-			if (entityManager.isOpen()) {
-				entityManager.close();
-			}
-		}
-	}
-	
+    }
+
 }

@@ -34,96 +34,88 @@ import org.eclipse.swt.widgets.Text;
  * 
  * @author phyo
  */
-public class ExportCollectionAnnotationFileSelectorWizardPage extends
-		WizardPage {
-	
-	/** The selected file. */
-	private File selectedFile = null;
-	
-	/**
-	 * Instantiates a new export collection annotation file selector wizard
-	 * page.
-	 */
-	protected ExportCollectionAnnotationFileSelectorWizardPage() {
-		super("Export Annotations in the Collection File Browser Page");
-		this.setTitle("Export Annotations in the Collection");
-		setDescription("Please choose a destination file to export the selected Annotations.");
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets
-	 * .Composite)
-	 */
-	public void createControl(Composite parent) {
-		
-		final Composite area = new Composite(parent, SWT.NONE);
-		setControl(area);
-		GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, true);
-		area.setLayoutData(gridData);
-		GridLayout layoutData = new GridLayout(3, false);
-		area.setLayout(layoutData);
-		this.setPageComplete(false);
-		Label destLabel = new Label(area, SWT.NONE);
-		destLabel.setText("Destination:");
-		gridData = new GridData();
-		destLabel.setLayoutData(gridData);
-		
-		final Text dirText = new Text(area, SWT.READ_ONLY);
-		gridData = new GridData();
-		gridData.horizontalAlignment = SWT.FILL;
-		gridData.grabExcessHorizontalSpace = true;
-		dirText.setLayoutData(gridData);
-		
-		Button browseButton = new Button(area, SWT.NONE);
-		browseButton.setText("Browse");
-		gridData = new GridData();
-		browseButton.setLayoutData(gridData);
-		
-		browseButton.addListener(SWT.Selection, new Listener() {
-			public void handleEvent(Event event) {
-				boolean done = false;
-				ExportCollectionAnnotationFileSelectorWizardPage.this
-						.setPageComplete(false);
-				FileDialog fd = new FileDialog(area.getShell(), SWT.SAVE);
-				fd.setText("Export Annotations in the Collection");
-				String[] filterExt = { "*.tsv" };
-				fd.setFilterExtensions(filterExt);
-				String selected = fd.open();
-				if (selected != null) {
-					selectedFile = new File(selected);
-					if (selectedFile.exists()) {
-						// The file already exists; asks for confirmation
-						MessageBox mb = new MessageBox(fd.getParent(),
-								SWT.ICON_WARNING | SWT.YES | SWT.NO);
-						mb.setMessage(selected
-								+ " already exists. Do you want to replace it?");
-						if (mb.open() == SWT.YES) {
-							done = true;
-						}
-					} else {
-						done = true;
-					}
-					if (done) {
-						dirText.setText(selectedFile.getAbsolutePath());
-						ExportCollectionAnnotationFileSelectorWizardPage.this
-								.setPageComplete(true);
-					}
-				}
+public class ExportCollectionAnnotationFileSelectorWizardPage extends WizardPage {
+
+    /** The selected file. */
+    private File selectedFile = null;
+
+    /**
+     * Instantiates a new export collection annotation file selector wizard page.
+     */
+    protected ExportCollectionAnnotationFileSelectorWizardPage() {
+	super("Export Annotations in the Collection File Browser Page");
+	this.setTitle("Export Annotations in the Collection");
+	setDescription("Please choose a destination file to export the selected Annotations.");
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets .Composite)
+     */
+    public void createControl(Composite parent) {
+
+	final Composite area = new Composite(parent, SWT.NONE);
+	setControl(area);
+	GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, true);
+	area.setLayoutData(gridData);
+	GridLayout layoutData = new GridLayout(3, false);
+	area.setLayout(layoutData);
+	this.setPageComplete(false);
+	Label destLabel = new Label(area, SWT.NONE);
+	destLabel.setText("Destination:");
+	gridData = new GridData();
+	destLabel.setLayoutData(gridData);
+
+	final Text dirText = new Text(area, SWT.READ_ONLY);
+	gridData = new GridData();
+	gridData.horizontalAlignment = SWT.FILL;
+	gridData.grabExcessHorizontalSpace = true;
+	dirText.setLayoutData(gridData);
+
+	Button browseButton = new Button(area, SWT.NONE);
+	browseButton.setText("Browse");
+	gridData = new GridData();
+	browseButton.setLayoutData(gridData);
+
+	browseButton.addListener(SWT.Selection, new Listener() {
+	    public void handleEvent(Event event) {
+		boolean done = false;
+		ExportCollectionAnnotationFileSelectorWizardPage.this.setPageComplete(false);
+		FileDialog fd = new FileDialog(area.getShell(), SWT.SAVE);
+		fd.setText("Export Annotations in the Collection");
+		String[] filterExt = { "*.tsv" };
+		fd.setFilterExtensions(filterExt);
+		String selected = fd.open();
+		if (selected != null) {
+		    selectedFile = new File(selected);
+		    if (selectedFile.exists()) {
+			// The file already exists; asks for confirmation
+			MessageBox mb = new MessageBox(fd.getParent(), SWT.ICON_WARNING | SWT.YES | SWT.NO);
+			mb.setMessage(selected + " already exists. Do you want to replace it?");
+			if (mb.open() == SWT.YES) {
+			    done = true;
 			}
-		});
-		
-	}
-	
-	/**
-	 * Gets the selected file.
-	 * 
-	 * @return the selected file
-	 */
-	public File getSelectedFile() {
-		return selectedFile;
-	}
-	
+		    } else {
+			done = true;
+		    }
+		    if (done) {
+			dirText.setText(selectedFile.getAbsolutePath());
+			ExportCollectionAnnotationFileSelectorWizardPage.this.setPageComplete(true);
+		    }
+		}
+	    }
+	});
+
+    }
+
+    /**
+     * Gets the selected file.
+     * 
+     * @return the selected file
+     */
+    public File getSelectedFile() {
+	return selectedFile;
+    }
+
 }

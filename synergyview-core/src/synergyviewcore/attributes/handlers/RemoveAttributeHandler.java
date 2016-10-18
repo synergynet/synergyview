@@ -36,48 +36,38 @@ import synergyviewcore.attributes.model.ProjectAttributeRootNode;
  * @author phyokyaw
  */
 public class RemoveAttributeHandler extends AbstractHandler implements IHandler {
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.core.commands.IHandler#execute(org.eclipse.core.commands.
-	 * ExecutionEvent)
-	 */
-	public Object execute(ExecutionEvent event) throws ExecutionException {
-		ISelection selection = HandlerUtil.getCurrentSelection(event);
-		if (!(selection instanceof IStructuredSelection)) {
-			return null;
-		}
-		IStructuredSelection structSel = (IStructuredSelection) selection;
-		for (Iterator<?> i = structSel.iterator(); i.hasNext();) {
-			Object element = i.next();
-			if (element instanceof AttributeNode) {
-				AttributeNode nodeToBeDeleted = (AttributeNode) element;
-				try {
-					if (nodeToBeDeleted.getParent() instanceof ProjectAttributeRootNode) {
-						nodeToBeDeleted.getProjectAttributeRootNode()
-								.removeAttribute(nodeToBeDeleted.getResource(),
-										null);
-					} else {
-						nodeToBeDeleted.getProjectAttributeRootNode()
-								.removeAttribute(
-										nodeToBeDeleted.getResource(),
-										(Attribute) nodeToBeDeleted.getParent()
-												.getResource());
-					}
-				} catch (Exception ex) {
-					
-					MessageBox messageBox = new MessageBox(PlatformUI
-							.getWorkbench().getDisplay().getActiveShell(),
-							SWT.ICON_ERROR);
-					messageBox.setText("Unable to remove!");
-					messageBox.setMessage(ex.getMessage());
-					messageBox.open();
-				}
-			}
-		}
-		return null;
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.core.commands.IHandler#execute(org.eclipse.core.commands. ExecutionEvent)
+     */
+    public Object execute(ExecutionEvent event) throws ExecutionException {
+	ISelection selection = HandlerUtil.getCurrentSelection(event);
+	if (!(selection instanceof IStructuredSelection)) {
+	    return null;
 	}
-	
+	IStructuredSelection structSel = (IStructuredSelection) selection;
+	for (Iterator<?> i = structSel.iterator(); i.hasNext();) {
+	    Object element = i.next();
+	    if (element instanceof AttributeNode) {
+		AttributeNode nodeToBeDeleted = (AttributeNode) element;
+		try {
+		    if (nodeToBeDeleted.getParent() instanceof ProjectAttributeRootNode) {
+			nodeToBeDeleted.getProjectAttributeRootNode().removeAttribute(nodeToBeDeleted.getResource(), null);
+		    } else {
+			nodeToBeDeleted.getProjectAttributeRootNode().removeAttribute(nodeToBeDeleted.getResource(), (Attribute) nodeToBeDeleted.getParent().getResource());
+		    }
+		} catch (Exception ex) {
+
+		    MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getDisplay().getActiveShell(), SWT.ICON_ERROR);
+		    messageBox.setText("Unable to remove!");
+		    messageBox.setMessage(ex.getMessage());
+		    messageBox.open();
+		}
+	    }
+	}
+	return null;
+    }
+
 }

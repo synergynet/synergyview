@@ -16,65 +16,57 @@ package synergyviewcore.annotations.ui;
 import synergyviewcore.annotations.ui.events.CaptionChangeEvent;
 
 /**
- * The listener interface for receiving IAnnotation events. The class that is
- * interested in processing a IAnnotation event implements this interface, and
- * the object created with that class is registered with a component using the
- * component's <code>addIAnnotationListener<code> method. When
+ * The listener interface for receiving IAnnotation events. The class that is interested in processing a IAnnotation event implements this interface, and the object created with that class is registered with a component using the component's <code>addIAnnotationListener<code> method. When
  * the IAnnotation event occurs, that object's appropriate
  * method is invoked.
  * 
  * @author phyokyaw
  */
 public interface IAnnotationListener {
-	
+
+    /**
+     * The Enum CaptionPublishState.
+     */
+    public enum CaptionPublishState {
+	/** The set. */
+	SET,
+	/** The unset. */
+	UNSET
+    }
+
+    /**
+     * The listener interface for receiving ICaptionChange events. The class that is interested in processing a ICaptionChange event implements this interface, and the object created with that class is registered with a component using the component's <code>addICaptionChangeListener<code> method. When
+     * the ICaptionChange event occurs, that object's appropriate
+     * method is invoked.
+     * 
+     * @see ICaptionChangeEvent
+     */
+    public interface ICaptionChangeListener {
+
 	/**
-	 * The Enum CaptionPublishState.
-	 */
-	public enum CaptionPublishState {
-		/** The set. */
-		SET,
-		/** The unset. */
-		UNSET
-	}
-	
-	/**
-	 * The listener interface for receiving ICaptionChange events. The class
-	 * that is interested in processing a ICaptionChange event implements this
-	 * interface, and the object created with that class is registered with a
-	 * component using the component's
-	 * <code>addICaptionChangeListener<code> method. When
-	 * the ICaptionChange event occurs, that object's appropriate
-	 * method is invoked.
+	 * Caption change.
 	 * 
-	 * @see ICaptionChangeEvent
+	 * @param source
+	 *            the source
+	 * @param eventArg
+	 *            the event arg
 	 */
-	public interface ICaptionChangeListener {
-		
-		/**
-		 * Caption change.
-		 * 
-		 * @param source
-		 *            the source
-		 * @param eventArg
-		 *            the event arg
-		 */
-		public void captionChange(Object source, CaptionChangeEvent eventArg);
-	}
-	
-	/**
-	 * Adds the caption listener.
-	 * 
-	 * @param captionChangeListener
-	 *            the caption change listener
-	 */
-	public void addCaptionListener(ICaptionChangeListener captionChangeListener);;
-	
-	/**
-	 * Removes the caption listener.
-	 * 
-	 * @param captionChangeListener
-	 *            the caption change listener
-	 */
-	public void removeCaptionListener(
-			ICaptionChangeListener captionChangeListener);
+	public void captionChange(Object source, CaptionChangeEvent eventArg);
+    }
+
+    /**
+     * Adds the caption listener.
+     * 
+     * @param captionChangeListener
+     *            the caption change listener
+     */
+    public void addCaptionListener(ICaptionChangeListener captionChangeListener);;
+
+    /**
+     * Removes the caption listener.
+     * 
+     * @param captionChangeListener
+     *            the caption change listener
+     */
+    public void removeCaptionListener(ICaptionChangeListener captionChangeListener);
 }

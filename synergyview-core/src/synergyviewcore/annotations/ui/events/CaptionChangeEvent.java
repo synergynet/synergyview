@@ -23,49 +23,48 @@ import synergyviewcore.annotations.ui.events.ICaptionChangeListener.CaptionPubli
  * @author phyokyaw
  */
 public class CaptionChangeEvent extends EventObject {
-	
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 1L;
-	
-	/** The _caption state. */
-	private CaptionPublishState _captionState;
-	
-	/** The _caption text. */
-	private String _captionText;
-	
-	/**
-	 * Instantiates a new caption change event.
-	 * 
-	 * @param source
-	 *            the source
-	 * @param captionText
-	 *            the caption text
-	 * @param captionState
-	 *            the caption state
-	 */
-	public CaptionChangeEvent(Object source, String captionText,
-			CaptionPublishState captionState) {
-		super(source);
-		_captionText = captionText;
-		_captionState = captionState;
-	}
-	
-	/**
-	 * Gets the caption state.
-	 * 
-	 * @return the _captionState
-	 */
-	public CaptionPublishState getCaptionState() {
-		return _captionState;
-	}
-	
-	/**
-	 * Gets the caption text.
-	 * 
-	 * @return the captionText
-	 */
-	public String getCaptionText() {
-		return _captionText;
-	}
-	
+
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = 1L;
+
+    /** The _caption state. */
+    private CaptionPublishState _captionState;
+
+    /** The _caption text. */
+    private String _captionText;
+
+    /**
+     * Instantiates a new caption change event.
+     * 
+     * @param source
+     *            the source
+     * @param captionText
+     *            the caption text
+     * @param captionState
+     *            the caption state
+     */
+    public CaptionChangeEvent(Object source, String captionText, CaptionPublishState captionState) {
+	super(source);
+	_captionText = captionText;
+	_captionState = captionState;
+    }
+
+    /**
+     * Gets the caption state.
+     * 
+     * @return the _captionState
+     */
+    public CaptionPublishState getCaptionState() {
+	return _captionState;
+    }
+
+    /**
+     * Gets the caption text.
+     * 
+     * @return the captionText
+     */
+    public String getCaptionText() {
+	return _captionText;
+    }
+
 }

@@ -19,64 +19,50 @@ import synergyviewcore.Activator;
  * The Class ResourceHelper.
  */
 public class ResourceHelper {
-	
-	/**
-	 * Delete resources.
-	 * 
-	 * @param resources
-	 *            the resources
-	 */
-	public static void deleteResources(final IResource[] resources) {
-		final ILog logger = Activator.getDefault().getLog();
-		try {
-			
-			PlatformUI.getWorkbench().getProgressService()
-					.run(true, false, new IRunnableWithProgress() {
-						
-						public void run(IProgressMonitor monitor)
-								throws InvocationTargetException,
-								InterruptedException {
-							WorkspaceModifyOperation op = new WorkspaceModifyOperation() {
-								
-								@Override
-								protected void execute(IProgressMonitor monitor)
-										throws CoreException,
-										InvocationTargetException,
-										InterruptedException {
-									try {
-										monitor.beginTask(
-												"Deleting resources...",
-												resources.length);
-										for (int i = 0; i < resources.length; i++) {
-											resources[i].delete(true,
-													new SubProgressMonitor(
-															monitor, 1));
-										}
-									} catch (Exception ex) {
-										IStatus status = new Status(
-												IStatus.ERROR,
-												Activator.PLUGIN_ID, ex
-														.getMessage(), ex);
-										logger.log(status);
-										
-									} finally {
-										monitor.done();
-									}
-									
-								}
-								
-							};
-							
-							op.run(monitor);
-							
-						}
-						
-					});
-		} catch (Exception ex) {
-			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID,
-					ex.getMessage(), ex);
-			logger.log(status);
+
+    /**
+     * Delete resources.
+     * 
+     * @param resources
+     *            the resources
+     */
+    public static void deleteResources(final IResource[] resources) {
+	final ILog logger = Activator.getDefault().getLog();
+	try {
+
+	    PlatformUI.getWorkbench().getProgressService().run(true, false, new IRunnableWithProgress() {
+
+		public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+		    WorkspaceModifyOperation op = new WorkspaceModifyOperation() {
+
+			@Override
+			protected void execute(IProgressMonitor monitor) throws CoreException, InvocationTargetException, InterruptedException {
+			    try {
+				monitor.beginTask("Deleting resources...", resources.length);
+				for (int i = 0; i < resources.length; i++) {
+				    resources[i].delete(true, new SubProgressMonitor(monitor, 1));
+				}
+			    } catch (Exception ex) {
+				IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, ex.getMessage(), ex);
+				logger.log(status);
+
+			    } finally {
+				monitor.done();
+			    }
+
+			}
+
+		    };
+
+		    op.run(monitor);
+
 		}
+
+	    });
+	} catch (Exception ex) {
+	    IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, ex.getMessage(), ex);
+	    logger.log(status);
 	}
-	
+    }
+
 }

@@ -33,116 +33,107 @@ import de.jaret.util.ui.timebars.model.TimeBarRow;
  * @author phyo
  */
 public class AnnotationTimeBarModel extends DefaultTimeBarModel {
-	
-	/** The annotation set node. */
-	private AnnotationSetNode annotationSetNode;
-	
-	/** The marker. */
-	private TimeBarMarkerImpl marker;
-	
-	/** The subject list change listener. */
-	private CollectionChangeListener subjectListChangeListener;
-	
-	/** The subject map. */
-	private Map<Subject, SubjectRowModel> subjectMap = new HashMap<Subject, SubjectRowModel>();
-	
-	/**
-	 * Instantiates a new annotation time bar model.
-	 * 
-	 * @param annotationSetNode
-	 *            the annotation set node
-	 * @param marker
-	 *            the marker
-	 */
-	public AnnotationTimeBarModel(AnnotationSetNode annotationSetNode,
-			TimeBarMarkerImpl marker) {
-		this.annotationSetNode = annotationSetNode;
-		this.marker = marker;
-		
-		init();
+
+    /** The annotation set node. */
+    private AnnotationSetNode annotationSetNode;
+
+    /** The marker. */
+    private TimeBarMarkerImpl marker;
+
+    /** The subject list change listener. */
+    private CollectionChangeListener subjectListChangeListener;
+
+    /** The subject map. */
+    private Map<Subject, SubjectRowModel> subjectMap = new HashMap<Subject, SubjectRowModel>();
+
+    /**
+     * Instantiates a new annotation time bar model.
+     * 
+     * @param annotationSetNode
+     *            the annotation set node
+     * @param marker
+     *            the marker
+     */
+    public AnnotationTimeBarModel(AnnotationSetNode annotationSetNode, TimeBarMarkerImpl marker) {
+	this.annotationSetNode = annotationSetNode;
+	this.marker = marker;
+
+	init();
+    }
+
+    /**
+     * Adding a new subject row.
+     * 
+     * @param subject
+     *            Subject row to be added
+     */
+    private void addSubjectRow(Subject subject) {
+	DefaultRowHeader header = new DefaultRowHeader(subject.getName());
+	SubjectRowModel subjectRow = new SubjectRowModel(this.getMinDate().copy(), annotationSetNode, header, this, subject, marker);
+	this.addRow(subjectRow);
+	subjectMap.put(subject, subjectRow);
+    }
+
+    /**
+     * Release the resources. This should be called explicitly by the timebar viewer!!
+     */
+    public void dispose() {
+
+	annotationSetNode.removeSubjectListChangeListener(subjectListChangeListener);
+
+	for (int i = 0; i < getRowCount(); i++) {
+	    TimeBarRow row = getRow(i);
+	    if (row instanceof SubjectRowModel) {
+		removeSubjectRow((SubjectRowModel) row);
+	    }
 	}
-	
-	/**
-	 * Adding a new subject row.
-	 * 
-	 * @param subject
-	 *            Subject row to be added
-	 */
-	private void addSubjectRow(Subject subject) {
-		DefaultRowHeader header = new DefaultRowHeader(subject.getName());
-		SubjectRowModel subjectRow = new SubjectRowModel(this.getMinDate()
-				.copy(), annotationSetNode, header, this, subject, marker);
-		this.addRow(subjectRow);
-		subjectMap.put(subject, subjectRow);
-	}
-	
-	/**
-	 * Release the resources. This should be called explicitly by the timebar
-	 * viewer!!
-	 */
-	public void dispose() {
-		
-		annotationSetNode
-				.removeSubjectListChangeListener(subjectListChangeListener);
-		
-		for (int i = 0; i < getRowCount(); i++) {
-			TimeBarRow row = getRow(i);
-			if (row instanceof SubjectRowModel) {
-				removeSubjectRow((SubjectRowModel) row);
+    }
+
+    /**
+     * Initialise the timebar model.
+     */
+    private void init() {
+
+	subjectListChangeListener = new CollectionChangeListener() {
+	    public void listChanged(CollectionChangeEvent event) {
+		for (CollectionDiffEntry<?> diff : event.getListDiff().getDifferences()) {
+		    Object changeObject = diff.getElement();
+		    if (changeObject instanceof Subject) {
+			Subject changedSubject = (Subject) changeObject;
+			if (diff.isAddition()) {
+			    addSubjectRow(changedSubject);
+			} else {
+			    SubjectRowModel subjectRowModel = subjectMap.get(changedSubject);
+			    if (subjectRowModel == null) {
+				return;
+			    }
+			    removeSubjectRow(subjectRowModel);
+			    subjectMap.remove(changedSubject);
 			}
+		    }
 		}
+	    }
+	};
+
+	// Add annotation Subjects change listener
+	annotationSetNode.addSubjectListChangeListener(subjectListChangeListener);
+
+	// Adding subject rows
+	for (Subject subject : annotationSetNode.getSubjectList()) {
+	    Subject projectSubject = ((ProjectNode) this.annotationSetNode.getLastParent()).getSubjectRootNode().getSubject(subject.getId());
+	    addSubjectRow(projectSubject);
 	}
-	
-	/**
-	 * Initialise the timebar model.
-	 */
-	private void init() {
-		
-		subjectListChangeListener = new CollectionChangeListener() {
-			public void listChanged(CollectionChangeEvent event) {
-				for (CollectionDiffEntry<?> diff : event.getListDiff()
-						.getDifferences()) {
-					Object changeObject = diff.getElement();
-					if (changeObject instanceof Subject) {
-						Subject changedSubject = (Subject) changeObject;
-						if (diff.isAddition()) {
-							addSubjectRow(changedSubject);
-						} else {
-							SubjectRowModel subjectRowModel = subjectMap
-									.get(changedSubject);
-							if (subjectRowModel == null) {
-								return;
-							}
-							removeSubjectRow(subjectRowModel);
-							subjectMap.remove(changedSubject);
-						}
-					}
-				}
-			}
-		};
-		
-		// Add annotation Subjects change listener
-		annotationSetNode
-				.addSubjectListChangeListener(subjectListChangeListener);
-		
-		// Adding subject rows
-		for (Subject subject : annotationSetNode.getSubjectList()) {
-			Subject projectSubject = ((ProjectNode) this.annotationSetNode
-					.getLastParent()).getSubjectRootNode().getSubject(
-					subject.getId());
-			addSubjectRow(projectSubject);
-		}
-	}
-	
-	/**
-	 * Disposes and removes subject row .
-	 * 
-	 * @param subjectRowModel
-	 *            Subject row to be removed
-	 */
-	private void removeSubjectRow(SubjectRowModel subjectRowModel) {
-		subjectRowModel.dispose(); // Needs to explicitly dispose the model
-		remRow(subjectRowModel);
-	}
-	
+    }
+
+    /**
+     * Disposes and removes subject row .
+     * 
+     * @param subjectRowModel
+     *            Subject row to be removed
+     */
+    private void removeSubjectRow(SubjectRowModel subjectRowModel) {
+	subjectRowModel.dispose(); // Needs to explicitly dispose the model
+	remRow(subjectRowModel);
+    }
+
 }

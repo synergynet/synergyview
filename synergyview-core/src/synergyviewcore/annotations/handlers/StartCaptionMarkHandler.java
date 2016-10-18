@@ -13,26 +13,21 @@ import synergyviewcore.annotations.ui.editors.CollectionMediaClipAnnotationEdito
 /**
  * The Class StartCaptionMarkHandler.
  */
-public class StartCaptionMarkHandler extends AbstractHandler implements
-		IHandler {
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands
-	 * .ExecutionEvent)
-	 */
-	public Object execute(ExecutionEvent event) throws ExecutionException {
-		IWorkbenchWindow window = PlatformUI.getWorkbench()
-				.getActiveWorkbenchWindow();
-		IWorkbenchPage page = window.getActivePage();
-		if (page.getActiveEditor() instanceof CollectionMediaClipAnnotationEditor) {
-			CollectionMediaClipAnnotationEditor subtitleEditor = (CollectionMediaClipAnnotationEditor) page
-					.getActiveEditor();
-			subtitleEditor.getAnnotationMediaControl().startCaptionMark();
-		}
-		return null;
+public class StartCaptionMarkHandler extends AbstractHandler implements IHandler {
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands .ExecutionEvent)
+     */
+    public Object execute(ExecutionEvent event) throws ExecutionException {
+	IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+	IWorkbenchPage page = window.getActivePage();
+	if (page.getActiveEditor() instanceof CollectionMediaClipAnnotationEditor) {
+	    CollectionMediaClipAnnotationEditor subtitleEditor = (CollectionMediaClipAnnotationEditor) page.getActiveEditor();
+	    subtitleEditor.getAnnotationMediaControl().startCaptionMark();
 	}
-	
+	return null;
+    }
+
 }

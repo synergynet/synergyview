@@ -23,17 +23,15 @@ import java.util.Random;
  * @author phyo
  */
 public class FileHelper {
-	
-	/**
-	 * Gets the unique a file name.
-	 * 
-	 * @param ext
-	 *            the ext
-	 * @return the unique a file name
-	 */
-	public static String getUniqueAFileName(String ext) {
-		return String.format("%s-%s.%s", (new SimpleDateFormat(
-				"ddMMyy-hhmmss_SSS")).format(new Date()), (new Random())
-				.nextInt(3), ext);
-	}
+
+    /**
+     * Gets the unique a file name.
+     * 
+     * @param ext
+     *            the ext
+     * @return the unique a file name
+     */
+    public static String getUniqueAFileName(String ext) {
+	return String.format("%s-%s.%s", (new SimpleDateFormat("ddMMyy-hhmmss_SSS")).format(new Date()), (new Random()).nextInt(3), ext);
+    }
 }

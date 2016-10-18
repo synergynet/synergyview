@@ -10,13 +10,12 @@ import java.util.List;
  * @param <E>
  *            the element type
  */
-public interface IObservableList<R extends List<E>, E> extends List<E>,
-		ICollectionObservable {
-	
-	/**
-	 * Gets the read only list.
-	 * 
-	 * @return the read only list
-	 */
-	public List<E> getReadOnlyList();
+public interface IObservableList<R extends List<E>, E> extends List<E>, ICollectionObservable {
+
+    /**
+     * Gets the read only list.
+     * 
+     * @return the read only list
+     */
+    public List<E> getReadOnlyList();
 }

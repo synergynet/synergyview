@@ -21,11 +21,11 @@ import org.eclipse.jface.viewers.TreeViewer;
  * @author phyokyaw
  */
 public interface IViewerProvider {
-	
-	/**
-	 * Gets the tree viewer.
-	 * 
-	 * @return the tree viewer
-	 */
-	TreeViewer getTreeViewer();
+
+    /**
+     * Gets the tree viewer.
+     * 
+     * @return the tree viewer
+     */
+    TreeViewer getTreeViewer();
 }

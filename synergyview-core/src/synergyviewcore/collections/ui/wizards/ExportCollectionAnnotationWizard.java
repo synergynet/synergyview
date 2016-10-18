@@ -37,110 +37,98 @@ import synergyviewcore.collections.model.CollectionNode;
  * @author phyo
  */
 public class ExportCollectionAnnotationWizard extends Wizard {
-	
-	/** The collection node. */
-	private CollectionNode collectionNode;
-	
-	/** The export collection annotation file selector wizard page. */
-	private ExportCollectionAnnotationFileSelectorWizardPage exportCollectionAnnotationFileSelectorWizardPage;
-	
-	/** The export collection annotation wizard page. */
-	private ExportCollectionAnnotationWizardPage exportCollectionAnnotationWizardPage;
-	
-	/**
-	 * Instantiates a new export collection annotation wizard.
-	 * 
-	 * @param collectionNode
-	 *            the collection node
-	 */
-	public ExportCollectionAnnotationWizard(CollectionNode collectionNode) {
-		this.collectionNode = collectionNode;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.wizard.Wizard#addPages()
-	 */
-	@Override
-	public void addPages() {
-		exportCollectionAnnotationWizardPage = new ExportCollectionAnnotationWizardPage(
-				collectionNode.getResource());
-		exportCollectionAnnotationFileSelectorWizardPage = new ExportCollectionAnnotationFileSelectorWizardPage();
-		this.addPage(exportCollectionAnnotationWizardPage);
-		this.addPage(exportCollectionAnnotationFileSelectorWizardPage);
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.wizard.Wizard#getWindowTitle()
-	 */
-	@Override
-	public String getWindowTitle() {
-		return "Export Annotations in the Collection";
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.wizard.Wizard#performFinish()
-	 */
-	@Override
-	public boolean performFinish() {
+
+    /** The collection node. */
+    private CollectionNode collectionNode;
+
+    /** The export collection annotation file selector wizard page. */
+    private ExportCollectionAnnotationFileSelectorWizardPage exportCollectionAnnotationFileSelectorWizardPage;
+
+    /** The export collection annotation wizard page. */
+    private ExportCollectionAnnotationWizardPage exportCollectionAnnotationWizardPage;
+
+    /**
+     * Instantiates a new export collection annotation wizard.
+     * 
+     * @param collectionNode
+     *            the collection node
+     */
+    public ExportCollectionAnnotationWizard(CollectionNode collectionNode) {
+	this.collectionNode = collectionNode;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.jface.wizard.Wizard#addPages()
+     */
+    @Override
+    public void addPages() {
+	exportCollectionAnnotationWizardPage = new ExportCollectionAnnotationWizardPage(collectionNode.getResource());
+	exportCollectionAnnotationFileSelectorWizardPage = new ExportCollectionAnnotationFileSelectorWizardPage();
+	this.addPage(exportCollectionAnnotationWizardPage);
+	this.addPage(exportCollectionAnnotationFileSelectorWizardPage);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.jface.wizard.Wizard#getWindowTitle()
+     */
+    @Override
+    public String getWindowTitle() {
+	return "Export Annotations in the Collection";
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.jface.wizard.Wizard#performFinish()
+     */
+    @Override
+    public boolean performFinish() {
+	try {
+	    final List<CollectionMediaClip> selectedList = exportCollectionAnnotationWizardPage.getSelectedCollcationMediaClips();
+	    final File selectedFileToSave = exportCollectionAnnotationFileSelectorWizardPage.getSelectedFile();
+	    if ((selectedList.size() > 0) && (selectedFileToSave != null)) {
+
+		ProgressMonitorDialog dialog = new ProgressMonitorDialog(this.getShell());
 		try {
-			final List<CollectionMediaClip> selectedList = exportCollectionAnnotationWizardPage
-					.getSelectedCollcationMediaClips();
-			final File selectedFileToSave = exportCollectionAnnotationFileSelectorWizardPage
-					.getSelectedFile();
-			if ((selectedList.size() > 0) && (selectedFileToSave != null)) {
-				
-				ProgressMonitorDialog dialog = new ProgressMonitorDialog(
-						this.getShell());
-				try {
-					dialog.run(true, true, new IRunnableWithProgress() {
-						public void run(IProgressMonitor monitor)
-								throws InvocationTargetException,
-								InterruptedException {
-							monitor.beginTask("Exporting ...",
-									selectedList.size());
-							BufferedOutputStream bufferedOutputStream = null;
-							PrintStream printStream = null;
-							try {
-								bufferedOutputStream = new BufferedOutputStream(
-										new FileOutputStream(selectedFileToSave));
-								printStream = new PrintStream(
-										bufferedOutputStream, true);
-								for (int i = 0; i < selectedList.size(); i++) {
-									ICollectionClipAnnotationFormatter formatter = new TsvCollectionClipAnnotationFormatter();
-									printStream.println(formatter
-											.export(selectedList.get(i)));
-									monitor.worked(i + 1);
-								}
-							} catch (Exception ex) {
-								throw new InterruptedException(
-										"Unable to export the Annotations!");
-							} finally {
-								monitor.done();
-								if (printStream != null) {
-									printStream.close();
-								}
-							}
-						}
-					});
-				} catch (Exception ex) {
-					MessageDialog.openError(this.getShell(), "Export Error",
-							"Unable to export Annotations!");
+		    dialog.run(true, true, new IRunnableWithProgress() {
+			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+			    monitor.beginTask("Exporting ...", selectedList.size());
+			    BufferedOutputStream bufferedOutputStream = null;
+			    PrintStream printStream = null;
+			    try {
+				bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(selectedFileToSave));
+				printStream = new PrintStream(bufferedOutputStream, true);
+				for (int i = 0; i < selectedList.size(); i++) {
+				    ICollectionClipAnnotationFormatter formatter = new TsvCollectionClipAnnotationFormatter();
+				    printStream.println(formatter.export(selectedList.get(i)));
+				    monitor.worked(i + 1);
 				}
-				
-				return true;
-			} else {
-				return false;
+			    } catch (Exception ex) {
+				throw new InterruptedException("Unable to export the Annotations!");
+			    } finally {
+				monitor.done();
+				if (printStream != null) {
+				    printStream.close();
+				}
+			    }
 			}
+		    });
 		} catch (Exception ex) {
-			return false;
+		    MessageDialog.openError(this.getShell(), "Export Error", "Unable to export Annotations!");
 		}
-		
+
+		return true;
+	    } else {
+		return false;
+	    }
+	} catch (Exception ex) {
+	    return false;
 	}
-	
+
+    }
+
 }

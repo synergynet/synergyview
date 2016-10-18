@@ -26,71 +26,70 @@ import javax.persistence.InheritanceType;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public class PersistenceModelObject extends ModelObject {
-	
-	/** The Constant PROP_ID. */
-	public static final String PROP_ID = "id";
-	
-	/** The id. */
-	@Id
-	protected String id;
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	public boolean equals(Object object) {
-		// TODO: Warning - this method won't work in the case the id fields are
-		// not set
-		if (!(object instanceof PersistenceModelObject)) {
-			return false;
-		}
-		PersistenceModelObject other = (PersistenceModelObject) object;
-		if (((this.id == null) && (other.id != null))
-				|| ((this.id != null) && !this.id.equals(other.id))) {
-			return false;
-		}
-		return true;
+
+    /** The Constant PROP_ID. */
+    public static final String PROP_ID = "id";
+
+    /** The id. */
+    @Id
+    protected String id;
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    public boolean equals(Object object) {
+	// TODO: Warning - this method won't work in the case the id fields are
+	// not set
+	if (!(object instanceof PersistenceModelObject)) {
+	    return false;
 	}
-	
-	/**
-	 * Gets the id.
-	 * 
-	 * @return the id
-	 */
-	public String getId() {
-		return id;
+	PersistenceModelObject other = (PersistenceModelObject) object;
+	if (((this.id == null) && (other.id != null)) || ((this.id != null) && !this.id.equals(other.id))) {
+	    return false;
 	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		int hash = 0;
-		hash += (id != null ? id.hashCode() : 0);
-		return hash;
-	}
-	
-	/**
-	 * Sets the id.
-	 * 
-	 * @param id
-	 *            the new id
-	 */
-	public void setId(String id) {
-		this.firePropertyChange(PROP_ID, this.id, this.id = id);
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "Entity [id=" + id + "]";
-	}
+	return true;
+    }
+
+    /**
+     * Gets the id.
+     * 
+     * @return the id
+     */
+    public String getId() {
+	return id;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+	int hash = 0;
+	hash += (id != null ? id.hashCode() : 0);
+	return hash;
+    }
+
+    /**
+     * Sets the id.
+     * 
+     * @param id
+     *            the new id
+     */
+    public void setId(String id) {
+	this.firePropertyChange(PROP_ID, this.id, this.id = id);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+	return "Entity [id=" + id + "]";
+    }
 }

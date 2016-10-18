@@ -25,111 +25,111 @@ import synergyviewcore.navigation.model.INode;
  * @author phyokyaw
  */
 public class NodeEditorInput implements IEditorInput {
-	
-	/** The node. */
-	private INode node;
-	
-	/**
-	 * Instantiates a new node editor input.
-	 * 
-	 * @param node
-	 *            the node
-	 */
-	public NodeEditorInput(INode node) {
-		this.node = node;
+
+    /** The node. */
+    private INode node;
+
+    /**
+     * Instantiates a new node editor input.
+     * 
+     * @param node
+     *            the node
+     */
+    public NodeEditorInput(INode node) {
+	this.node = node;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+	if (super.equals(obj)) {
+	    return true;
 	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (super.equals(obj)) {
-			return true;
-		}
-		if (obj instanceof NodeEditorInput) {
-			return node.equals(((NodeEditorInput) obj).getNode());
-		}
-		return false;
+	if (obj instanceof NodeEditorInput) {
+	    return node.equals(((NodeEditorInput) obj).getNode());
 	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.IEditorInput#exists()
-	 */
-	public boolean exists() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
-	 */
-	@SuppressWarnings("rawtypes")
-	public Object getAdapter(Class adapter) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.IEditorInput#getImageDescriptor()
-	 */
-	public ImageDescriptor getImageDescriptor() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.IEditorInput#getName()
-	 */
-	public String getName() {
-		return node.getLabel();
-	}
-	
-	/**
-	 * Gets the node.
-	 * 
-	 * @return the node
-	 */
-	public INode getNode() {
-		return node;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.IEditorInput#getPersistable()
-	 */
-	public IPersistableElement getPersistable() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.IEditorInput#getToolTipText()
-	 */
-	public String getToolTipText() {
-		return node.getLabel();
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		return node.hashCode();
-	}
+	return false;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.ui.IEditorInput#exists()
+     */
+    public boolean exists() {
+	// TODO Auto-generated method stub
+	return false;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
+     */
+    @SuppressWarnings("rawtypes")
+    public Object getAdapter(Class adapter) {
+	// TODO Auto-generated method stub
+	return null;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.ui.IEditorInput#getImageDescriptor()
+     */
+    public ImageDescriptor getImageDescriptor() {
+	// TODO Auto-generated method stub
+	return null;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.ui.IEditorInput#getName()
+     */
+    public String getName() {
+	return node.getLabel();
+    }
+
+    /**
+     * Gets the node.
+     * 
+     * @return the node
+     */
+    public INode getNode() {
+	return node;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.ui.IEditorInput#getPersistable()
+     */
+    public IPersistableElement getPersistable() {
+	// TODO Auto-generated method stub
+	return null;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.ui.IEditorInput#getToolTipText()
+     */
+    public String getToolTipText() {
+	return node.getLabel();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+	return node.hashCode();
+    }
 }

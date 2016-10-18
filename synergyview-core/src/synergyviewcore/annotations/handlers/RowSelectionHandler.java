@@ -14,26 +14,22 @@ import synergyviewcore.annotations.ui.editors.CollectionMediaClipAnnotationEdito
  * The Class RowSelectionHandler.
  */
 public class RowSelectionHandler extends AbstractHandler implements IHandler {
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands
-	 * .ExecutionEvent)
-	 */
-	public Object execute(ExecutionEvent event) throws ExecutionException {
-		String id = event.getCommand().getId();
-		int number = Integer.parseInt(id.substring(id.length() - 1));
-		IWorkbenchWindow window = PlatformUI.getWorkbench()
-				.getActiveWorkbenchWindow();
-		IWorkbenchPage page = window.getActivePage();
-		if (page.getActiveEditor() instanceof CollectionMediaClipAnnotationEditor) {
-			CollectionMediaClipAnnotationEditor subtitleEditor = (CollectionMediaClipAnnotationEditor) page
-					.getActiveEditor();
-			subtitleEditor.getAnnotationMediaControl().setRowSelection(number);
-		}
-		return null;
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands .ExecutionEvent)
+     */
+    public Object execute(ExecutionEvent event) throws ExecutionException {
+	String id = event.getCommand().getId();
+	int number = Integer.parseInt(id.substring(id.length() - 1));
+	IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+	IWorkbenchPage page = window.getActivePage();
+	if (page.getActiveEditor() instanceof CollectionMediaClipAnnotationEditor) {
+	    CollectionMediaClipAnnotationEditor subtitleEditor = (CollectionMediaClipAnnotationEditor) page.getActiveEditor();
+	    subtitleEditor.getAnnotationMediaControl().setRowSelection(number);
 	}
-	
+	return null;
+    }
+
 }

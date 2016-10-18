@@ -35,68 +35,59 @@ import synergyviewcore.subjects.model.Subject;
  * @author phyo
  */
 public class XmlAnnotationFormatter implements IAnnotationFormatter {
-	
-	/** The logger. */
-	private final ILog logger;
-	
-	/**
-	 * Instantiates a new xml annotation formatter.
-	 */
-	public XmlAnnotationFormatter() {
-		logger = Activator.getDefault().getLog();
+
+    /** The logger. */
+    private final ILog logger;
+
+    /**
+     * Instantiates a new xml annotation formatter.
+     */
+    public XmlAnnotationFormatter() {
+	logger = Activator.getDefault().getLog();
+    }
+
+    @SuppressWarnings("unchecked")
+    public void read(AnnotationSetNode annotationSetNode, Subject subjectToLoad, InputStream inStream) throws Exception {
+	XMLDecoder d = new XMLDecoder(inStream);
+	try {
+	    List<Annotation> annotationList = (List<Annotation>) d.readObject();
+	    for (Annotation annotation : annotationList) {
+		annotation.setId(UUID.randomUUID().toString());
+	    }
+	    annotationSetNode.addAnnotations(annotationList, subjectToLoad);
+	} catch (Exception ex) {
+	    IStatus status = new Status(IStatus.WARNING, Activator.PLUGIN_ID, ex.getMessage(), ex);
+	    logger.log(status);
+	    throw new Exception("Unable to load the annotations!", ex);
+	} finally {
+	    d.close();
 	}
-	
-	@SuppressWarnings("unchecked")
-	public void read(AnnotationSetNode annotationSetNode,
-			Subject subjectToLoad, InputStream inStream) throws Exception {
-		XMLDecoder d = new XMLDecoder(inStream);
-		try {
-			List<Annotation> annotationList = (List<Annotation>) d.readObject();
-			for (Annotation annotation : annotationList) {
-				annotation.setId(UUID.randomUUID().toString());
-			}
-			annotationSetNode.addAnnotations(annotationList, subjectToLoad);
-		} catch (Exception ex) {
-			IStatus status = new Status(IStatus.WARNING, Activator.PLUGIN_ID,
-					ex.getMessage(), ex);
-			logger.log(status);
-			throw new Exception("Unable to load the annotations!", ex);
-		} finally {
-			d.close();
-		}
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see synergyviewcore.annotations.format.IFormatter#read(synergyviewcore. annotations.model.AnnotationSetNode, synergyviewcore.subjects.model.Subject, java.io.InputStream)
+     */
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see synergyviewcore.annotations.format.IFormatter#write(synergyviewcore. annotations.model.AnnotationSetNode, synergyviewcore.subjects.model.Subject, java.io.OutputStream)
+     */
+    public void write(AnnotationSetNode annotationSetNode, Subject subjectToSave, OutputStream outStream) throws Exception {
+	XMLEncoder e = new XMLEncoder(outStream);
+	try {
+	    List<Annotation> annotationList = annotationSetNode.getAnnotationList(subjectToSave);
+	    e.writeObject(annotationList);
+	} catch (Exception ex) {
+	    IStatus status = new Status(IStatus.WARNING, Activator.PLUGIN_ID, ex.getMessage(), ex);
+	    logger.log(status);
+	    throw new Exception("Unable to save the annotations!", ex);
+	} finally {
+	    e.close();
 	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see synergyviewcore.annotations.format.IFormatter#read(synergyviewcore.
-	 * annotations.model.AnnotationSetNode,
-	 * synergyviewcore.subjects.model.Subject, java.io.InputStream)
-	 */
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see synergyviewcore.annotations.format.IFormatter#write(synergyviewcore.
-	 * annotations.model.AnnotationSetNode,
-	 * synergyviewcore.subjects.model.Subject, java.io.OutputStream)
-	 */
-	public void write(AnnotationSetNode annotationSetNode,
-			Subject subjectToSave, OutputStream outStream) throws Exception {
-		XMLEncoder e = new XMLEncoder(outStream);
-		try {
-			List<Annotation> annotationList = annotationSetNode
-					.getAnnotationList(subjectToSave);
-			e.writeObject(annotationList);
-		} catch (Exception ex) {
-			IStatus status = new Status(IStatus.WARNING, Activator.PLUGIN_ID,
-					ex.getMessage(), ex);
-			logger.log(status);
-			throw new Exception("Unable to save the annotations!", ex);
-		} finally {
-			e.close();
-		}
-		
-	}
-	
+
+    }
+
 }

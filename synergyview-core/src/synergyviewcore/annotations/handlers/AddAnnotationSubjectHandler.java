@@ -27,34 +27,30 @@ import synergyviewcore.annotations.ui.editors.CollectionMediaClipAnnotationEdito
  * 
  * @author phyo
  */
-public class AddAnnotationSubjectHandler extends AbstractHandler implements
-		IHandler {
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.core.commands.IHandler#execute(org.eclipse.core.commands.
-	 * ExecutionEvent)
-	 */
-	public Object execute(ExecutionEvent event) throws ExecutionException {
-		IWorkbenchPart activePart = HandlerUtil.getActiveWorkbenchWindow(event)
-				.getActivePage().getActivePart();
-		if (activePart instanceof CollectionMediaClipAnnotationEditor) {
-			CollectionMediaClipAnnotationEditor part = (CollectionMediaClipAnnotationEditor) activePart;
-			part.getAnnotationMediaControl().showSubjectsDialogToAdd();
-		}
-		return null;
+public class AddAnnotationSubjectHandler extends AbstractHandler implements IHandler {
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.core.commands.IHandler#execute(org.eclipse.core.commands. ExecutionEvent)
+     */
+    public Object execute(ExecutionEvent event) throws ExecutionException {
+	IWorkbenchPart activePart = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().getActivePart();
+	if (activePart instanceof CollectionMediaClipAnnotationEditor) {
+	    CollectionMediaClipAnnotationEditor part = (CollectionMediaClipAnnotationEditor) activePart;
+	    part.getAnnotationMediaControl().showSubjectsDialogToAdd();
 	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.core.commands.AbstractHandler#isEnabled()
-	 */
-	@Override
-	public boolean isEnabled() {
-		return true;
-	}
-	
+	return null;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.core.commands.AbstractHandler#isEnabled()
+     */
+    @Override
+    public boolean isEnabled() {
+	return true;
+    }
+
 }

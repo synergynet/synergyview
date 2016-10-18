@@ -29,35 +29,33 @@ import synergyviewcore.timebar.model.MediaIntervalImpl;
  * @author Linxiao Ma
  */
 public class SetMuteHandler extends AbstractHandler implements IHandler {
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands
-	 * .ExecutionEvent)
-	 */
-	public Object execute(ExecutionEvent event) throws ExecutionException {
-		ISelection selection = HandlerUtil.getCurrentSelection(event);
-		if (!(selection instanceof IStructuredSelection)) {
-			return null;
-		}
-		IStructuredSelection structSel = (IStructuredSelection) selection;
-		Object element = structSel.iterator().next();
-		
-		if (element instanceof MediaIntervalImpl) {
-			final MediaIntervalImpl mediaIntervalImpl = (MediaIntervalImpl) element;
-			if (mediaIntervalImpl.isMediaMute()) {
-				mediaIntervalImpl.setMute(false);
-				
-			} else {
-				mediaIntervalImpl.setMute(true);
-				
-			}
-			return null;
-		} else {
-			return null;
-		}
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands .ExecutionEvent)
+     */
+    public Object execute(ExecutionEvent event) throws ExecutionException {
+	ISelection selection = HandlerUtil.getCurrentSelection(event);
+	if (!(selection instanceof IStructuredSelection)) {
+	    return null;
 	}
-	
+	IStructuredSelection structSel = (IStructuredSelection) selection;
+	Object element = structSel.iterator().next();
+
+	if (element instanceof MediaIntervalImpl) {
+	    final MediaIntervalImpl mediaIntervalImpl = (MediaIntervalImpl) element;
+	    if (mediaIntervalImpl.isMediaMute()) {
+		mediaIntervalImpl.setMute(false);
+
+	    } else {
+		mediaIntervalImpl.setMute(true);
+
+	    }
+	    return null;
+	} else {
+	    return null;
+	}
+    }
+
 }

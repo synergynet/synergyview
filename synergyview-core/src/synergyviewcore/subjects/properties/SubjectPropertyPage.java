@@ -36,152 +36,145 @@ import synergyviewcore.subjects.model.SubjectNode;
  * @author phyo
  */
 public class SubjectPropertyPage extends PropertyPage {
-	
-	/** The collection model binding ctx. */
-	private DataBindingContext collectionModelBindingCtx = new DataBindingContext();
-	
-	/** The subject. */
-	private Subject subject;
-	
-	/** The subject desc text. */
-	private Text subjectDescText;
-	
-	/** The subject name text. */
-	private Text subjectNameText;
-	
-	/** The subject node. */
-	private SubjectNode subjectNode;
-	
-	/**
-	 * Constructor for SamplePropertyPage.
-	 */
-	public SubjectPropertyPage() {
-		super();
+
+    /** The collection model binding ctx. */
+    private DataBindingContext collectionModelBindingCtx = new DataBindingContext();
+
+    /** The subject. */
+    private Subject subject;
+
+    /** The subject desc text. */
+    private Text subjectDescText;
+
+    /** The subject name text. */
+    private Text subjectNameText;
+
+    /** The subject node. */
+    private SubjectNode subjectNode;
+
+    /**
+     * Constructor for SamplePropertyPage.
+     */
+    public SubjectPropertyPage() {
+	super();
+    }
+
+    /**
+     * Adds the section details.
+     * 
+     * @param composite
+     *            the composite
+     */
+    private void addSectionDetails(Composite composite) {
+
+	// Creates a new tab item for session details
+	GridLayout layout = new GridLayout(2, false);
+	composite.setLayout(layout);
+
+	GridData gridData = new GridData();
+
+	// Label for session name field
+	Label sessionNameLabel = new Label(composite, SWT.NONE);
+	gridData = new GridData();
+	gridData.verticalAlignment = SWT.TOP;
+	gridData.horizontalAlignment = SWT.RIGHT;
+	sessionNameLabel.setLayoutData(gridData);
+	sessionNameLabel.setText("Name");
+
+	// Session name text field
+	subjectNameText = new Text(composite, SWT.BORDER);
+	gridData = new GridData();
+	gridData.horizontalAlignment = SWT.FILL;
+	gridData.grabExcessHorizontalSpace = true;
+	subjectNameText.setLayoutData(gridData);
+	collectionModelBindingCtx.bindValue(SWTObservables.observeText(subjectNameText, SWT.Modify), BeansObservables.observeValue(subject, Subject.PROP_NAME), new UpdateValueStrategy(UpdateValueStrategy.POLICY_ON_REQUEST), null);
+
+	// Label for session details
+	Label sessionDetailsLabel = new Label(composite, SWT.NONE);
+	gridData = new GridData();
+	gridData.verticalAlignment = SWT.TOP;
+	gridData.horizontalAlignment = SWT.RIGHT;
+	sessionDetailsLabel.setText("Details");
+	sessionDetailsLabel.setLayoutData(gridData);
+
+	// Session text field
+	subjectDescText = new Text(composite, SWT.WRAP | SWT.BORDER | SWT.MULTI);
+	gridData = new GridData();
+	gridData.horizontalAlignment = SWT.FILL;
+	gridData.grabExcessHorizontalSpace = true;
+	gridData.verticalAlignment = SWT.FILL;
+	gridData.grabExcessVerticalSpace = true;
+	subjectDescText.setLayoutData(gridData);
+	collectionModelBindingCtx.bindValue(SWTObservables.observeText(subjectDescText, SWT.Modify), BeansObservables.observeValue(subject, Subject.PROP_DESCRIPTION), new UpdateValueStrategy(UpdateValueStrategy.POLICY_ON_REQUEST), null);
+
+    }
+
+    /**
+     * Creates the contents.
+     * 
+     * @param parent
+     *            the parent
+     * @return the control
+     * @see PreferencePage#createContents(Composite)
+     */
+    protected Control createContents(Composite parent) {
+	subjectNode = (SubjectNode) this.getElement();
+	subject = subjectNode.getResource();
+	Composite composite = new Composite(parent, SWT.NONE);
+	addSectionDetails(composite);
+	return composite;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.jface.dialogs.DialogPage#dispose()
+     */
+    @Override
+    public void dispose() {
+	if (collectionModelBindingCtx != null) {
+	    collectionModelBindingCtx.dispose();
 	}
-	
-	/**
-	 * Adds the section details.
-	 * 
-	 * @param composite
-	 *            the composite
-	 */
-	private void addSectionDetails(Composite composite) {
-		
-		// Creates a new tab item for session details
-		GridLayout layout = new GridLayout(2, false);
-		composite.setLayout(layout);
-		
-		GridData gridData = new GridData();
-		
-		// Label for session name field
-		Label sessionNameLabel = new Label(composite, SWT.NONE);
-		gridData = new GridData();
-		gridData.verticalAlignment = SWT.TOP;
-		gridData.horizontalAlignment = SWT.RIGHT;
-		sessionNameLabel.setLayoutData(gridData);
-		sessionNameLabel.setText("Name");
-		
-		// Session name text field
-		subjectNameText = new Text(composite, SWT.BORDER);
-		gridData = new GridData();
-		gridData.horizontalAlignment = SWT.FILL;
-		gridData.grabExcessHorizontalSpace = true;
-		subjectNameText.setLayoutData(gridData);
-		collectionModelBindingCtx.bindValue(
-				SWTObservables.observeText(subjectNameText, SWT.Modify),
-				BeansObservables.observeValue(subject, Subject.PROP_NAME),
-				new UpdateValueStrategy(UpdateValueStrategy.POLICY_ON_REQUEST),
-				null);
-		
-		// Label for session details
-		Label sessionDetailsLabel = new Label(composite, SWT.NONE);
-		gridData = new GridData();
-		gridData.verticalAlignment = SWT.TOP;
-		gridData.horizontalAlignment = SWT.RIGHT;
-		sessionDetailsLabel.setText("Details");
-		sessionDetailsLabel.setLayoutData(gridData);
-		
-		// Session text field
-		subjectDescText = new Text(composite, SWT.WRAP | SWT.BORDER | SWT.MULTI);
-		gridData = new GridData();
-		gridData.horizontalAlignment = SWT.FILL;
-		gridData.grabExcessHorizontalSpace = true;
-		gridData.verticalAlignment = SWT.FILL;
-		gridData.grabExcessVerticalSpace = true;
-		subjectDescText.setLayoutData(gridData);
-		collectionModelBindingCtx.bindValue(SWTObservables.observeText(
-				subjectDescText, SWT.Modify), BeansObservables.observeValue(
-				subject, Subject.PROP_DESCRIPTION), new UpdateValueStrategy(
-				UpdateValueStrategy.POLICY_ON_REQUEST), null);
-		
-	}
-	
-	/**
-	 * Creates the contents.
-	 * 
-	 * @param parent
-	 *            the parent
-	 * @return the control
-	 * @see PreferencePage#createContents(Composite)
-	 */
-	protected Control createContents(Composite parent) {
-		subjectNode = (SubjectNode) this.getElement();
-		subject = subjectNode.getResource();
-		Composite composite = new Composite(parent, SWT.NONE);
-		addSectionDetails(composite);
-		return composite;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.dialogs.DialogPage#dispose()
-	 */
-	@Override
-	public void dispose() {
-		if (collectionModelBindingCtx != null) {
-			collectionModelBindingCtx.dispose();
-		}
-		super.dispose();
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.preference.PreferencePage#performApply()
-	 */
-	@Override
-	protected void performApply() {
-		saveCollectionData();
-		super.performApply();
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.preference.PreferencePage#performDefaults()
-	 */
-	@Override
-	protected void performDefaults() {
-		collectionModelBindingCtx.updateTargets();
-		super.performDefaults();
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.preference.PreferencePage#performOk()
-	 */
-	public boolean performOk() {
-		saveCollectionData();
-		return true;
-	}
-	
-	/**
-	 * Save collection data.
-	 */
-	private void saveCollectionData() {
-		collectionModelBindingCtx.updateModels();
-		subjectNode.updateResource();
-	}
+	super.dispose();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.jface.preference.PreferencePage#performApply()
+     */
+    @Override
+    protected void performApply() {
+	saveCollectionData();
+	super.performApply();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.jface.preference.PreferencePage#performDefaults()
+     */
+    @Override
+    protected void performDefaults() {
+	collectionModelBindingCtx.updateTargets();
+	super.performDefaults();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.jface.preference.PreferencePage#performOk()
+     */
+    public boolean performOk() {
+	saveCollectionData();
+	return true;
+    }
+
+    /**
+     * Save collection data.
+     */
+    private void saveCollectionData() {
+	collectionModelBindingCtx.updateModels();
+	subjectNode.updateResource();
+    }
 }

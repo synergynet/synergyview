@@ -36,50 +36,46 @@ import synergyviewcore.subjects.model.SubjectRootNode;
  * @author phyo
  */
 public class CreateSubjectHandler extends AbstractHandler implements IHandler {
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.core.commands.IHandler#execute(org.eclipse.core.commands.
-	 * ExecutionEvent)
-	 */
-	public Object execute(ExecutionEvent event) throws ExecutionException {
-		ISelection selection = HandlerUtil.getCurrentSelection(event);
-		if (!(selection instanceof IStructuredSelection)) {
-			return null;
-		}
-		IStructuredSelection structSel = (IStructuredSelection) selection;
-		Object element = structSel.iterator().next();
-		
-		if (element instanceof SubjectRootNode) {
-			final SubjectRootNode sf = (SubjectRootNode) element;
-			IInputValidator validator = new IInputValidator() {
-				public String isValid(String newText) {
-					if (!newText.equalsIgnoreCase("")) {
-						if (sf.getChildrenNames().contains(newText)) {
-							return "Already exist!";
-						} else {
-							return null;
-						}
-					} else {
-						return "Name empty!";
-					}
-				}
-			};
-			InputDialog dialog = new InputDialog(PlatformUI.getWorkbench()
-					.getDisplay().getActiveShell(), "New Subject",
-					"Enter subject name:", "", validator);
-			if (dialog.open() == Window.OK) {
-				Subject subject = new Subject();
-				subject.setId(UUID.randomUUID().toString());
-				subject.setName(dialog.getValue());
-				sf.addChildCollection(subject);
-			}
-			return null;
-		} else {
-			return null;
-		}
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.core.commands.IHandler#execute(org.eclipse.core.commands. ExecutionEvent)
+     */
+    public Object execute(ExecutionEvent event) throws ExecutionException {
+	ISelection selection = HandlerUtil.getCurrentSelection(event);
+	if (!(selection instanceof IStructuredSelection)) {
+	    return null;
 	}
-	
+	IStructuredSelection structSel = (IStructuredSelection) selection;
+	Object element = structSel.iterator().next();
+
+	if (element instanceof SubjectRootNode) {
+	    final SubjectRootNode sf = (SubjectRootNode) element;
+	    IInputValidator validator = new IInputValidator() {
+		public String isValid(String newText) {
+		    if (!newText.equalsIgnoreCase("")) {
+			if (sf.getChildrenNames().contains(newText)) {
+			    return "Already exist!";
+			} else {
+			    return null;
+			}
+		    } else {
+			return "Name empty!";
+		    }
+		}
+	    };
+	    InputDialog dialog = new InputDialog(PlatformUI.getWorkbench().getDisplay().getActiveShell(), "New Subject", "Enter subject name:", "", validator);
+	    if (dialog.open() == Window.OK) {
+		Subject subject = new Subject();
+		subject.setId(UUID.randomUUID().toString());
+		subject.setName(dialog.getValue());
+		sf.addChildCollection(subject);
+	    }
+	    return null;
+	} else {
+	    return null;
+	}
+    }
+
 }

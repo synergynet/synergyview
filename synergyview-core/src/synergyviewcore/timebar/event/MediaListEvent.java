@@ -24,61 +24,59 @@ import synergyviewcore.collections.model.CollectionMedia;
  * @author Linxiao Ma
  */
 public class MediaListEvent extends EventObject {
-	
-	/**
-	 * The Enum CollectionChangeType.
-	 */
-	public static enum CollectionChangeType {
-		
-		/** The Media added. */
-		MediaAdded,
-		/** The Media removed. */
-		MediaRemoved
-	}
-	
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = -3726699087845782876L;
-	
-	/** The collection medias. */
-	protected List<CollectionMedia> collectionMedias;
-	
-	/** The media collection change type. */
-	protected CollectionChangeType mediaCollectionChangeType;
-	
-	/**
-	 * Instantiates a new media list event.
-	 * 
-	 * @param arg0
-	 *            the arg0
-	 * @param mediaCollectionChangeType
-	 *            the media collection change type
-	 * @param collectionMedias
-	 *            the collection medias
-	 */
-	public MediaListEvent(Object arg0,
-			CollectionChangeType mediaCollectionChangeType,
-			List<CollectionMedia> collectionMedias) {
-		super(arg0);
-		this.mediaCollectionChangeType = mediaCollectionChangeType;
-		this.collectionMedias = collectionMedias;
-	}
-	
-	/**
-	 * Collection medias.
-	 * 
-	 * @return the list
-	 */
-	public List<CollectionMedia> collectionMedias() {
-		return this.collectionMedias;
-	}
-	
-	/**
-	 * Gets the media collection change type.
-	 * 
-	 * @return the media collection change type
-	 */
-	public CollectionChangeType getMediaCollectionChangeType() {
-		return mediaCollectionChangeType;
-	}
-	
+
+    /**
+     * The Enum CollectionChangeType.
+     */
+    public static enum CollectionChangeType {
+
+	/** The Media added. */
+	MediaAdded,
+	/** The Media removed. */
+	MediaRemoved
+    }
+
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = -3726699087845782876L;
+
+    /** The collection medias. */
+    protected List<CollectionMedia> collectionMedias;
+
+    /** The media collection change type. */
+    protected CollectionChangeType mediaCollectionChangeType;
+
+    /**
+     * Instantiates a new media list event.
+     * 
+     * @param arg0
+     *            the arg0
+     * @param mediaCollectionChangeType
+     *            the media collection change type
+     * @param collectionMedias
+     *            the collection medias
+     */
+    public MediaListEvent(Object arg0, CollectionChangeType mediaCollectionChangeType, List<CollectionMedia> collectionMedias) {
+	super(arg0);
+	this.mediaCollectionChangeType = mediaCollectionChangeType;
+	this.collectionMedias = collectionMedias;
+    }
+
+    /**
+     * Collection medias.
+     * 
+     * @return the list
+     */
+    public List<CollectionMedia> collectionMedias() {
+	return this.collectionMedias;
+    }
+
+    /**
+     * Gets the media collection change type.
+     * 
+     * @return the media collection change type
+     */
+    public CollectionChangeType getMediaCollectionChangeType() {
+	return mediaCollectionChangeType;
+    }
+
 }

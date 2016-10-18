@@ -34,122 +34,117 @@ import synergyviewcore.attributes.model.Attribute;
  * @author phyo
  */
 public class AnnotationAttributeController {
-	
-	/** The annotation. */
-	private Annotation annotation;
-	
-	/** The attribute list. */
-	private IObservableList<List<Attribute>, Attribute> attributeList;
-	
-	/** The e manager factory. */
-	private EntityManagerFactory eManagerFactory;
-	
-	/** The logger. */
-	private final ILog logger;
-	
-	/**
-	 * Instantiates a new annotation attribute controller.
-	 * 
-	 * @param annotation
-	 *            the annotation
-	 * @param eManagerFactory
-	 *            the e manager factory
-	 */
-	public AnnotationAttributeController(Annotation annotation,
-			EntityManagerFactory eManagerFactory) {
-		logger = Activator.getDefault().getLog();
-		attributeList = new ObservableList<List<Attribute>, Attribute>(
-				annotation.getAttributes());
-		this.eManagerFactory = eManagerFactory;
-		this.annotation = annotation;
-	}
-	
-	/**
-	 * Adds the attribute list.
-	 * 
-	 * @param attributeListToAdd
-	 *            the attribute list to add
-	 */
-	public void addAttributeList(List<Attribute> attributeListToAdd) {
-		EntityManager entityManager = null;
-		try {
-			entityManager = eManagerFactory.createEntityManager();
-			entityManager.getTransaction().begin();
-			for (Attribute attribute : attributeListToAdd) {
-				if (!attributeList.contains(attribute)) {
-					attributeList.add(attribute);
-				}
-			}
-			entityManager.merge(annotation);
-			entityManager.getTransaction().commit();
-		} catch (Exception ex) {
-			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID,
-					ex.getMessage(), ex);
-			logger.log(status);
-		} finally {
-			if (entityManager.isOpen()) {
-				entityManager.close();
-			}
+
+    /** The annotation. */
+    private Annotation annotation;
+
+    /** The attribute list. */
+    private IObservableList<List<Attribute>, Attribute> attributeList;
+
+    /** The e manager factory. */
+    private EntityManagerFactory eManagerFactory;
+
+    /** The logger. */
+    private final ILog logger;
+
+    /**
+     * Instantiates a new annotation attribute controller.
+     * 
+     * @param annotation
+     *            the annotation
+     * @param eManagerFactory
+     *            the e manager factory
+     */
+    public AnnotationAttributeController(Annotation annotation, EntityManagerFactory eManagerFactory) {
+	logger = Activator.getDefault().getLog();
+	attributeList = new ObservableList<List<Attribute>, Attribute>(annotation.getAttributes());
+	this.eManagerFactory = eManagerFactory;
+	this.annotation = annotation;
+    }
+
+    /**
+     * Adds the attribute list.
+     * 
+     * @param attributeListToAdd
+     *            the attribute list to add
+     */
+    public void addAttributeList(List<Attribute> attributeListToAdd) {
+	EntityManager entityManager = null;
+	try {
+	    entityManager = eManagerFactory.createEntityManager();
+	    entityManager.getTransaction().begin();
+	    for (Attribute attribute : attributeListToAdd) {
+		if (!attributeList.contains(attribute)) {
+		    attributeList.add(attribute);
 		}
+	    }
+	    entityManager.merge(annotation);
+	    entityManager.getTransaction().commit();
+	} catch (Exception ex) {
+	    IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, ex.getMessage(), ex);
+	    logger.log(status);
+	} finally {
+	    if (entityManager.isOpen()) {
+		entityManager.close();
+	    }
 	}
-	
-	/**
-	 * Adds the attribute list change listener.
-	 * 
-	 * @param listener
-	 *            the listener
-	 */
-	public void addAttributeListChangeListener(CollectionChangeListener listener) {
-		attributeList.addChangeListener(listener);
-	}
-	
-	/**
-	 * Gets the attribute list.
-	 * 
-	 * @return the attribute list
-	 */
-	public List<Attribute> getAttributeList() {
-		return attributeList.getReadOnlyList();
-	}
-	
-	/**
-	 * Removes the attribute list.
-	 * 
-	 * @param attributeListToRemove
-	 *            the attribute list to remove
-	 */
-	public void removeAttributeList(List<Attribute> attributeListToRemove) {
-		EntityManager entityManager = null;
-		try {
-			entityManager = eManagerFactory.createEntityManager();
-			entityManager.getTransaction().begin();
-			for (Attribute attribute : attributeListToRemove) {
-				if (attributeList.contains(attribute)) {
-					attributeList.remove(attribute);
-				}
-			}
-			entityManager.merge(annotation);
-			entityManager.getTransaction().commit();
-		} catch (Exception ex) {
-			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID,
-					ex.getMessage(), ex);
-			logger.log(status);
-		} finally {
-			if (entityManager.isOpen()) {
-				entityManager.close();
-			}
+    }
+
+    /**
+     * Adds the attribute list change listener.
+     * 
+     * @param listener
+     *            the listener
+     */
+    public void addAttributeListChangeListener(CollectionChangeListener listener) {
+	attributeList.addChangeListener(listener);
+    }
+
+    /**
+     * Gets the attribute list.
+     * 
+     * @return the attribute list
+     */
+    public List<Attribute> getAttributeList() {
+	return attributeList.getReadOnlyList();
+    }
+
+    /**
+     * Removes the attribute list.
+     * 
+     * @param attributeListToRemove
+     *            the attribute list to remove
+     */
+    public void removeAttributeList(List<Attribute> attributeListToRemove) {
+	EntityManager entityManager = null;
+	try {
+	    entityManager = eManagerFactory.createEntityManager();
+	    entityManager.getTransaction().begin();
+	    for (Attribute attribute : attributeListToRemove) {
+		if (attributeList.contains(attribute)) {
+		    attributeList.remove(attribute);
 		}
+	    }
+	    entityManager.merge(annotation);
+	    entityManager.getTransaction().commit();
+	} catch (Exception ex) {
+	    IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, ex.getMessage(), ex);
+	    logger.log(status);
+	} finally {
+	    if (entityManager.isOpen()) {
+		entityManager.close();
+	    }
 	}
-	
-	/**
-	 * Removes the attribute list change listener.
-	 * 
-	 * @param listener
-	 *            the listener
-	 */
-	public void removeAttributeListChangeListener(
-			CollectionChangeListener listener) {
-		attributeList.removeChangeListener(listener);
-	}
-	
+    }
+
+    /**
+     * Removes the attribute list change listener.
+     * 
+     * @param listener
+     *            the listener
+     */
+    public void removeAttributeListChangeListener(CollectionChangeListener listener) {
+	attributeList.removeChangeListener(listener);
+    }
+
 }

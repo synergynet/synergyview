@@ -135,7 +135,7 @@ public class AnnotationSetNode extends AbstractParent<AnnotationSet> {
 	    try {
 		for (Annotation annotation : annotations) {
 		    if (!isAnntationWithinClip(annotation)) {
-			throw new Exception("Unable to add annotation, out of media clip area.");
+			throw new Exception("Unable to add annotation with the following text as it is out of media clip area: " + annotation.getText());
 		    }
 		}
 
